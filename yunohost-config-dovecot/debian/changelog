@@ -1,3 +1,9 @@
+yunohost-config-dovecot (2.0-alpha1~megusta16) test; urgency=low
+
+  * Test style !
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 21 Jun 2013 13:14:36 +0200
+
 yunohost-config-dovecot (2.0-alpha1~megusta15) megusta; urgency=low
 
   * Test repo
