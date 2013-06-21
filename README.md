@@ -1,4 +1,2 @@
-Debian Packages
-===============
-
-http://yunohost.org
+YunoHost Debian Packages
+========================
