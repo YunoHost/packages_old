@@ -1,0 +1,14 @@
+Source: yunohost-config-postfix
+Section: utils
+Priority: extra
+Maintainer: Adrien Beudin <beudbeud@yunohost.org>
+Build-Depends: debhelper (>=8.0.0)
+Standards-Version: 3.9.1
+
+Package: yunohost-config-postfix
+Architecture: all
+Homepage: http://www.yunohost.org
+Depends: postfix, postfix-ldap, postfix-policyd-spf-perl, yunohost-config-others, yunohost-config-slapd
+Conflicts: sendmail, exim4
+Description: meta package to install environement for yunohost
+ meta package to install environement for yunohost

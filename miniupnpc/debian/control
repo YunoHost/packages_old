@@ -1,0 +1,12 @@
+Source: pyminiupnpc
+Maintainer: Adrien Beudin <beudbeud@yunohost.org>
+Section: python
+Priority: extra
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.1
+
+Package: pyminiupnpc
+Architecture: all
+Depends: python-support (>= 0.8.4), python2.7-dev, gcc
+Description: UPnP IGD client lightweight library client
+

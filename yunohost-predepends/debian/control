@@ -1,0 +1,12 @@
+Source: yunohost-predepends
+Section: utils
+Priority: extra
+Maintainer: Adrien Beudin <beudbeud@yunohost.org>
+Build-Depends: debhelper (>=8.0.0)
+Standards-Version: 3.9.1
+
+Package: yunohost-predepends
+Architecture: all
+Homepage: http://www.yunohost.org
+Description: meta package to install environement for yunohost
+ meta package to install environement for yunohost

@@ -1,0 +1,6 @@
+config/others/* /usr/share/yunohost/yunohost-config/others/
+config/ssl/* /usr/share/yunohost/yunohost-config/ssl/
+config/unattended/* /usr/share/yunohost/yunohost-config/unattended/
+config/openbox/* /usr/share/yunohost/yunohost-config/openbox/
+nssdb/* /root/.pki/nssdb/
+bin/yunomenu /usr/bin/

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+HOSTNAME=$(hostname -f)
+
+TMP="/usr/share/yunohost/yunohost-config/lemonldap"
+
+function randpass() {
+  [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+    echo
+}
+
+if [ -f /etc/yunohost/current_host ];
+then
+        DOMAIN=$(cat /etc/yunohost/current_host)
+        find $TMP -type f -exec sed -i "s/yunohost.org/$DOMAIN/g" {} \;
+fi
+
+#LemonLDAP
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep lemonldap-ng /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+	cp $TMP/lemonldap-ng.ini /etc/lemonldap-ng/
+	chgrp www-data /etc/lemonldap-ng/lemonldap-ng.ini
+	rm /var/lib/lemonldap-ng/conf/lmConf-1
+	cp $TMP/lmConf-1 /var/lib/lemonldap-ng/conf/lmConf-1
+	chown www-data:www-data /var/lib/lemonldap-ng/conf/lmConf-1
+	chmod +x /usr/share/lemonldap-ng/bin/lmYnhMoulinette
+	if [ -L /var/lib/lemonldap-ng/portal/skins/yunohost ];
+	then
+        	rm /var/lib/lemonldap-ng/portal/skins/yunohost
+	fi
+	ln -s $TMP/portal-skins/yunohost /var/lib/lemonldap-ng/portal/skins/
+fi

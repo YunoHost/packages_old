@@ -1,0 +1,47 @@
+yunohost-config-radicale (2.0-alpha1~megusta3) megusta; urgency=low
+
+  * add ipv6 support 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 10 Feb 2013 17:03:44 +0100
+
+yunohost-config-radicale (2.0-alpha1~megusta2) megusta; urgency=low
+
+  * change domain principal
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 03 Oct 2012 20:06:15 +0200
+
+yunohost-config-radicale (2.0-alpha1~megusta1) megusta; urgency=low
+
+  * Disable dns_lookup (thanks lilliput) 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 02 Oct 2012 20:17:45 +0200
+
+yunohost-config-radicale (2.0-alpha1~megusta0) megusta; urgency=low
+
+  * fix error slapcat 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 13 Sep 2012 19:12:28 +0200
+
+yunohost-config-radicale (1.0-stable~squeeze3) stable; urgency=low
+
+  * add custom config 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Jun 2012 23:49:41 +0200
+
+yunohost-config-radicale (1.0-stable~squeeze2) stable; urgency=low
+
+  * update depends 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 19 Jun 2012 01:14:54 +0200
+
+yunohost-config-radicale (1.0-stable~squeeze1) stable; urgency=low
+
+  * add pid file
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 18 Jun 2012 10:41:47 +0200
+
+yunohost-config-radicale (1.0-stable~squeeze0) stable; urgency=low
+
+  * Initial release.
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 31 May 2012 21:37:14 +0200

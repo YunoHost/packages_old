@@ -1,0 +1,36 @@
+<VirtualHost *:6767>
+
+        DocumentRoot /usr/share/yunohost/admin
+	Alias /ynh-admin/ /usr/share/yunohost/admin/
+
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+
+        <Directory /usr/share/yunohost/admin/>
+                Options -Indexes FollowSymLinks -MultiViews
+                RewriteEngine On
+                RewriteCond %{SCRIPT_FILENAME} !-f
+                RewriteCond %{SCRIPT_FILENAME} !-d
+                RewriteRule ^(.*)$   index.php?uri=/$1    [NC,L,QSA]
+                AllowOverride None
+                Order allow,deny
+                allow from all
+                <IfModule mod_suphp.c>
+                        php_admin_flag engine Off
+                        AddType application/x-httpd-php .php .php3 .php4 .php5
+                        suPHP_AddHandler application/x-httpd-php
+                        suPHP_Engine on
+                </IfModule>
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/admin-error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel error
+
+        CustomLog ${APACHE_LOG_DIR}/admin-access.log combined
+
+</VirtualHost>

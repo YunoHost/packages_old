@@ -1,0 +1,2 @@
+config/amavis/* /usr/share/yunohost/yunohost-config/amavis/
+config/spamassassin/* /usr/share/yunohost/yunohost-config/spamassassin/

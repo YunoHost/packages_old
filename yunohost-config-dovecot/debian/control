@@ -1,0 +1,13 @@
+Source: yunohost-config-dovecot
+Section: utils
+Priority: extra
+Maintainer: Adrien Beudin <beudbeud@yunohost.org>
+Build-Depends: debhelper (>=8.0.0)
+Standards-Version: 3.9.1
+
+Package: yunohost-config-dovecot
+Architecture: all
+Homepage: http://www.yunohost.org
+Depends: dovecot-imapd, dovecot-sieve, yunohost-config-others, yunohost-config-slapd, dovecot-ldap, dovecot-managesieved
+Description: meta package to install environement for yunohost
+ meta package to install environement for yunohost

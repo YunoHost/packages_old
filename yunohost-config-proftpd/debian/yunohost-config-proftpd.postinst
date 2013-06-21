@@ -1,0 +1,20 @@
+#!/bin/bash
+
+DOMAIN=$(hostname -d)
+
+HOSTNAME=$(hostname -f)
+
+TMP="/usr/share/yunohost/yunohost-config"
+
+function randpass() {
+  [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+    echo
+}
+
+#Proftpd
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep proftpd /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+	cp $TMP/proftpd/* /etc/proftpd/
+	update-rc.d proftpd remove
+fi

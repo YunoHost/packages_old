@@ -1,0 +1,4 @@
+#!/bin/bash
+
+service glances stop
+update-rc.d glances remove

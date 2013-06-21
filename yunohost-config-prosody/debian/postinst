@@ -1,0 +1,36 @@
+#!/bin/bash
+
+HOSTNAME=$(hostname -f)
+
+TMP="/usr/share/yunohost/yunohost-config/prosody"
+
+function randpass() {
+  [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+    echo
+}
+
+if [ -f /etc/yunohost/current_host ];
+then
+        DOMAIN=$(cat /etc/yunohost/current_host)
+        find $TMP -type f -exec sed -i "s/yunohost.org/$DOMAIN/g" {} \;
+fi
+
+#Prosody
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep prosody /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+	cp -r $TMP/plugins/* /usr/lib/prosody/modules/
+	mkdir -p /etc/prosody/conf.avail
+	mkdir -p /etc/prosody/conf.d
+	cp $TMP/*.cfg.lua /etc/prosody/conf.avail/
+	if [ ! -f /etc/prosody/conf.d/ldap.cfg.lua ];
+	then
+		ln -s /etc/prosody/conf.avail/ldap.cfg.lua /etc/prosody/conf.d/ldap.cfg.lua
+	fi
+
+        if [ ! -f /etc/prosody/conf.d/modules.cfg.lua ];
+        then
+                ln -s /etc/prosody/conf.avail/modules.cfg.lua /etc/prosody/conf.d/modules.cfg.lua
+        fi
+	
+fi

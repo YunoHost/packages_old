@@ -1,0 +1,31 @@
+#!/bin/bash
+
+HOSTNAME=$(hostname -f)
+
+TMP="/usr/share/yunohost/yunohost-config/postfix"
+
+function randpass() {
+  [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+    echo
+}
+
+
+if [ -f /etc/yunohost/current_host ];
+then
+        DOMAIN=$(cat /etc/yunohost/current_host)
+        find $TMP -type f -exec sed -i "s/yunohost.org/$DOMAIN/g" {} \;
+fi
+
+#Postfix
+IPADD=`/sbin/ifconfig | sed '/Bcast/!d' | awk '{print $2}'| awk '{print $2}' FS=":"`
+#sed -i '/IPADD/'$IPADD'/g' $TMP/postfix/main.cf
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep postfix /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then  
+	cp $TMP/* /etc/postfix/
+        if [ ! -f /proc/net/if_inet6 ];
+        then
+                mv /etc/postfix/main.cf-ipv4 /etc/postfix/main.cf
+        fi
+
+fi

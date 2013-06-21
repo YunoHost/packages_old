@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd /usr/share/yunohost/miniupnp-src/miniupnpc && make pythonmodule && make installpythonmodule
+
+exit 0

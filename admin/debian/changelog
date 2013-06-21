@@ -1,0 +1,241 @@
+yunohost-admin (2.0-alpha1~megusta20) megusta; urgency=low
+
+  * Add LDAP pre-install
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 21 Jun 2013 12:03:18 +0200
+
+yunohost-admin (2.0-alpha1~megusta19) megusta; urgency=low
+
+  * Add LDAP pre-install
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 21 Jun 2013 12:01:42 +0200
+
+yunohost-admin (2.0-alpha1~megusta18) megusta; urgency=low
+
+  * Update from git
+
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 14 Jun 2013 13:31:35 +0200
+
+yunohost-admin (2.0-alpha1~megusta17) megusta; urgency=low
+
+  * Update from git
+  * Update from sources
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 14 Jun 2013 13:27:50 +0200
+
+yunohost-admin (2.0-alpha1~megusta16) megusta; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 14 Jun 2013 12:10:37 +0200
+
+yunohost-admin (2.0-alpha1~megusta15) megusta; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 14 Jun 2013 11:55:24 +0200
+
+yunohost-admin (2.0-alpha1~megusta14) megusta; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 13 Jun 2013 23:25:50 +0200
+
+yunohost-admin (2.0-alpha1~megusta13) megusta; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 13 Jun 2013 15:35:14 +0200
+
+yunohost-admin (2.0-alpha1~megusta12) megusta; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 11 Jun 2013 14:00:12 +0200
+
+yunohost-admin (2.0-alpha1~megusta11) megusta; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 11 Jun 2013 10:53:27 +0200
+
+yunohost-admin (2.0-alpha1~megusta10) megusta; urgency=low
+
+  * Add user settings
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 01 Jun 2013 11:06:01 +0200
+
+yunohost-admin (2.0-alpha1~megusta9) megusta; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 31 May 2013 22:05:07 +0200
+
+yunohost-admin (2.0-alpha1~megusta8) megusta; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 31 May 2013 18:58:57 +0200
+
+yunohost-admin (2.0-alpha1~megusta7) megusta; urgency=low
+
+  * Chown yunohost-admin
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 31 May 2013 18:54:54 +0200
+
+yunohost-admin (2.0-alpha1~megusta6) megusta; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 31 May 2013 18:44:51 +0200
+
+yunohost-admin (2.0-alpha1~megusta5) megusta; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 30 May 2013 17:24:48 +0200
+
+yunohost-admin (2.0-alpha1~megusta4) megusta; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 30 May 2013 16:43:40 +0200
+
+yunohost-admin (2.0-alpha1~megusta3) megusta; urgency=low
+
+  * update depends 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 27 May 2013 12:17:56 +0200
+
+yunohost-admin (2.0-alpha1~megusta2) megusta; urgency=low
+
+  * update location current_domain 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 29 Apr 2013 12:04:32 +0200
+
+yunohost-admin (2.0-alpha1~megusta1) megusta; urgency=low
+
+  * update version to github 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 08 Apr 2013 17:40:07 +0200
+
+yunohost-admin (2.0-alpha1~megusta0) megusta; urgency=low
+
+  * switch to v2
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 18 Feb 2013 15:59:45 +0100
+
+yunohost-admin (1.0~yunohost17) stable; urgency=low
+
+  * Import CA
+  * Update translations
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 02 Aug 2012 16:38:35 +0200
+
+yunohost-admin (1.0~yunohost16) stable; urgency=low
+
+  * update checker on homepage
+  * DNS checker & admin homepage
+  * remove task manager from the tools menu
+  * Main domain changer 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 30 Jul 2012 09:10:35 +0200
+
+yunohost-admin (1.0~yunohost15) stable; urgency=low
+
+  * Ajax call for the installation of an app (gdott9)
+  * Confirmation message before install / uninstall of an app (gdott9)
+  * Upgradable packages list & bug fixes after upgrade (kload) 
+  * fix enable/disable services (beudbeud)
+  * update logviewer (beudbeud)
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 07 Jul 2012 11:58:55 +0200
+
+yunohost-admin (1.0~yunohost14) stable; urgency=low
+
+  * Yet another Beta2 fix
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 21 Jun 2012 14:19:47 +0200
+
+yunohost-admin (1.0~yunohost13) stable; urgency=low
+
+  * Some Beta2 fixes 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 21 Jun 2012 11:58:48 +0200
+
+yunohost-admin (1.0~yunohost12) stable; urgency=low
+
+  * Welcome mail
+  * Activate/deactivate services 
+  * Log reader
+  * minor fixes
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 18 Jun 2012 08:22:22 +0200
+
+yunohost-admin (1.0~yunohost11) stable; urgency=low
+
+  * System upgrade
+  * Ajax update checker & upgrade view
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 06 Jun 2012 14:06:37 +0200
+
+yunohost-admin (1.0~yunohost10) stable; urgency=low
+
+  * Add upgrade feature
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 06 Jun 2012 13:42:58 +0200
+
+yunohost-admin (1.0~yunohost9) stable; urgency=low
+
+  * remove some more useless files
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 03 Jun 2012 10:58:50 +0200
+
+yunohost-admin (1.0~yunohost8) stable; urgency=low
+
+  * Update sources
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 28 May 2012 14:19:33 +0200
+
+yunohost-admin (1.0~yunohost7) stable; urgency=low
+
+  * Update version 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 25 May 2012 15:33:41 +0200
+
+yunohost-admin (1.0~yunohost6) stable; urgency=low
+
+  * Update version 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 25 May 2012 11:07:16 +0200
+
+yunohost-admin (1.0~yunohost5) stable; urgency=low
+
+  * Update version 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 25 May 2012 09:00:13 +0200
+
+yunohost-admin (1.0~yunohost4) stable; urgency=low
+
+  * remame package 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 25 May 2012 08:28:17 +0200
+
+yunohost-admin (1.0~yunohost3) stable; urgency=low
+
+  * update depends 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 23 May 2012 10:24:58 +0200
+
+yunohost-admin (1.0~yunohost2) stable; urgency=low
+
+  * update name 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 23 May 2012 10:08:26 +0200
+
+yunohost-admin (1.0~yunohost1) stable; urgency=low
+
+  * Initial release.
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 01 May 2012 11:45:18 +0200

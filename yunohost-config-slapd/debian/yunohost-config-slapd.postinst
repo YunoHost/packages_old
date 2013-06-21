@@ -1,0 +1,27 @@
+#!/bin/bash
+
+DOMAIN=$(hostname -d)
+
+TMP="/usr/share/yunohost/yunohost-config"
+
+function randpass() {
+  [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+    echo
+}
+
+#OpenLDAP
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep slapd /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+	cp $TMP/slapd/slapd.conf /etc/ldap/
+	chown root:openldap /etc/ldap/slapd.conf
+	cp $TMP/slapd/slapd /etc/default/
+	cp $TMP/slapd/schema/mailserver.schema /etc/ldap/schema/
+	cp /usr/share/doc/sudo-ldap/schema.OpenLDAP /etc/ldap/schema/sudo.schema
+fi
+
+if ! grep -Fq "sudoers_base" /etc/ldap/ldap.conf ; then
+	echo -e "sudoers_base ou=sudo,dc=yunohost,dc=org" >> /etc/ldap/ldap.conf
+fi
+
+exit 0

@@ -1,0 +1,52 @@
+#!/bin/bash
+
+if [ ! -f "/usr/share/yunohost/metronome-src/metronome.install" ]; then
+  cd /usr/share/yunohost/metronome-src && ./configure --ostype=debian --prefix=/usr && make && make install
+fi
+
+if ! getent passwd metronome >/dev/null; then
+  adduser --disabled-password --quiet --system \
+    --home /var/lib/metronome --no-create-home \
+    --gecos "Metronome XMPP Server" --group metronome
+fi
+
+# Create directory for pid file
+if [ ! -d "/var/run/metronome" ]; then
+	mkdir "/var/run/metronome";
+fi
+chown metronome:adm "/var/run/metronome"
+
+# Create directory for log files
+if [ ! -d "/var/log/metronome" ]; then
+	mkdir "/var/log/metronome";
+fi
+chown metronome:adm "/var/log/metronome"
+
+# Create data directory
+if [ ! -d "/var/lib/metronome" ]; then
+	mkdir "/var/lib/metronome";
+fi
+chown metronome:metronome "/var/lib/metronome"
+chmod 750 "/var/lib/metronome"
+
+# Fix config directory permissions
+chown -R metronome:metronome "/etc/metronome"
+# Create data directory
+if [ ! -d "/etc/metronome/conf.d" ]; then
+	mkdir "/etc/metronome/conf.d";
+fi
+chmod -R 755 "/etc/metronome"
+
+cp /usr/share/yunohost/yunohost-config/metronome/metronome.logrotate /etc/logrotate.d/metronome
+cp /usr/share/yunohost/yunohost-config/metronome/metronome.init /etc/init.d/metronome
+cp /usr/share/yunohost/yunohost-config/metronome/metronome.cfg.lua /etc/metronome/
+cp -a /usr/share/yunohost/yunohost-config/metronome/modules/* /usr/lib/metronome/modules/
+if [ -f /etc/yunohost/current_host ]; then
+	DOMAIN=$(cat /etc/yunohost/current_host)
+	sed -i "s/yunohost.org/$DOMAIN/g" /etc/metronome/metronome.cfg.lua
+	update-rc.d metronome defaults
+fi
+service metronome start
+service metronome reload
+
+exit 0

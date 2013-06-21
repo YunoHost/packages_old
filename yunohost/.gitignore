@@ -1,0 +1,4 @@
+debian/yunohost
+debian/files
+debian/yunohost.debhelper.log
+debian/yunohost.substvars

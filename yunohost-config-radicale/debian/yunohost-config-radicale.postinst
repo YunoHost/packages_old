@@ -1,0 +1,37 @@
+#!/bin/bash
+
+DOMAIN=$(hostname -d)
+
+HOSTNAME=$(hostname -f)
+
+TMP="/usr/share/yunohost/yunohost-config"
+
+function randpass() {
+  [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+    echo
+}
+
+
+#Radicale
+if [ ! -d /etc/radicale ];
+then
+        mkdir -p /etc/radicale
+fi
+
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep radicale /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+	cp $TMP/radicale/* /etc/radicale/
+        if [ ! -f /proc/net/if_inet6 ];
+        then
+                mv /etc/radicale/config-ipv4 /etc/radicale/config
+        fi
+
+fi
+
+if [ ! -d /var/lib/radicale/collections ];
+then
+	mkdir -p /var/lib/radicale/collections
+	update-rc.d radicale remove
+fi
+

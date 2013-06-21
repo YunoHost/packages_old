@@ -1,0 +1,14 @@
+Source: yunohost-config
+Section: utils
+Priority: extra
+Maintainer: Adrien Beudin <beudbeud@yunohost.org>
+Build-Depends: debhelper (>=8.0.0)
+Standards-Version: 3.9.1
+
+Package: yunohost-config
+Architecture: all
+Homepage: http://www.yunohost.org
+Pre-Depends: yunohost-predepends
+Depends: htop, vim, console-setup, acpi-support-base, gzip, bzip2, unzip, unrar|unrar-free, zoo, arj, libiconv-hook1, fail2ban, nagios-plugins, rsync, git-core, gettext, curl, bind9, yunohost-config-postfix, yunohost-config-dovecot, metronome, yunohost-config-others, yunohost-config-mysql, yunohost-config-apache, yunohost-config-amavis, yunohost-config-slapd, yunohost-config-lemonldap, yunohost-admin, yunohost-apps, yunohost-cli
+Description: meta package to install environement for yunohost
+ meta package to install environement for yunohost

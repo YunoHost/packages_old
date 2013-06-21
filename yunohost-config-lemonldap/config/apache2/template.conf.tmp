@@ -1,0 +1,43 @@
+PerlRequire /var/lib/lemonldap-ng/handler/MyHandler.pm
+
+<VirtualHost *:80>
+
+        ServerName [domain]
+
+        RewriteEngine On
+        RewriteCond %{HTTPS} off
+        RewriteRule (.*) https://[domain]%{REQUEST_URI}
+
+</VirtualHost>
+
+<VirtualHost *:443>
+
+        ServerName [domain]
+        SSLEngine On
+        SSLCertificateFile /etc/yunohost/certs/[domain]/crt.pem
+        SSLCertificateKeyFile /etc/yunohost/certs/[domain]/key.pem
+        SSLCACertificateFile /etc/yunohost/certs/[domain]/ca.pem
+
+        ServerAdmin webmaster@[domain]
+
+        ErrorLog ${APACHE_LOG_DIR}/[domain]-error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel error
+
+        CustomLog ${APACHE_LOG_DIR}/[domain]-access.log combined
+
+       <Location />
+               Options -Indexes
+               PerlOptions     +GlobalRequest
+               PerlHeaderParserHandler My::Package
+       </Location>
+        # First include SSO
+        include /etc/yunohost/apache/domains/[domain].d/*.fixed.conf
+        # Then apps directives -> optional
+        include /etc/yunohost/apache/domains/[domain].d/*.app.conf
+        # Last homepage directives -> optional
+        include /etc/yunohost/apache/domains/[domain].d/*.home.conf
+
+</VirtualHost>

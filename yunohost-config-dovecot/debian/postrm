@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+case "$1" in
+	remove|purge)
+	rm /etc/dovecot/global_script/dovecot.svbin
+	rm /etc/dovecot/dovecot.conf
+	rm /etc/dovecot/dovecot-ldap.conf
+	;;
+
+	upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+	;;
+
+	*)
+	echo "postrm called with unknown argument \`$1'" >&2
+	exit 1
+	;;
+esac
+
+exit 0

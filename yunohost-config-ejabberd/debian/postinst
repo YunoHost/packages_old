@@ -1,0 +1,31 @@
+#!/bin/bash
+
+
+HOSTNAME=$(hostname -f)
+
+TMP="/usr/share/yunohost/yunohost-config/ejabberd"
+
+function randpass() {
+  [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+    echo
+}
+
+if [ -f /etc/yunohost/current_host ];
+then
+	DOMAIN=$(cat /etc/yunohost/current_host)
+	find $TMP -type f -exec sed -i "s/yunohost.org/$DOMAIN/g" {} \;
+fi
+
+#Ejabberd
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep ejabberd /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+	cp $TMP/ejabberd.cfg /etc/ejabberd/
+	chown ejabberd:ejabberd /etc/ejabberd/ejabberd.cfg
+	if [ ! -f /etc/ejabberd/yunohost.pem ];
+	then
+		cat /etc/ssl/private/yunohost_key.pem > /etc/ejabberd/yunohost.pem
+		cat /etc/ssl/certs/yunohost_crt.pem >> /etc/ejabberd/yunohost.pem
+	fi
+	chown root:ejabberd /etc/ejabberd/yunohost.pem
+fi

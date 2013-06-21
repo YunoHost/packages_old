@@ -1,0 +1,3 @@
+config/lemonldap/* /usr/share/yunohost/yunohost-config/lemonldap/
+config/apache2/* /etc/yunohost/apache/templates/
+bin/lmYnhMoulinette /usr/share/lemonldap-ng/bin/

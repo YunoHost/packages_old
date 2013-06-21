@@ -1,0 +1,407 @@
+LDAPFilter
+	'(&(uid=$user)(|(objectClass=inetOrgPerson)(objectClass=posixAccount)))'
+
+Soap
+	1
+
+applicationList
+	'$data1 = {};'
+
+authentication
+	'LDAP'
+
+casAccessControlPolicy
+	'none'
+
+casStorageOptions
+	'$data1 = {};'
+
+cda
+	1
+
+cfgAuthor
+	'lmConfigEditor'
+
+cfgAuthorIP
+	'localhost'
+
+cfgDate
+	1362222429
+
+cfgNum
+	1
+
+checkXSS
+	1
+
+cookieName
+	'lemonldap'
+
+domain
+	'DOMAIN'
+
+exportedHeaders
+	'$data1 = {};'
+
+exportedVars
+	'$data1 = {&#39;uid&#39; => &#39;uid&#39;,&#39;cn&#39; => &#39;cn&#39;,&#39;sn&#39; => &#39;sn&#39;,&#39;mail&#39; => &#39;mail&#39;,&#39;givenName&#39; => &#39;givenName&#39;,&#39;description&#39; => &#39;description&#39;};'
+
+failedLoginNumber
+	5
+
+globalStorage
+	'Apache::Session::File'
+
+globalStorageOptions
+	'$data1 = {&#39;Directory&#39; => &#39;/var/lib/lemonldap-ng/sessions&#39;,&#39;LockDirectory&#39; => &#39;/var/lib/lemonldap-ng/sessions/lock&#39;};'
+
+groups
+	'$data1 = {};'
+
+hideOldPassword
+	1
+
+httpOnly
+	1
+
+https
+	1
+
+issuerDBCASActivation
+	0
+
+issuerDBCASPath
+	'^/cas/'
+
+issuerDBCASRule
+	1
+
+issuerDBOpenIDActivation
+	0
+
+issuerDBOpenIDPath
+	'^/openidserver/'
+
+issuerDBOpenIDRule
+	1
+
+issuerDBSAMLActivation
+	0
+
+issuerDBSAMLPath
+	'^/saml/'
+
+issuerDBSAMLRule
+	1
+
+jsRedirect
+	0
+
+key
+	'J"]F[C_U@!ALe]w;'
+
+ldapAuthnLevel
+	2
+
+ldapBase
+	'dc=yunohost,dc=org'
+
+ldapChangePasswordAsUser
+	1
+
+ldapGroupRecursive
+	0
+
+ldapPasswordResetAttribute
+	'pwdReset'
+
+ldapPasswordResetAttributeValue
+	'TRUE'
+
+ldapPort
+	389
+
+ldapPpolicyControl
+	1
+
+ldapPwdEnc
+	'utf-8'
+
+ldapServer
+	'localhost'
+
+ldapSetPassword
+	0
+
+ldapTimeout
+	120
+
+ldapUsePasswordResetAttribute
+	1
+
+ldapVersion
+	3
+
+locationRules
+	'$data1 = {};'
+
+logoutServices
+	'$data1 = {};'
+
+macros
+	'$data1 = {&#39;_whatToTrace&#39; => &#39;$_auth eq \&#39;LDAP\&#39; ? $uid : ($_auth eq \&#39;SAML\&#39; ? "$_user\\@$_idpConfKey" : "$_user\\@$_auth" )&#39;};'
+
+mailCharset
+	'utf-8'
+
+mailOnPasswordChange
+	0
+
+mailSessionKey
+	'mail'
+
+mailTimeout
+	0
+
+maintenance
+	0
+
+notification
+	0
+
+notificationStorage
+	'File'
+
+notificationWildcard
+	'allusers'
+
+notifyDeleted
+	1
+
+notifyOther
+	0
+
+openIdSreg_email
+	'mail'
+
+openIdSreg_fullname
+	'cn'
+
+openIdSreg_nickname
+	'uid'
+
+openIdSreg_timezone
+	'_timezone'
+
+passwordDB
+	'LDAP'
+
+port
+	0
+
+portal
+	'http://auth.DOMAIN'
+
+portalAntiFrame
+	1
+
+portalAutocomplete
+	1
+
+portalCheckLogins
+	1
+
+portalDisplayAppslist
+	1
+
+portalDisplayChangePassword
+	'$_auth eq "LDAP" or $_auth eq "DBI"'
+
+portalDisplayLoginHistory
+	0
+
+portalDisplayLogout
+	1
+
+portalDisplayResetPassword
+	1
+
+portalForceAuthn
+	0
+
+portalOpenLinkInNewWindow
+	0
+
+portalRequireOldPassword
+	1
+
+portalSkin
+	'yunohost'
+
+portalUserAttr
+	'_user'
+
+reloadUrls
+	'$data1 = {};'
+
+samlAttributeAuthorityDescriptorAttributeServiceSOAP
+	'urn:oasis:names:tc:SAML:2.0:bindings:SOAP;#PORTAL#/saml/AA/SOAP;'
+
+samlAuthnContextMapKerberos
+	4
+
+samlAuthnContextMapPassword
+	2
+
+samlAuthnContextMapPasswordProtectedTransport
+	3
+
+samlAuthnContextMapTLSClient
+	5
+
+samlCommonDomainCookieActivation
+	0
+
+samlEntityID
+	'#PORTAL#/saml/metadata'
+
+samlIDPSSODescriptorArtifactResolutionServiceArtifact
+	'1;0;urn:oasis:names:tc:SAML:2.0:bindings:SOAP;#PORTAL#/saml/artifact'
+
+samlIDPSSODescriptorSingleLogoutServiceHTTPPost
+	'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST;#PORTAL#/saml/singleLogout;#PORTAL#/saml/singleLogoutReturn'
+
+samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect
+	'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect;#PORTAL#/saml/singleLogout;#PORTAL#/saml/singleLogoutReturn'
+
+samlIDPSSODescriptorSingleLogoutServiceSOAP
+	'urn:oasis:names:tc:SAML:2.0:bindings:SOAP;#PORTAL#/saml/singleLogoutSOAP;'
+
+samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact
+	'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact;#PORTAL#/saml/singleSignOnArtifact;'
+
+samlIDPSSODescriptorSingleSignOnServiceHTTPPost
+	'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST;#PORTAL#/saml/singleSignOn;'
+
+samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect
+	'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect;#PORTAL#/saml/singleSignOn;'
+
+samlIDPSSODescriptorSingleSignOnServiceSOAP
+	'urn:oasis:names:tc:SAML:2.0:bindings:SOAP;#PORTAL#/saml/singleSignOnSOAP;'
+
+samlIDPSSODescriptorWantAuthnRequestsSigned
+	1
+
+samlMetadataForceUTF8
+	1
+
+samlNameIDFormatMapEmail
+	'mail'
+
+samlNameIDFormatMapKerberos
+	'uid'
+
+samlNameIDFormatMapWindows
+	'uid'
+
+samlNameIDFormatMapX509
+	'mail'
+
+samlOrganizationDisplayName
+	'Example'
+
+samlOrganizationName
+	'Example'
+
+samlOrganizationURL
+	'http://www.example.com'
+
+samlSPSSODescriptorArtifactResolutionServiceArtifact
+	'1;0;urn:oasis:names:tc:SAML:2.0:bindings:SOAP;#PORTAL#/saml/artifact'
+
+samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact
+	'1;0;urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact;#PORTAL#/saml/proxySingleSignOnArtifact'
+
+samlSPSSODescriptorAssertionConsumerServiceHTTPPost
+	'0;1;urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST;#PORTAL#/saml/proxySingleSignOnPost'
+
+samlSPSSODescriptorAuthnRequestsSigned
+	1
+
+samlSPSSODescriptorSingleLogoutServiceHTTPPost
+	'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST;#PORTAL#/saml/proxySingleLogout;#PORTAL#/saml/proxySingleLogoutReturn'
+
+samlSPSSODescriptorSingleLogoutServiceHTTPRedirect
+	'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect;#PORTAL#/saml/proxySingleLogout;#PORTAL#/saml/proxySingleLogoutReturn'
+
+samlSPSSODescriptorSingleLogoutServiceSOAP
+	'urn:oasis:names:tc:SAML:2.0:bindings:SOAP;#PORTAL#/saml/proxySingleLogoutSOAP;'
+
+samlSPSSODescriptorWantAssertionsSigned
+	1
+
+secureTokenAllowOnError
+	1
+
+secureTokenAttribute
+	'uid'
+
+secureTokenExpiration
+	60
+
+secureTokenHeader
+	'Auth-Token'
+
+secureTokenMemcachedServers
+	'127.0.0.1:11211'
+
+secureTokenUrls
+	'.*'
+
+securedCookie
+	0
+
+singleIP
+	0
+
+singleSession
+	0
+
+singleUserByIP
+	0
+
+storePassword
+	1
+
+successLoginNumber
+	5
+
+timeout
+	72000
+
+timeoutActivity
+	0
+
+useRedirectOnError
+	0
+
+useRedirectOnForbidden
+	0
+
+useSafeJail
+	1
+
+useXForwardedForIP
+	0
+
+userControl
+	'^[\w\.\-@]+$'
+
+userDB
+	'LDAP'
+
+vhostOptions
+	'$data1 = {};'
+
+whatToTrace
+	'$_whatToTrace'

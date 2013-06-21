@@ -1,0 +1,13 @@
+Source: yunohost-config-slapd
+Section: utils
+Priority: extra
+Maintainer: Adrien Beudin <beudbeud@yunohost.org>
+Build-Depends: debhelper (>=8.0.0)
+Standards-Version: 3.9.1
+
+Package: yunohost-config-slapd
+Architecture: all
+Depends: slapd, libdbd-ldap-perl, libnet-dns-perl, ldap-utils, libnss-ldapd, sudo-ldap
+Homepage: http://www.yunohost.org
+Description: meta package to install environement for yunohost
+ meta package to install environement for yunohost

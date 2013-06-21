@@ -1,0 +1,33 @@
+#!/bin/bash
+
+HOSTNAME=$(hostname -f)
+
+TMP="/usr/share/yunohost/yunohost-config/dovecot"
+
+function randpass() {
+  [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+    echo
+}
+
+
+if [ -f /etc/yunohost/current_host ];
+then
+        DOMAIN=$(cat /etc/yunohost/current_host)
+        find $TMP -type f -exec sed -i "s/yunohost.org/$DOMAIN/g" {} \;
+fi
+
+#Dovecot
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep dovecot /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+	adduser --system --ingroup mail --uid 500 vmail
+	cp -r $TMP/* /etc/dovecot/
+	if [ ! -f /proc/net/if_inet6 ];
+	then
+		mv /etc/dovecot/dovecot-ipv4.conf /etc/dovecot/dovecot.conf
+	fi
+	chown -R vmail:mail /etc/dovecot/global_script/
+	chmod -R 770 /etc/dovecot/global_script/
+	sievec /etc/dovecot/global_script/
+	chmod +r /etc/dovecot/global_script/dovecot.svbin
+fi

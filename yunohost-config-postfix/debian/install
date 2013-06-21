@@ -1,0 +1,1 @@
+config/postfix/* /usr/share/yunohost/yunohost-config/postfix/

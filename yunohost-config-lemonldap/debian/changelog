@@ -1,0 +1,216 @@
+yunohost-config-lemonldap (2.0-alpha1~megusta27) megusta; urgency=low
+
+  * Remove yunohost-admin ldap scheme
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 16 Jun 2013 19:27:25 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta26) megusta; urgency=low
+
+  * Restart FFS
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 13 Jun 2013 18:14:41 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta25) megusta; urgency=low
+
+  * Add LDIF
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 13 Jun 2013 18:04:50 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta24) megusta; urgency=low
+
+  * Add LDIF
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 13 Jun 2013 17:50:30 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta23) megusta; urgency=low
+
+  * Update SSL in template
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 08 Jun 2013 19:42:36 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta22) megusta; urgency=low
+
+  * Update templates
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 02 Jun 2013 20:53:58 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta21) megusta; urgency=low
+
+  * Update postinst
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 01 Jun 2013 18:52:59 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta20) megusta; urgency=low
+
+  * Update postinst
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 01 Jun 2013 18:47:56 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta19) megusta; urgency=low
+
+  * Non-fascist skin
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 01 Jun 2013 18:44:47 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta18) megusta; urgency=low
+
+  * Add ynh-user template
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 01 Jun 2013 11:03:35 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta17) megusta; urgency=low
+
+  * Fix postinst
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 31 May 2013 17:27:22 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta16) megusta; urgency=low
+
+  * Fix postinst
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 31 May 2013 14:19:01 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta15) megusta; urgency=low
+
+  * Update skin
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 31 May 2013 14:13:09 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta14) megusta; urgency=low
+
+  * Add yunohost login skin
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 31 May 2013 13:50:41 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta13) megusta; urgency=low
+
+  * Add admin template
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 30 May 2013 16:33:39 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta12) megusta; urgency=low
+
+  * update location current_domain  
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 29 Apr 2013 12:15:20 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta11) megusta; urgency=low
+
+  * add check main domain 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 26 Apr 2013 15:41:51 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta10) megusta; urgency=low
+
+  * Add conf for php apps
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 02 Mar 2013 17:49:23 +0100
+
+yunohost-config-lemonldap (2.0-alpha1~megusta9) megusta; urgency=low
+
+  * Don't remove old confs anymore
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 02 Mar 2013 16:41:51 +0100
+
+yunohost-config-lemonldap (2.0-alpha1~megusta8) megusta; urgency=low
+
+  * Clear lemon conf
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 02 Mar 2013 16:34:55 +0100
+
+yunohost-config-lemonldap (2.0-alpha1~megusta7) megusta; urgency=low
+
+  * Cross-domain lemon
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 28 Feb 2013 16:14:51 +0100
+
+yunohost-config-lemonldap (2.0-alpha1~megusta6) megusta; urgency=low
+
+  * Modify template conf 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 28 Feb 2013 16:01:02 +0100
+
+yunohost-config-lemonldap (2.0-alpha1~megusta5) megusta; urgency=low
+
+  * Change cfgNum 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 28 Feb 2013 10:50:33 +0100
+
+yunohost-config-lemonldap (2.0-alpha1~megusta4) megusta; urgency=low
+
+  * fix right 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 27 Feb 2013 23:33:02 +0100
+
+yunohost-config-lemonldap (2.0-alpha1~megusta3) megusta; urgency=low
+
+  * add template
+  * add lmYnhMoulinette 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 26 Feb 2013 19:55:45 +0100
+
+yunohost-config-lemonldap (2.0-alpha1~megusta2) megusta; urgency=low
+
+  * update script 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 03 Oct 2012 19:49:23 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta1) megusta; urgency=low
+
+  * domain principal 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 03 Oct 2012 19:37:11 +0200
+
+yunohost-config-lemonldap (2.0-alpha1~megusta0) megusta; urgency=low
+
+  * fix error slapcat
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 13 Sep 2012 18:51:29 +0200
+
+yunohost-config-lemonldap (1.0-stable~squeeze7) stable; urgency=low
+
+  * add menu 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 08 Aug 2012 14:16:48 +0200
+
+yunohost-config-lemonldap (1.0-stable~squeeze6) stable; urgency=low
+
+  * add logout url 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 05 Aug 2012 19:13:40 +0200
+
+yunohost-config-lemonldap (1.0-stable~squeeze5) stable; urgency=low
+
+  * add support admin login 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 17 Jul 2012 18:54:57 +0200
+
+yunohost-config-lemonldap (1.0-stable~squeeze4) stable; urgency=low
+
+  * add custom config 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Jun 2012 23:28:15 +0200
+
+yunohost-config-lemonldap (1.0-stable~squeeze3) stable; urgency=low
+
+  * change folder
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 15 Jun 2012 13:02:47 +0200
+
+yunohost-config-lemonldap (1.0-stable~squeeze2) stable; urgency=low
+
+  * fix bug connetion ldapbase 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 03 Jun 2012 14:51:41 +0200
+
+yunohost-config-lemonldap (1.0-stable~squeeze1) stable; urgency=low
+
+  * update config  
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 31 May 2012 22:08:04 +0200
+
+yunohost-config-lemonldap (1.0-stable~squeeze0) stable; urgency=low
+
+  * Initial release.
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 31 May 2012 21:37:13 +0200

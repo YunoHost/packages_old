@@ -1,0 +1,77 @@
+yunohost-config-ejabberd (2.0-alpha1~megusta8) megusta; urgency=low
+
+  * update location current_domain 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 29 Apr 2013 12:12:41 +0200
+
+yunohost-config-ejabberd (2.0-alpha1~megusta7) megusta; urgency=low
+
+  * add check main domain 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 26 Apr 2013 15:26:39 +0200
+
+yunohost-config-ejabberd (2.0-alpha1~megusta6) megusta; urgency=low
+
+  * update conf 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 26 Apr 2013 15:13:37 +0200
+
+yunohost-config-ejabberd (2.0-alpha1~megusta5) megusta; urgency=low
+
+  * fallback ipv6 support 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 19 Feb 2013 10:05:54 +0100
+
+yunohost-config-ejabberd (2.0-alpha1~megusta4) megusta; urgency=low
+
+  * add ipv6 support 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 10 Feb 2013 13:56:57 +0100
+
+yunohost-config-ejabberd (2.0-alpha1~megusta3) megusta; urgency=low
+
+  * update script 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 03 Oct 2012 19:47:18 +0200
+
+yunohost-config-ejabberd (2.0-alpha1~megusta2) megusta; urgency=low
+
+  * domain principal 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 03 Oct 2012 19:34:03 +0200
+
+yunohost-config-ejabberd (2.0-alpha1~megusta1) megusta; urgency=low
+
+  * update conf for ejabberd 2.1.10 (thanks npze)
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 02 Oct 2012 20:30:48 +0200
+
+yunohost-config-ejabberd (2.0-alpha1~megusta0) megusta; urgency=low
+
+  * fix error slapcat
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 13 Sep 2012 18:46:51 +0200
+
+yunohost-config-ejabberd (1.0-stable~squeeze3) stable; urgency=low
+
+  * Change ejabberd config for Jappix usage 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 25 Jul 2012 14:56:43 +0200
+
+yunohost-config-ejabberd (1.0-stable~squeeze2) stable; urgency=low
+
+  * add custom config 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Jun 2012 23:23:41 +0200
+
+yunohost-config-ejabberd (1.0-stable~squeeze1) stable; urgency=low
+
+  * change folder
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 15 Jun 2012 12:30:36 +0200
+
+yunohost-config-ejabberd (1.0-stable~squeeze0) stable; urgency=low
+
+  * Initial release.
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 31 May 2012 21:37:13 +0200

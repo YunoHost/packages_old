@@ -1,0 +1,118 @@
+#!/bin/bash
+
+HOSTNAME=$(hostname -f)
+
+TMP="/usr/share/yunohost/yunohost-config"
+
+function randpass() {
+  [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+    echo
+}
+
+
+
+if [ -f /etc/yunohost/current_host ];
+then
+        DOMAIN=$(cat /etc/yunohost/current_host)
+	find $TMP/others -type f -exec sed -i "s/yunohost.org/$DOMAIN/g" {} \;
+	find $TMP/ssl -type f -exec sed -i "s/yunohost.org/$DOMAIN/g" {} \;
+else
+	cp $TMP/others/current_host /etc/yunohost/current_host
+fi
+
+
+#SSL
+if [ ! -f /$TMP/ssl/yunoCA/ca/cacert.pem ];
+then
+	openssl req -x509 -new -config $TMP/ssl/yunoCA/openssl.cnf -days 3650 -out $TMP/ssl/yunoCA/ca/cacert.pem -keyout $TMP/ssl/yunoCA/ca/cakey.pem -nodes -batch
+fi
+
+if [ ! -f $TMP/ssl/yunoCA/certs/yunohost_crt.pem ];
+then
+	openssl req -new -config $TMP/ssl/yunoCA/openssl.cnf -days 730 -out $TMP/ssl/yunoCA/certs/yunohost_csr.pem -keyout $TMP/ssl/yunoCA/certs/yunohost_key.pem -nodes -batch
+	openssl ca -config $TMP/ssl/yunoCA/openssl.cnf -days 730 -in $TMP/ssl/yunoCA/certs/yunohost_csr.pem -out $TMP/ssl/yunoCA/certs/yunohost_crt.pem -batch
+	cp $TMP/ssl/yunoCA/ca/cacert.pem /etc/ssl/certs/ca-yunohost_crt.pem
+	cp $TMP/ssl/yunoCA/certs/yunohost_key.pem /etc/ssl/private/
+	cp $TMP/ssl/yunoCA/newcerts/01.pem /etc/ssl/certs/yunohost_crt.pem
+fi
+
+if [ ! -f /usr/share/ca-certificates/ca-yunohost_crt.pem ];
+then
+	if ! grep -Fq "ca-yunohost_crt.pem" /etc/ca-certificates.conf ; then
+	echo "ca-yunohost_crt.pem" >> /etc/ca-certificates.conf
+	update-ca-certificates
+	fi
+fi
+
+
+#Iptables
+cp $TMP/others/iptables /etc/init.d/
+chmod +x /etc/init.d/iptables
+update-rc.d iptables defaults
+service iptables restart
+
+#nssswitch
+if ! grep -Fq "sudoers" /etc/nsswitch.conf ; then
+echo -e "sudoers:\tldap files" >> /etc/nsswitch.conf
+fi
+
+#Hosts
+DOMAIN=$(cat /etc/yunohost/current_host)
+if ! grep -Fq "yunohost.org" /etc/hosts || ! grep -Fq "$DOMAIN" /etc/hosts
+then
+	cp $TMP/others/hosts /etc/
+fi
+echo "yunohost" > /etc/hostname
+/etc/init.d/hostname.sh
+
+#SSH
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep ssh /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+	cp $TMP/others/sshd_config* /etc/ssh/
+        if [ ! -f /proc/net/if_inet6 ];
+        then
+                mv /etc/ssh/sshd_config-ipv4 /etc/ssh/sshd_config
+        fi
+
+	service ssh restart
+fi
+
+#Prompt
+cp $TMP/others/boot_prompt.sh /etc/init.d/
+chmod +x /etc/init.d/boot_prompt.sh
+update-rc.d boot_prompt.sh defaults
+
+#PAM
+if [ ! -f /usr/share/pam-configs/my_mkhomedir ];
+then
+	cp $TMP/others/my_mkhomedir /usr/share/pam-configs/my_mkhomedir
+	pam-auth-update --package
+fi
+
+
+#Profile
+if [ ! -f /etc/skel/.bashrc ];
+then
+	cp $TMP/others/bashrc /etc/skel/.bashrc
+fi
+
+if [ ! -f /etc.skel/.vimrc ];
+then
+	cp $TMP/others/vimrc /etc/skel/.vimrc
+fi
+
+#Others
+cp $TMP/others/issue.net /etc/issue.net
+
+#Root password
+#if [ ! -f /etc/yunohost/yunohost-config/others/password ]; then
+#	chage -d 0 root
+#	touch /etc/yunohost/yunohost-config/others/password
+#fi
+
+#Unattended-upgrades
+if grep -Fq "Unattended-Upgrade" /etc/apt/apt.conf.d/02periodic
+then
+	cp $TMP/unattended/* /etc/apt/apt.conf.d/
+fi

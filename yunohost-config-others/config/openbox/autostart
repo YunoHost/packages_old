@@ -1,0 +1,1 @@
+chromium --app="https://yunohost.yunohost.org:6767" --user-data-dir="/root/.config/chromium/"

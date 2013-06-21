@@ -1,0 +1,4 @@
+debian/wrapper/glances         	usr/bin/
+glances/conf/glances.conf      	etc/glances/
+doc/init/glances	       	etc/init.d/
+doc/default/glances		etc/default/

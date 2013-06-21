@@ -1,0 +1,123 @@
+#!/bin/bash
+
+# display a cheap menu
+function menu 
+{
+echo -e "\n\n*** Welcome to Yunohost v2 ***\n"
+if [[ ! -f /etc/yunohost/installed ]]
+then
+	dpkg -l | grep -q chromium
+	if [[ $? -eq 0 ]] && [[ -f /etc/yunohost/installed ]]
+	then
+		echo "A) Start Web Interface"
+	else
+		echo "G) Start post install ( Graphic Mode )"
+	fi
+	echo "P) Start post install ( Shell Mode )"
+fi
+echo "S) Shell"
+echo "I) Show interface"
+echo "F) Fix IP"
+echo "D) Disable menu"
+
+dpkg -l | grep -q chromium
+if [[ $? -eq 0 ]]
+then
+	echo "U) Uninstall Xserver"
+fi
+echo -e "\n"
+echo "L) Logout"
+echo -e "\n"
+read -p "Enter an option: " opmode
+
+# see what the user has chosen
+case ${opmode} in
+S)
+        exit 0
+        ;;
+G|A)	
+	dpkg -l | grep -q chromium
+	if [[ $? -eq 1 ]]
+	then
+		echo -e "Install Xserver\nPlease wait ..."
+		export DEBIAN_FRONTEND=dialog
+		debconf-apt-progress \
+		-- \
+		apt-get update -qq
+		debconf-apt-progress \
+		-- \
+		apt-get install -y -qq whiptail xinit chromium libnss3-tools openbox xterm
+		unset DEBIAN_FRONTEND
+	fi
+	if [[ ! -d /root/.config/openbox ]]
+	then
+		mkdir -p /root/.config/openbox/
+		cp /usr/share/yunohost/yunohost-config/openbox/* /root/.config/openbox/
+	fi
+	certutil -d sql:$HOME/.pki/nssdb -L -n "yunohost.org - YunoHost" > /dev/null 2>&1
+        if [[ ! -d /root/.pki ]]
+	then
+		mkdir -p /root/.pki/nssdb
+	fi
+	certutil -d sql:$HOME/.pki/nssdb -L -n "yunohost.org - YunoHost" > /dev/null 2>&1
+	if [[ $? = 255 ]]
+        then
+                certutil -d sql:/root/.pki/nssdb -A -t "CT,c,c" -n Yunohost -i /etc/ssl/certs/ca-yunohost_crt.pem
+        fi
+
+	if [[ ! -f /root/.xinitrc ]]
+	then
+		echo -e '#!/bin/bash\nexec openbox-session' > /root/.xinitrc
+		chmod 755 /root/.xinitrc
+	fi
+	startx #> /dev/null 2>&1
+	menu
+        ;;
+P)
+	if [[ ! -f /etc/yunohost/installed ]]
+	then
+		yunohost tools postinstall
+		menu
+	else
+		menu
+	fi
+	;;
+I)
+	sudo /sbin/ifconfig | sed '/Bcast/!d'
+	menu
+	;;
+F)
+	echo "TODO"
+	;;
+D)
+	touch /root/.disablemenu
+	clear
+	;;
+U)
+	dpkg -l | grep -q chromium
+	if [[ $? -eq 0 ]]
+	then
+		echo -e "Uninstall Xserver\n Please wait ..."
+		export DEBIAN_FRONTEND=dialog
+		debconf-apt-progress \
+		-- \
+		apt-get autoremove --purge -qq -y xinit chromium libnss3-tools chromium-inspector libasyncns0 libflac8 libgnome-keyring-common \
+		libgnome-keyring0 libjson0 libpulse0 libsndfile1 libspeechd2 libspeex1 libvorbisenc2 libxss1 openbox xterm
+		unset DEBIAN_FRONTEND
+		menu
+	else
+		menu
+	fi
+	;;
+L)
+	exit && exit && logout
+	;;
+*)
+	clear
+	menu
+	;;
+esac
+}
+
+menu
+

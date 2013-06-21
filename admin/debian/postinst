@@ -1,0 +1,10 @@
+#!/bin/bash
+chown -R yunohost-admin:yunohost-admin /usr/share/yunohost/admin
+chown -R www-data:www-data /usr/share/yunohost/user
+service apache2 reload
+TMP2=/usr/share/yunohost/yunohost-config
+if [ -f $TMP2/slapd/sudo.ldif ]; then
+	service slapd restart
+        ldapadd -c -x -h localhost -D "cn=admin,dc=yunohost,dc=org" -w yunohost -f $TMP2/slapd/sudo.ldif
+        rm $TMP2/slapd/sudo.ldif
+fi

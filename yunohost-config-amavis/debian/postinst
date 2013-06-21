@@ -1,0 +1,30 @@
+#!/bin/bash
+
+HOSTNAME=$(hostname -f)
+
+TMP="/usr/share/yunohost/yunohost-config/amavis"
+SRC="/usr/share/yunohost/yunohost-config"
+
+function randpass() {
+  [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+    echo
+}
+
+#Amavis
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep amavis /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+	cp $TMP/conf.d/* /etc/amavis/conf.d/
+	adduser clamav amavis
+	cp $SRC/spamassassin/spamassassin /etc/default/
+	sa-update
+	cp $SRC/spamassassin/local.cf /etc/spamassassin/
+fi
+
+if [ ! -d /var/lib/amavis/.razor/ ];
+then
+	su - amavis -c "razor-admin -d --create"
+	su - amavis -c "razor-admin -register"
+	su - amavis -c "razor-admin -discover"
+	su - amavis -c "pyzor discover"
+fi

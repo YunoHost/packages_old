@@ -1,0 +1,48 @@
+#!/bin/bash
+
+DOMAIN=$(hostname -d)
+
+HOSTNAME=$(hostname -f)
+
+TMP="/usr/share/yunohost/yunohost-config/mysql"
+
+function randpass() {
+  [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+    echo
+}
+
+
+#Mysql
+APPCHK=$(ps aux | grep mysqld | grep -vc "grep")
+chmod u-x /usr/bin/mysql
+
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep mysql /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+	cp $TMP/my.cnf /etc/mysql
+fi
+
+
+if [ $APPCHK = '0' ];
+then 
+/etc/init.d/mysql start
+fi
+
+if [ ! -d /etc/yunohost ];
+then
+	mkdir /etc/yunohost
+fi
+
+if [ ! -f /etc/yunohost/mysql ];
+then	
+	MYSQL=$(randpass 10 0)
+	echo $MYSQL > /etc/yunohost/mysql
+	mysql -pyunohost -e ""
+	if [ $? = 0 ];
+	then
+		mysqladmin -u root -pyunohost password $MYSQL
+	else
+		mysqladmin -u root password $MYSQL
+	fi
+	chmod 400 /etc/yunohost/mysql
+fi

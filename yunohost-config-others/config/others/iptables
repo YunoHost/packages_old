@@ -1,0 +1,92 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          iptables
+# Required-Start:    mountkernfs $local_fs
+# Required-Stop:     $local_fs
+# Default-Start:     S
+# Default-Stop:     
+# Short-Description: Set up iptables rules
+### END INIT INFO
+
+PATH="/sbin:/bin:/usr/sbin:/usr/bin"
+
+case "$1" in
+start)
+    if [ -e /var/run/iptables ]; then
+        echo "iptables is already started!"
+        exit 1
+    else
+        touch /var/run/iptables
+    fi
+
+    yunohost firewall checkupnp > /dev/null 2>&1
+    if [ $? = 0 ];
+	then yunohost firewall installupnp
+    fi    
+
+    yunohost firewall reload > /dev/null 2>&1
+
+    ;;
+
+stop|force-stop)
+    if [ ! -e /var/run/iptables ]; then
+        echo "iptables is already stopped!"
+        exit 1
+    else
+        rm /var/run/iptables
+    fi
+
+    # stop fail2ban before flushing iptables chains
+    if [ -x /etc/init.d/fail2ban ]; then
+        /etc/init.d/fail2ban stop
+    fi
+
+    yunohost firewall stop
+ 
+    # start of fail2ban
+    if [ -x /etc/init.d/fail2ban ]; then
+        /etc/init.d/fail2ban start
+    fi
+    ;;
+
+restart|force-reload)
+    $0 stop
+    $0 start
+    ;;
+
+status)
+    echo "**********"
+    echo "** IPV4 **"
+    echo "**********"
+    echo "Filter Rules:"
+    echo "--------------"
+    iptables -L -v
+
+    if [ -f /proc/net/if_inet6 ]; then
+        echo "**********"
+        echo "** IPV6 **"
+        echo "**********"
+        echo "Filter Rules:"
+        echo "--------------"
+        ip6tables -L -v
+    fi
+    echo "**********"
+    echo "** UPNP **"
+    echo "**********"
+    yunohost firewall checkupnp > /dev/null 2>&1
+    if [ $? = 0 ];
+    then
+	echo "UPNP Enable"
+    else
+        echo "UPNP Disable"	
+    fi
+
+    ;;
+
+*)
+    echo "Usage: $0 {start|stop|force-stop|restart|force-reload|status}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0
