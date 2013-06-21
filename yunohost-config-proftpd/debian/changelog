@@ -1,0 +1,35 @@
+yunohost-config-proftpd (2.0-alpha1~megusta1) megusta; urgency=low
+
+  * change domain principal
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 03 Oct 2012 20:03:40 +0200
+
+yunohost-config-proftpd (2.0-alpha1~megusta0) megusta; urgency=low
+
+  * fix error slapcat 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 13 Sep 2012 19:07:55 +0200
+
+yunohost-config-proftpd (1.0-stable~squeeze3) stable; urgency=low
+
+  * add custom config 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Jun 2012 23:46:59 +0200
+
+yunohost-config-proftpd (1.0-stable~squeeze2) stable; urgency=low
+
+  * fix depends 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 19 Jun 2012 00:48:34 +0200
+
+yunohost-config-proftpd (1.0-stable~squeeze1) stable; urgency=low
+
+  * change folder
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 15 Jun 2012 13:10:55 +0200
+
+yunohost-config-proftpd (1.0-stable~squeeze0) stable; urgency=low
+
+  * Initial release.
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 31 May 2012 21:37:14 +0200

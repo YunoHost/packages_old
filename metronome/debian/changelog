@@ -1,0 +1,84 @@
+metronome (2.2~megusta14) megusta; urgency=low
+
+  * Update rc.d
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 11 Jun 2013 13:30:14 +0200
+
+metronome (2.2~megusta13) megusta; urgency=low
+
+  * bugfix
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 11 Jun 2013 12:06:31 +0200
+
+metronome (2.2~megusta12) megusta; urgency=low
+
+  * Change domain only if current_host is set
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 11 Jun 2013 10:49:40 +0200
+
+metronome (2.2~megusta11) megusta; urgency=low
+
+  * Update confs
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 10 Jun 2013 12:23:20 +0200
+
+metronome (2.2~megusta10) megusta; urgency=low
+
+  * Add lua-ldap to dependencies
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 09 Jun 2013 22:19:20 +0200
+
+metronome (2.2~megusta9) megusta; urgency=low
+
+  * Purge
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 09 Jun 2013 18:38:55 +0200
+
+metronome (2.2~megusta8) megusta; urgency=low
+
+  * Add compression and pubsub fix
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 09 Jun 2013 18:30:53 +0200
+
+metronome (2.2~megusta7) megusta; urgency=low
+
+  * Anti-fail fix
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 09 Jun 2013 15:24:34 +0200
+
+metronome (2.2~megusta6) megusta; urgency=low
+
+  * SSL conf update
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 09 Jun 2013 15:04:58 +0200
+
+metronome (2.2~megusta5) megusta; urgency=low
+
+  * Update ldap.lib.lua for metronome
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 09 Jun 2013 14:47:00 +0200
+
+metronome (2.2~megusta4) megusta; urgency=low
+
+  * Optional build + restart service
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 09 Jun 2013 14:36:01 +0200
+
+metronome (2.2~megusta3) megusta; urgency=low
+
+  * Mod legacyauth
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 09 Jun 2013 14:29:52 +0200
+
+metronome (2.2~megusta2) megusta; urgency=low
+
+  * Bugfix
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 09 Jun 2013 14:19:17 +0200
+
+metronome (2.2~megusta1) megusta; urgency=low
+
+  * Init
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 30 May 2013 16:27:13 +0200
+

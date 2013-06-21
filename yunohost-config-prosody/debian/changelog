@@ -1,0 +1,60 @@
+yunohost-config-prosody (2.0-alpha1~megusta9) megusta; urgency=low
+
+  * Create conf.avail & conf.d if not exists
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 31 May 2013 18:29:58 +0200
+
+yunohost-config-prosody (2.0-alpha1~megusta8) megusta; urgency=low
+
+  * Create conf.avail directory if not exists
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 31 May 2013 17:50:49 +0200
+
+yunohost-config-prosody (2.0-alpha1~megusta7) megusta; urgency=low
+
+  * update version lib prosody 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 28 May 2013 16:49:37 +0200
+
+yunohost-config-prosody (2.0-alpha1~megusta6) megusta; urgency=low
+
+  * update location current_domain 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 29 Apr 2013 12:10:00 +0200
+
+yunohost-config-prosody (2.0-alpha1~megusta5) megusta; urgency=low
+
+  * add check main domain 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 26 Apr 2013 15:35:27 +0200
+
+yunohost-config-prosody (2.0-alpha1~megusta4) megusta; urgency=low
+
+  * remove conflits 
+  * change domain 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 22 Apr 2013 11:23:09 +0200
+
+yunohost-config-prosody (2.0-alpha1~megusta3) megusta; urgency=low
+
+  * add bosh server secure
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 11 Apr 2013 13:42:37 +0200
+
+yunohost-config-prosody (2.0-alpha1~megusta2) megusta; urgency=low
+
+  * Bind config to "localhost" vhost
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 28 Feb 2013 10:16:08 +0100
+
+yunohost-config-prosody (2.0-alpha1~megusta1) megusta; urgency=low
+
+  * Remove specific VirtualHost config 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 28 Feb 2013 09:48:46 +0100
+
+yunohost-config-prosody (2.0-alpha1~megusta0) megusta; urgency=low
+
+  * iniitial config 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 25 Feb 2013 10:24:17 +0100
