@@ -1,3 +1,9 @@
+yunohost-config-dovecot (2.0-alpha1~megusta15) megusta; urgency=low
+
+  * Test repo
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 21 Jun 2013 13:04:10 +0200
+
 yunohost-config-dovecot (2.0-alpha1~megusta14) megusta; urgency=low
 
   * Add sieve in protocols

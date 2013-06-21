@@ -31,3 +31,5 @@ then
 	sievec /etc/dovecot/global_script/
 	chmod +r /etc/dovecot/global_script/dovecot.svbin
 fi
+
+
