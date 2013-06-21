@@ -2,3 +2,4 @@
 *.tar.gz
 *.changes
 *.build
+**/debian/changelog
