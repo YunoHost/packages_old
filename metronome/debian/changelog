@@ -1,3 +1,9 @@
+metronome (2.2~megusta16) test; urgency=low
+
+  * Fix metronome LDAP auth and update to metronome 2.2.22
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 22 Jun 2013 20:47:02 +0200
+
 metronome (2.2~megusta15) test; urgency=low
 
   * Remove LDAP from base conf

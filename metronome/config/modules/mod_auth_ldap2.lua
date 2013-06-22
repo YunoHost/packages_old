@@ -29,6 +29,9 @@ function provider.user_exists(username)
     local params = ldap.getparams()
 
     local filter = ldap.filter.combine_and(params.user.filter, params.user.usernamefield .. '=' .. username);
+    if params.user.usernamefield == 'mail' then
+        filter = ldap.filter.combine_and(params.user.filter, 'mail=' .. username .. '@*');
+    end
 
     return ldap.singlematch {
         base   = params.user.basedn,
