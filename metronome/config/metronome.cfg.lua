@@ -96,43 +96,6 @@ allow_registration = false
 
 storage = "ldap"
 
-ldap = {
-    hostname      = 'localhost',
-
-    user = {
-      basedn        = 'ou=users,dc=yunohost,dc=org',
-      filter        = '(&(objectClass=posixAccount)(!(uid=admin)))',
-      usernamefield = 'uid',
-      namefield     = 'cn',
-    },
-
-    groups = {
-      basedn      = 'ou=groups,dc=yunohost,dc=org',
-      memberfield = 'memberUid',
-      namefield   = 'cn',
-
-      {
-        name  = 'admins',
-        cn    = 'admins',
-        admin = true,
-      },
-    },
-
-    vcard_format = {
-      displayname = 'displayName',
-      mailer      = 'mail',
-      name        = {
-        family    = 'sn',
-        given     = 'givenName',
-      },
-      nickname    = 'uid',
-      photo       = {
-        type   = 'image/jpeg',
-        binval = 'jpegPhoto',
-      }
-    },
-}
-
 ssl = {
       key = "/etc/metronome/certs/yunohost_key.pem";
       certificate = "/etc/ssl/certs/yunohost_crt.pem";
@@ -148,7 +111,6 @@ Component "muc.yunohost.org" "muc"
 		"muc_limits";
 		"muc_log";
 		"muc_log_http";
-		"pastebin";
 	}
 
 	muc_event_rate = 0.5
@@ -161,19 +123,12 @@ Component "muc.yunohost.org" "muc"
 		theme = "metronome";
 	}
 
-	pastebin_url = "https://paste.yunohost.org/"
-	pastebin_expire_after = 0
-	pastebin_trigger = "!paste"
-
 Component "pubsub.yunohost.org" "pubsub"
 	name = "YunoHost Publish/Subscribe"
 	unrestricted_node_creation = true
 
 Component "vjud.yunohost.org" "vjud"
 	ud_disco_name = "Jappix User Directory"
-
-VirtualHost "yunohost.org"
-	authentication = "ldap2"
 
 Include "conf.d/*.cfg.lua"
 

@@ -179,6 +179,9 @@ end
 function _M.bind(username, password)
     local conn   = _M.getconnection();
     local filter = format('%s=%s', params.user.usernamefield, username);
+    if params.user.usernamefield == 'mail' then
+        filter = format('mail=%s@*', username);
+    end    
 
     if filter then
         filter = _M.filter.combine_and(filter, params.user.filter);

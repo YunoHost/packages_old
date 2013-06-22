@@ -1,3 +1,10 @@
+metronome (2.2~megusta15) test; urgency=low
+
+  * Remove LDAP from base conf
+  * Update ldap module
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 22 Jun 2013 12:27:06 +0200
+
 metronome (2.2~megusta14) megusta; urgency=low
 
   * Update rc.d
