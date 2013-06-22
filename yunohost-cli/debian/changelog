@@ -1,3 +1,9 @@
+yunohost-cli (1.0.0-60) test; urgency=low
+
+  * Test du script de build
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 22 Jun 2013 14:18:11 +0200
+
 yunohost-cli (1.0.0-59) test; urgency=low
 
   * Test du script de build
