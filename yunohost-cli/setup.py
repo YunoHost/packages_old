@@ -35,3 +35,4 @@ if __name__ == '__main__':
 		('share/pyshared/yunohost-cli',['src/yunohost-cli/yunohost']),
 		('/etc/bash_completion.d/',['src/yunohost-cli/bash/yunohost_cli'])],
 	)
+
