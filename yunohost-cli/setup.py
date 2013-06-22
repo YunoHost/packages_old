@@ -27,7 +27,7 @@ if __name__ == '__main__':
         maintainer_email='beudbeud@yunohost.org',
         url='http://yunohost.org',
         license='GPL',
-        scripts = ['src/yunohost-cli/bash/yunohost-cli'],
+        scripts = ['src/yunohost-cli/bash/yunohost'],
 	packages=['yunohost-cli'],
 	package_dir={'yunohost-cli': 'src/yunohost-cli'},
 	package_data={'yunohost-cli': ['*.py', '*.yml']},
