@@ -1,3 +1,9 @@
+metronome (2.2~megusta17) megusta; urgency=low
+
+  * Production build
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 23 Jun 2013 00:54:04 +0200
+
 metronome (2.2~megusta16) test; urgency=low
 
   * Fix metronome LDAP auth and update to metronome 2.2.22
