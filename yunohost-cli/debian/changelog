@@ -1,3 +1,15 @@
+yunohost-cli (1.0.0-58) test; urgency=low
+
+  * Test du script de build
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 22 Jun 2013 14:04:55 +0200
+
+yunohost-cli (1.0.0-57) megusta; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 22 Jun 2013 13:46:25 +0200
+
 yunohost-cli (1.0.0-56) test; urgency=low
 
   * Update from git and modify setup.py
