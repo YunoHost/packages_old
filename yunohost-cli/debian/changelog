@@ -1,3 +1,9 @@
+yunohost-cli (1.0.0-55) test; urgency=low
+
+  * Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 22 Jun 2013 13:25:07 +0200
+
 yunohost-cli (1.0.0-54) test; urgency=low
 
   * Update setup.py for bash completion
