@@ -10,38 +10,25 @@ function randpass() {
     echo
 }
 
-
-
 if [ -f /etc/yunohost/current_host ];
 then
         DOMAIN=$(cat /etc/yunohost/current_host)
 	find $TMP/others -type f -exec sed -i "s/yunohost.org/$DOMAIN/g" {} \;
-	find $TMP/ssl -type f -exec sed -i "s/yunohost.org/$DOMAIN/g" {} \;
 else
 	cp $TMP/others/current_host /etc/yunohost/current_host
 fi
 
-
-#SSL
-if [ ! -f /$TMP/ssl/yunoCA/ca/cacert.pem ];
+# Hosts
+if ! grep -Fq "yunohost.org" /etc/hosts || ! grep -Fq "$DOMAIN" /etc/hosts
 then
-	openssl req -x509 -new -config $TMP/ssl/yunoCA/openssl.cnf -days 3650 -out $TMP/ssl/yunoCA/ca/cacert.pem -keyout $TMP/ssl/yunoCA/ca/cakey.pem -nodes -batch
+       cp $TMP/others/hosts /etc/
 fi
 
-if [ ! -f $TMP/ssl/yunoCA/certs/yunohost_crt.pem ];
-then
-	openssl req -new -config $TMP/ssl/yunoCA/openssl.cnf -days 730 -out $TMP/ssl/yunoCA/certs/yunohost_csr.pem -keyout $TMP/ssl/yunoCA/certs/yunohost_key.pem -nodes -batch
-	openssl ca -config $TMP/ssl/yunoCA/openssl.cnf -days 730 -in $TMP/ssl/yunoCA/certs/yunohost_csr.pem -out $TMP/ssl/yunoCA/certs/yunohost_crt.pem -batch
-	cp $TMP/ssl/yunoCA/ca/cacert.pem /etc/ssl/certs/ca-yunohost_crt.pem
-	cp $TMP/ssl/yunoCA/certs/yunohost_key.pem /etc/ssl/private/
-	cp $TMP/ssl/yunoCA/newcerts/01.pem /etc/ssl/certs/yunohost_crt.pem
-fi
-
+# SSL
 if [ ! -f /usr/share/ca-certificates/ca-yunohost_crt.pem ];
 then
 	if ! grep -Fq "ca-yunohost_crt.pem" /etc/ca-certificates.conf ; then
 	echo "ca-yunohost_crt.pem" >> /etc/ca-certificates.conf
-	update-ca-certificates
 	fi
 fi
 
@@ -56,15 +43,6 @@ service iptables restart
 if ! grep -Fq "sudoers" /etc/nsswitch.conf ; then
 echo -e "sudoers:\tldap files" >> /etc/nsswitch.conf
 fi
-
-#Hosts
-DOMAIN=$(cat /etc/yunohost/current_host)
-if ! grep -Fq "yunohost.org" /etc/hosts || ! grep -Fq "$DOMAIN" /etc/hosts
-then
-	cp $TMP/others/hosts /etc/
-fi
-echo "yunohost" > /etc/hostname
-/etc/init.d/hostname.sh
 
 #SSH
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep ssh /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];

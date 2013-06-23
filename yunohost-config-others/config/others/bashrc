@@ -72,9 +72,9 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
-if [[ $(whoami) = "root" ]];
-then
-        /usr/bin/menu
-fi
+#if [[ $(whoami) = "root" ]];
+#then
+#        /usr/bin/menu
+#fi
 
 

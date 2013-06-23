@@ -30,4 +30,9 @@ echo -E " mmmp                             ,mmmm " >> /etc/issue
 echo -E " mmm#                             :mmmm " >> /etc/issue
 echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm " >> /etc/issue
 echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm " >> /etc/issue
-echo -e "\n      \e[0;30;47m https://$IPADD:6767 \n\e[0m" >> /etc/issue
+#echo -e "\n      \e[0;30;47m https://$IPADD:6767 \n\e[0m" >> /etc/issue
+
+if [[ ! -f /etc/yunohost/installed ]]
+then
+	/usr/bin/yunohost tools postinstall
+fi
