@@ -1,8 +1,8 @@
 #!/bin/bash
 ### BEGIN INIT INFO
 # Provides:          boot_prompt
-# Required-Start:    $local_fs $remote_fs $network $syslog $named
-# Required-Stop:     $local_fs $remote_fs $network $syslog $named
+# Required-Start:    $all
+# Required-Stop:     $all
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # X-Interactive:     true
@@ -30,9 +30,30 @@ echo -E " mmmp                             ,mmmm " >> /etc/issue
 echo -E " mmm#                             :mmmm " >> /etc/issue
 echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm " >> /etc/issue
 echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm " >> /etc/issue
-#echo -e "\n      \e[0;30;47m https://$IPADD:6767 \n\e[0m" >> /etc/issue
+echo -e "\n      \e[0;30;47m Server IP: $IPADD \n\e[0m" >> /etc/issue
 
 if [[ ! -f /etc/yunohost/installed ]]
 then
+	echo -e "\n mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm " 
+	echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
+	echo -E " mmmQ                             Ymmmm "
+	echo -E " mmm#                             :mmmm "
+	echo -E " mmmp                             ,mmmm "
+	echo -E " mmm#      .2A929     .12iQ7      :mmmm "
+	echo -E " mmmp       ;mmmm#   :mmmmp.      ,mmmm "
+	echo -E " mmm#        ,mmmQ5 .Ymmmp        :mmmm "
+	echo -E " mmmp         ,mmmp ,mmmp         ,mmmm "
+	echo -E " mmm#          ;mmmmNmmp          :mmmm "
+	echo -E " mmmp          .YmmmmmA;          ,mmmm "
+	echo -E " mmm#           .KmmmQY           :mmmm "
+	echo -E " mmmp            :mmm#            ,mmmm "
+	echo -E " mmm#           .7mmmp,           :mmmm "
+	echo -E " mmmp            7mmm#,           ,mmmm "
+	echo -E " mmm#                             :mmmm "
+	echo -E " mmmp                             ,mmmm "
+	echo -E " mmm#                             :mmmm "
+	echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
+	echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
+	echo -e "\n         \e[0;30;47m Post-installation \n\e[0m"
 	/usr/bin/yunohost tools postinstall
 fi

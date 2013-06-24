@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-alpha1~megusta53) test; urgency=low
+
+  * Test build: Modify boot prompt
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 24 Jun 2013 13:13:50 +0200
+
 yunohost-config-others (2.0-alpha1~megusta52) test; urgency=low
 
   * Test build: Copy bashrc and vimrc
