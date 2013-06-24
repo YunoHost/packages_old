@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-alpha1~megusta54) test; urgency=low
+
+  * Test build: Modify boot prompt
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 24 Jun 2013 14:31:33 +0200
+
 yunohost-config-others (2.0-alpha1~megusta53) test; urgency=low
 
   * Test build: Modify boot prompt
