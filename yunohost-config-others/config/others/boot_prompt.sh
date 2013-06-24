@@ -54,6 +54,6 @@ then
 	echo -E " mmm#                             :mmmm "
 	echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
 	echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
-	echo -e "\n            \e[0;30;47m Post-installation \e[0m\n"
+	echo -e "\n           \e[0;30;47m Post-installation \e[0m\n"
 	/usr/bin/yunohost tools postinstall
 fi
