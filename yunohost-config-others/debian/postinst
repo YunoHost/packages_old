@@ -68,6 +68,16 @@ then
 	pam-auth-update --package
 fi
 
+#Admin confs
+if [ ! -f /root/.bashrc ];
+then
+	cp $TMP/others/bashrc /root/.bashrc
+fi
+
+if [ ! -f /root/.vimrc ];
+then
+	cp $TMP/others/vimrc /root/.vimrc
+fi
 
 #Profile
 if [ ! -f /etc/skel/.bashrc ];
@@ -75,7 +85,7 @@ then
 	cp $TMP/others/bashrc /etc/skel/.bashrc
 fi
 
-if [ ! -f /etc.skel/.vimrc ];
+if [ ! -f /etc/skel/.vimrc ];
 then
 	cp $TMP/others/vimrc /etc/skel/.vimrc
 fi

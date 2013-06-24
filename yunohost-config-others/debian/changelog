@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-alpha1~megusta52) test; urgency=low
+
+  * Test build: Copy bashrc and vimrc
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 24 Jun 2013 12:16:43 +0200
+
 yunohost-config-others (2.0-alpha1~megusta51) test; urgency=low
 
   * Test build: Fix configurations & test auto post-install at boot
