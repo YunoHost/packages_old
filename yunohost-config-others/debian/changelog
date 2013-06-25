@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-alpha1~megusta58) test; urgency=low
+
+  * Test build: Prompt for post-installation
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 25 Jun 2013 12:30:38 +0200
+
 yunohost-config-others (2.0-alpha1~megusta57) test; urgency=low
 
   * Test build: Prompt for post-installation
