@@ -1,3 +1,9 @@
+metronome (2.2~megusta19) megusta; urgency=low
+
+  * Production build: metronome - Launch at startup
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 25 Jun 2013 13:54:38 +0200
+
 metronome (2.2~megusta18) test; urgency=low
 
   * Test build: Add metronome to start
