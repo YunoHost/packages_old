@@ -67,7 +67,8 @@ then
 			/usr/bin/yunohost tools postinstall
 			let RESULT=$?
 			if [ $RESULT -gt 0 ]; then
-				read -p "retry? (y/n) " -n 1
+				echo -e "\n"
+				read -p "Retry? (y/n) " -n 1
 			fi
 		done
         fi

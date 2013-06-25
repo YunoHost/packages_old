@@ -25,6 +25,7 @@ then
 fi
 
 # SSL
+mkdir -p /usr/share/yunohost/yunohost-config/ssl/yunoCA/{ca,certs,crl,newcerts}
 if [ ! -f /usr/share/ca-certificates/ca-yunohost_crt.pem ];
 then
 	if ! grep -Fq "ca-yunohost_crt.pem" /etc/ca-certificates.conf ; then
@@ -69,14 +70,13 @@ then
 fi
 
 #Admin confs
-if [ ! -f /root/.bashrc ];
+if [ ! -f /etc/yunohost/installed ];
 then
-	cp $TMP/others/bashrc /root/.bashrc
-fi
-
-if [ ! -f /root/.vimrc ];
-then
-	cp $TMP/others/vimrc /root/.vimrc
+	if [ ! -f /etc/yunohost/from_script ];
+	then
+		cp $TMP/others/bashrc /root/.bashrc
+		cp $TMP/others/vimrc /root/.vimrc
+	fi
 fi
 
 #Profile
