@@ -1,3 +1,9 @@
+yunohost-cli (1.0.0-65) test; urgency=low
+
+  * Test build: Add sudo_ldap_scheme to moulinette
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 25 Jun 2013 13:28:39 +0200
+
 yunohost-cli (1.0.0-64) test; urgency=low
 
   * Test build: Update CA Certificates at post-install
