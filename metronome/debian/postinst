@@ -44,8 +44,8 @@ cp -a /usr/share/yunohost/yunohost-config/metronome/modules/* /usr/lib/metronome
 if [ -f /etc/yunohost/current_host ]; then
 	DOMAIN=$(cat /etc/yunohost/current_host)
 	sed -i "s/yunohost.org/$DOMAIN/g" /etc/metronome/metronome.cfg.lua
-	update-rc.d metronome defaults
 fi
+update-rc.d metronome defaults
 service metronome start
 service metronome reload
 
