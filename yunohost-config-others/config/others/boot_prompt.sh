@@ -34,26 +34,33 @@ echo -e "\n      \e[0;30;47m Server IP: $IPADD \e[0m\n" >> /etc/issue
 
 if [[ ! -f /etc/yunohost/installed ]]
 then
-	echo -e "\n mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm " 
-	echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
-	echo -E " mmmQ                             Ymmmm "
-	echo -E " mmm#                             :mmmm "
-	echo -E " mmmp                             ,mmmm "
-	echo -E " mmm#      .2A929     .12iQ7      :mmmm "
-	echo -E " mmmp       ;mmmm#   :mmmmp.      ,mmmm "
-	echo -E " mmm#        ,mmmQ5 .Ymmmp        :mmmm "
-	echo -E " mmmp         ,mmmp ,mmmp         ,mmmm "
-	echo -E " mmm#          ;mmmmNmmp          :mmmm "
-	echo -E " mmmp          .YmmmmmA;          ,mmmm "
-	echo -E " mmm#           .KmmmQY           :mmmm "
-	echo -E " mmmp            :mmm#            ,mmmm "
-	echo -E " mmm#           .7mmmp,           :mmmm "
-	echo -E " mmmp            7mmm#,           ,mmmm "
-	echo -E " mmm#                             :mmmm "
-	echo -E " mmmp                             ,mmmm "
-	echo -E " mmm#                             :mmmm "
-	echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
-	echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
-	echo -e "\n           \e[0;30;47m Post-installation \e[0m\n"
-	/usr/bin/yunohost tools postinstall
+        if [[ ! -f /etc/yunohost/from_script ]]
+        then
+		echo -e "\n mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm " 
+		echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
+		echo -E " mmmQ                             Ymmmm "
+		echo -E " mmm#                             :mmmm "
+		echo -E " mmmp                             ,mmmm "
+		echo -E " mmm#      .2A929     .12iQ7      :mmmm "
+		echo -E " mmmp       ;mmmm#   :mmmmp.      ,mmmm "
+		echo -E " mmm#        ,mmmQ5 .Ymmmp        :mmmm "
+		echo -E " mmmp         ,mmmp ,mmmp         ,mmmm "
+		echo -E " mmm#          ;mmmmNmmp          :mmmm "
+		echo -E " mmmp          .YmmmmmA;          ,mmmm "
+		echo -E " mmm#           .KmmmQY           :mmmm "
+		echo -E " mmmp            :mmm#            ,mmmm "
+		echo -E " mmm#           .7mmmp,           :mmmm "
+		echo -E " mmmp            7mmm#,           ,mmmm "
+		echo -E " mmm#                             :mmmm "
+		echo -E " mmmp                             ,mmmm "
+		echo -E " mmm#                             :mmmm "
+		echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
+		echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
+		echo -e "\n          \e[0;30;47m Post-installation \e[0m\n"
+		RESULT=1
+		while [ $RESULT -gt 0 ]; do
+			/usr/bin/yunohost tools postinstall
+			let RESULT=$?
+		done
+        fi
 fi
