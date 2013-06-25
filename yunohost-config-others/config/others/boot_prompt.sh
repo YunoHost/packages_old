@@ -57,10 +57,17 @@ then
 		echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
 		echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm "
 		echo -e "\n          \e[0;30;47m Post-installation \e[0m\n"
+                read -p "Proceed to post-installation? (y/n)" -n 1
 		RESULT=1
 		while [ $RESULT -gt 0 ]; do
+			if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+				exit 0
+			fi
 			/usr/bin/yunohost tools postinstall
 			let RESULT=$?
+			if [ $RESULT -gt 0 ]; then
+				read -p "Post-installation failed, retry? (y/n)" -n 1
+			fi
 		done
         fi
 fi
