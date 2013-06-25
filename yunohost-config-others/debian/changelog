@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-alpha1~megusta60) megusta; urgency=low
+
+  * Production build: config-others - bugfixes
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 25 Jun 2013 13:58:49 +0200
+
 yunohost-config-others (2.0-alpha1~megusta59) test; urgency=low
 
   * Test build: Prompt for post-installation & bugfix
