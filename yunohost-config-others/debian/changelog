@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-alpha1~megusta65) test; urgency=low
+
+  * Test build: Bugfixes
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 27 Jun 2013 22:58:20 +0200
+
 yunohost-config-others (2.0-alpha1~megusta64) test; urgency=low
 
   * Test build: Bugfixes

@@ -8,5 +8,5 @@ DOMAIN=$(cat /etc/yunohost/current_host)
 sed -i "s/yunohost.org/$DOMAIN/g" "$CONF"
 if [ $HOME_SIZE -gt 10000000 ] && [ $HOME_SIZE_LEFT -gt $BACKUP_SIZE ];
 then
-    sed -i "s/sizeToChange/$(($HOME_SIZE-$BACKUP_SIZE))/g" "$CONF"
+    sed -i "s/spaceToChange/$(($HOME_SIZE-$BACKUP_SIZE))/g" "$CONF"
 fi
