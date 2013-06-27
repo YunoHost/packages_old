@@ -104,3 +104,10 @@ if grep -Fq "Unattended-Upgrade" /etc/apt/apt.conf.d/02periodic
 then
 	cp $TMP/unattended/* /etc/apt/apt.conf.d/
 fi
+
+#Backup
+$TMP/backup/configure_tahoe.sh
+if [ -d /home/backup.tahoe ] && [ -f /etc/yunohost/yunohost.conf ] && [ $(grep backup /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+        cp $TMP/backup/tahoe.cfg /home/backup.tahoe/
+fi
