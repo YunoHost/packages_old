@@ -1,3 +1,15 @@
+yunohost-config-others (2.0-alpha1~megusta62) test; urgency=low
+
+  * Test build: Add tahoe-lafs configuration
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 27 Jun 2013 21:41:21 +0200
+
+yunohost-config-others (2.0-alpha1~megusta61) megusta; urgency=low
+
+  * Test
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 27 Jun 2013 21:41:05 +0200
+
 yunohost-config-others (2.0-alpha1~megusta60) megusta; urgency=low
 
   * Production build: config-others - bugfixes
