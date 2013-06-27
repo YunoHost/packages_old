@@ -1,3 +1,9 @@
+yunohost (2.0-alpha1~megusta3) test; urgency=low
+
+  * Test build: Add tahoe-lafs configuration
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 27 Jun 2013 21:43:09 +0200
+
 yunohost (2.0-alpha1~megusta2) megusta; urgency=low
 
   * remove yunohos shell 
