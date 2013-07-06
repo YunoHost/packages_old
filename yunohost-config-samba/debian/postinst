@@ -1,11 +1,16 @@
 #!/bin/bash
 
+TMP=/usr/share/yunohost/yunohost-config
+
 # Samba
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep samba /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
+        cp "$TMP/samba/*" /etc/samba/
+        cp "$TMP/smbldap-tools/*" /etc/smbldap-tools/
 	mkdir -p /home/{samba.share,samba.public,samba.profiles,samba.netlogon}
         chmod 770 /home/samba.share /home/samba.public
         chmod 777 /home/samba.profiles
+        chmod 600 /etc/smbldap-tools/smbldap_bind.conf
 fi
 
 service slapd restart
