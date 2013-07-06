@@ -36,3 +36,14 @@ if __name__ == '__main__':
 		('/etc/bash_completion.d/',['src/yunohost-cli/bash/yunohost_cli'])],
 	)
 
+    setup(name='txrestapi',
+        version='0.1',
+        description="Easing the creation of REST API services in Python",
+        author='Ian McCracken',
+        author_email='ian.mccracken@gmail.com',
+        url='http://github.com/iancmcc/txrestapi',
+        license='MIT',
+        packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
+        package_dir={'txrestapi': 'src/yunohost-cli/txrestapi'},
+        package_data={'txrestapi': ['*.py']}
+      )
