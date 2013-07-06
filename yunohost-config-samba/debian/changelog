@@ -1,3 +1,9 @@
+yunohost-config-samba (2.0-alpha1~megusta3) test; urgency=low
+
+  * Test build: Modify samba conf
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 14:28:27 +0200
+
 yunohost-config-samba (2.0-alpha1~megusta2) test; urgency=low
 
   * Test build: Samba conf
