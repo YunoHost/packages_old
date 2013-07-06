@@ -17,7 +17,10 @@ then
 	chown root:openldap /etc/ldap/slapd.conf
 	cp $TMP/slapd/slapd /etc/default/
 	cp $TMP/slapd/schema/mailserver.schema /etc/ldap/schema/
+	cp $TMP/slapd/schema/samba.schema /etc/ldap/schema/
 	cp /usr/share/doc/sudo-ldap/schema.OpenLDAP /etc/ldap/schema/sudo.schema
+        chown -R openldap:openldap /etc/ldap/schema/
+        chown -R openldap:openldap /etc/ldap/slapd.d/
 fi
 
 if ! grep -Fq "sudoers_base" /etc/ldap/ldap.conf ; then
