@@ -2,10 +2,16 @@
 
 TMP="/usr/share/yunohost/yunohost-config"
 
-#Backup
 /bin/bash $TMP/backup/configure_tahoe.sh
+
+if [ ! -d /home/backup.tahoe ]; then
+        tahoe create-client /home/backup.tahoe
+        cp $TMP/backup/tahoe.cfg /home/backup.tahoe/
+        update-rc.d tahoe-lafs defaults
+        service tahoe start
+fi
+
 if [ -d /home/backup.tahoe ] && [ -f /etc/yunohost/yunohost.conf ] && [ $(grep backup /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
         cp $TMP/backup/tahoe.cfg /home/backup.tahoe/
-        update-rc.d tahoe-lafs defaults
 fi

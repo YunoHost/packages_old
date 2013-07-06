@@ -1,3 +1,9 @@
+yunohost-config-tahoe (2.0-alpha1~megusta71) test; urgency=low
+
+  * Test build: Create tahoe client if unexistent
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 20:51:08 +0200
+
 yunohost-config-tahoe (2.0-alpha1~megusta70) test; urgency=low
 
   * Test build: Tahoe init script
