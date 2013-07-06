@@ -1,3 +1,9 @@
+yunohost-config-slapd (2.0-alpha1~megusta7) test; urgency=low
+
+  * Test build: Slapd conf with samba schema
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 16:30:59 +0200
+
 yunohost-config-slapd (2.0-alpha1~megusta6) megusta; urgency=low
 
   * Oops
