@@ -8,7 +8,7 @@ if [ ! -d /home/backup.tahoe ]; then
         tahoe create-client /home/backup.tahoe
         cp $TMP/backup/tahoe.cfg /home/backup.tahoe/
         update-rc.d tahoe-lafs defaults
-        service tahoe start
+        service tahoe-lafs start
 fi
 
 if [ -d /home/backup.tahoe ] && [ -f /etc/yunohost/yunohost.conf ] && [ $(grep backup /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
