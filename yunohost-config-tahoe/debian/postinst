@@ -1,0 +1,10 @@
+#!/bin/bash
+
+TMP="/usr/share/yunohost/yunohost-config"
+
+#Backup
+/bin/bash $TMP/backup/configure_tahoe.sh
+if [ -d /home/backup.tahoe ] && [ -f /etc/yunohost/yunohost.conf ] && [ $(grep backup /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+        cp $TMP/backup/tahoe.cfg /home/backup.tahoe/
+fi

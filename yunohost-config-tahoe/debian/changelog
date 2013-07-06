@@ -1,0 +1,11 @@
+yunohost-config-tahoe (2.0-alpha1~megusta69) test; urgency=low
+
+  * Test build: Init tahoe conf package
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 20:26:08 +0200
+
+yunohost-config-tahoe (2.0-alpha1~megusta68) test; urgency=low
+
+  * Init
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 20:15:00 +0200
