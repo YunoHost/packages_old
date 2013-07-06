@@ -1,3 +1,9 @@
+yunohost (2.0-alpha1~megusta4) test; urgency=low
+
+  * Test build: Add samba conf
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 14:16:19 +0200
+
 yunohost (2.0-alpha1~megusta3) test; urgency=low
 
   * Test build: Add tahoe-lafs configuration
