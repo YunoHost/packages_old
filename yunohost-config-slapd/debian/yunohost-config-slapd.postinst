@@ -21,6 +21,7 @@ then
 	cp /usr/share/doc/sudo-ldap/schema.OpenLDAP /etc/ldap/schema/sudo.schema
         chown -R openldap:openldap /etc/ldap/schema/
         chown -R openldap:openldap /etc/ldap/slapd.d/
+        slaptest -f /etc/ldap/slapd.conf -F /etc/ldap/slapd.d/
 fi
 
 if ! grep -Fq "sudoers_base" /etc/ldap/ldap.conf ; then
