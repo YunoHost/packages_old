@@ -1,0 +1,2 @@
+config/samba/* /etc/samba/
+config/smbldap-tools/* /etc/smbldap-tools/

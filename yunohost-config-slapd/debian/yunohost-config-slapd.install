@@ -1,1 +1,2 @@
 config/slapd/* /usr/share/yunohost/yunohost-config/slapd/
+config/slapd/schema/* /etc/ldap/schema/

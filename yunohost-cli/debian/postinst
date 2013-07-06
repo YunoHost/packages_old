@@ -5,7 +5,4 @@ if [ $? =  "1" ]; then
 	useradd yunohost-app
 fi
 
-grep -q yunohost-admin /etc/passwd
-if [ $? =  "1" ]; then
-        useradd yunohost-admin
-fi
+update-rc.d yunohost-api defaults

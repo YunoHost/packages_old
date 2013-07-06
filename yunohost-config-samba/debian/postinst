@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Samba
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep samba /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+	mkdir -p /home/{samba.share,samba.public,samba.profiles,samba.netlogon}
+        chmod 770 /home/samba.share /home/samba.public
+        chmod 777 /home/samba.profiles
+fi
+
+service slapd restart
