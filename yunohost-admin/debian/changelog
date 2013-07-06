@@ -1,3 +1,9 @@
+yunohost-admin (2.0-alpha1~megusta23) test; urgency=low
+
+  * Test build: Remove sudo.ldif
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 17:40:39 +0200
+
 yunohost-admin (2.0-alpha1~megusta22) megusta; urgency=low
 
   * Production build: admin - Add ldif only by script
