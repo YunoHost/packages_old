@@ -1,3 +1,9 @@
+yunohost-cli (1.0.0-71) test; urgency=low
+
+  * Test build: Doc dir fix
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 19:56:10 +0200
+
 yunohost-cli (1.0.0-70) test; urgency=low
 
   * Test build: Package txrestapi
