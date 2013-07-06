@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-alpha1~megusta69) test; urgency=low
+
+  * Test build: Remove tahoe conf
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 20:28:47 +0200
+
 yunohost-config-others (2.0-alpha1~megusta68) test; urgency=low
 
   * Test build: Change Tahoe conf
