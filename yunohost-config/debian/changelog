@@ -1,3 +1,9 @@
+yunohost-config (2.0-alpha1~megusta9) test; urgency=low
+
+  * Test build: Add yunohost-config-tahoe to dependencies
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 20:31:14 +0200
+
 yunohost-config (2.0-alpha1~megusta8) test; urgency=low
 
   * Test build: Add samba conf
