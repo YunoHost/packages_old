@@ -43,7 +43,7 @@ if __name__ == '__main__':
         author_email='ian.mccracken@gmail.com',
         url='http://github.com/iancmcc/txrestapi',
         license='MIT',
-        packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
+	packages=['txrestapi'],
         package_dir={'txrestapi': 'src/yunohost-cli/txrestapi'},
         package_data={'txrestapi': ['*.py']}
       )

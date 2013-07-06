@@ -1,3 +1,9 @@
+yunohost-cli (1.0.0-70) test; urgency=low
+
+  * Test build: Package txrestapi
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 19:40:43 +0200
+
 yunohost-cli (1.0.0-69) test; urgency=low
 
   * Test build: Package txrestapi
