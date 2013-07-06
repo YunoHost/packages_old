@@ -1,3 +1,9 @@
+yunohost-config-apache (2.0-alpha1~megusta20) test; urgency=low
+
+  * Test build: Bugfix apache postinstall
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 20:44:46 +0200
+
 yunohost-config-apache (2.0-alpha1~megusta19) test; urgency=low
 
   * Test build: Remove admin

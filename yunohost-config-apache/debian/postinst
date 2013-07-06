@@ -23,8 +23,8 @@ then
         #cp $TMP/admin-lo /etc/apache2/sites-available/
         cp $TMP/{ports.conf,apache2.conf} /etc/apache2/
         cp $TMP/yunohost.conf /etc/apache2/conf.d/
-        a2ensite handler
-        a2dissite default  default-ssl
+        #a2ensite handler admin-lo
+        a2dissite default default-ssl
 fi
 chown -R www-data:www-data /var/www/yunohost/
 
