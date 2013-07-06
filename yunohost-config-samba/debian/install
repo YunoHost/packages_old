@@ -1,2 +1,2 @@
-config/samba/* /usr/share/yunohost/yunohost-config/samba/
-config/smbldap-tools/* /usr/share/yunohost/yunohost-config/smbldap-tools/
+config/samba /usr/share/yunohost/yunohost-config/
+config/smbldap-tools /usr/share/yunohost/yunohost-config/
