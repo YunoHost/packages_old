@@ -1,3 +1,9 @@
+yunohost-config (2.0-alpha1~megusta8) test; urgency=low
+
+  * Test build: Add samba conf
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 14:19:14 +0200
+
 yunohost-config (2.0-alpha1~megusta7) megusta; urgency=low
 
   * migrate to metronome
