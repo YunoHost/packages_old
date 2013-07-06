@@ -7,4 +7,5 @@ TMP="/usr/share/yunohost/yunohost-config"
 if [ -d /home/backup.tahoe ] && [ -f /etc/yunohost/yunohost.conf ] && [ $(grep backup /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
         cp $TMP/backup/tahoe.cfg /home/backup.tahoe/
+        update-rc.d tahoe-lafs defaults
 fi
