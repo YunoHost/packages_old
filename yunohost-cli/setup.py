@@ -30,7 +30,7 @@ if __name__ == '__main__':
         scripts = ['src/yunohost-cli/bash/yunohost'],
 	packages=['yunohost-cli'],
 	package_dir={'yunohost-cli': 'src/yunohost-cli'},
-	package_data={'yunohost-cli': ['*.py', '*.yml']},
+	package_data={'yunohost-cli': ['*.py', '*.yml', '*.tac']},
         data_files = [('share/yunohost-cli/doc',['src/yunohost-cli/LICENSE', 'src/yunohost-cli/README.md']),
 		('share/pyshared/yunohost-cli',['src/yunohost-cli/yunohost']),
 		('/etc/bash_completion.d/',['src/yunohost-cli/bash/yunohost_cli'])],

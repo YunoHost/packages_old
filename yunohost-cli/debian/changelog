@@ -1,3 +1,9 @@
+yunohost-cli (1.0.0-68) test; urgency=low
+
+  * Test build: Test API in production
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 19:20:42 +0200
+
 yunohost-cli (1.0.0-67) test; urgency=low
 
   * Test build: Add API
