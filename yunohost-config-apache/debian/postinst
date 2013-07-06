@@ -20,10 +20,10 @@ a2enmod rewrite ssl perl headers proxy_http authnz_ldap
 mkdir -p /var/www/yunohost
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep apache2 /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
-        cp $TMP/admin-lo /etc/apache2/sites-available/
+        #cp $TMP/admin-lo /etc/apache2/sites-available/
         cp $TMP/{ports.conf,apache2.conf} /etc/apache2/
         cp $TMP/yunohost.conf /etc/apache2/conf.d/
-        a2ensite handler admin-lo
+        a2ensite handler
         a2dissite default  default-ssl
 fi
 chown -R www-data:www-data /var/www/yunohost/
@@ -35,6 +35,6 @@ if [ ! -d /usr/share/yunohost/admin ];
 then
         mkdir -p /usr/share/yunohost/admin
 fi
-chown -R yunohost-admin:yunohost-admin /usr/share/yunohost/admin
+#chown -R yunohost-admin:yunohost-admin /usr/share/yunohost/admin
 
 service apache2 reload

@@ -1,3 +1,9 @@
+yunohost-config-apache (2.0-alpha1~megusta19) test; urgency=low
+
+  * Test build: Remove admin
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 06 Jul 2013 19:58:54 +0200
+
 yunohost-config-apache (2.0-alpha1~megusta18) megusta; urgency=low
 
   * Remove SSL
