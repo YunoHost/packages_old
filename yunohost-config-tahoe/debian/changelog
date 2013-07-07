@@ -1,3 +1,9 @@
+yunohost-config-tahoe (2.0-alpha1~megusta76) test; urgency=low
+
+  * Test build: tahoe conf bugfix
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 07 Jul 2013 15:41:34 +0200
+
 yunohost-config-tahoe (2.0-alpha1~megusta75) test; urgency=low
 
   * Test build: Change Introducer url
