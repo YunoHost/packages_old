@@ -1,3 +1,9 @@
+yunohost-cli (1.0.0-85) test; urgency=low
+
+  * Test build: Bugfix from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 07 Jul 2013 20:20:37 +0200
+
 yunohost-cli (1.0.0-84) test; urgency=low
 
   * Test build: Bugfix from git
