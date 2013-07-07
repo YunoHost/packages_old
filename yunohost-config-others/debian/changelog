@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-alpha1~megusta72) test; urgency=low
+
+  * Test build: Change UPNP config file
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 07 Jul 2013 16:05:28 +0200
+
 yunohost-config-others (2.0-alpha1~megusta71) test; urgency=low
 
   * Test build: update firewall.yml
