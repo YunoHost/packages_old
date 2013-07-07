@@ -134,7 +134,7 @@ function process_config_form(service, name, form, new)
 
 	for _, field in ipairs(form.tags) do
 		if field.attr.var == "pubsub#title" and field:get_child_text("value") then
-			node_config.title = field:get_child_text("value");
+			node_config.title = (field:get_child_text("value") ~= "" and field:get_child_text("value")) or nil;
 		elseif field.attr.var == "pubsub#deliver_notifications" and (field:get_child_text("value") == "0" or field:get_child_text("value") == "1") then
 			node_config.deliver_notifications = (field:get_child_text("value") == "0" and false) or (field:get_child_text("value") == "1" and true);
 		elseif field.attr.var == "pubsub#deliver_payloads" and (field:get_child_text("value") == "0" or field:get_child_text("value") == "1") then
@@ -306,11 +306,12 @@ end
 
 function handlers.set_subscribe(origin, stanza, subscribe)
 	local node, jid = subscribe.attr.node, subscribe.attr.jid;
-	local options_tag, options = stanza.tags[1]:get_child("options"), nil;
+	local options_tag = stanza.tags[1]:get_child("options") and true;
 	if options_tag then
-		options = options_form:data(options_tag.tags[1]);
+		return origin.send(st.error_reply(stanza, "modify", "bad-request",
+				"Subscription options aren't supported by this service"));
 	end
-	local ok, ret = service:add_subscription(node, stanza.attr.from, jid, options);
+	local ok, ret = service:add_subscription(node, stanza.attr.from, jid);
 	local reply;
 	if ok then
 		reply = st.reply(stanza)
@@ -320,9 +321,6 @@ function handlers.set_subscribe(origin, stanza, subscribe)
 					jid = jid,
 					subscription = "subscribed"
 				}):up();
-		if options_tag then
-			reply:add_child(options_tag);
-		end
 	else
 		reply = pubsub_error_reply(stanza, ret);
 	end
@@ -510,6 +508,7 @@ end
 
 function handlers_owner.set_subscriptions(origin, stanza, subscriptions)
 	local node = subscriptions.attr.node;
+	local subscriptions = subscriptions.tags;
 
 	-- pre-emptively do checks
 	if not service.nodes[node] then
@@ -523,12 +522,13 @@ function handlers_owner.set_subscriptions(origin, stanza, subscriptions)
 
 	-- populate list of subscribers
 	local _to_change = {};
-	for _, sub in ipairs(subscriptions.tags) do
-		if sub.subscription ~= "none" or sub.subscription ~= "subscribed" then
+	for _, sub in ipairs(subscriptions) do
+		local subscription = sub.attr.subscription;
+		if subscription ~= "none" and subscription ~= "subscribed" then
 			return origin.send(st.error_reply(stanza, "cancel", "bad-request",
 				"Only none and subscribed subscription types are currently supported"));
 		end
-		_to_change[sub.jid] = sub.subscription;
+		_to_change[sub.attr.jid] = subscription;
 	end
 
 	for jid, subscription in pairs(_to_change) do
@@ -671,7 +671,7 @@ module:hook("iq-get/host/http://jabber.org/protocol/disco#items:query", function
 		local reply = st.reply(event.stanza)
 			:tag("query", { xmlns = "http://jabber.org/protocol/disco#items" });
 		for node, node_obj in pairs(ret) do
-			reply:tag("item", { jid = module.host, node = node, name = node_obj.config.name }):up();
+			reply:tag("item", { jid = module.host, node = node, name = node_obj.config.title }):up();
 		end
 		return event.origin.send(reply);
 	end
@@ -718,7 +718,7 @@ function set_service(new_service)
 	service = new_service;
 	module.environment.service = service;
 	disco_info = build_disco_info(service);
-	service:restore();
+	service:restore(true);
 end
 
 function module.save()

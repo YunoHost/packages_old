@@ -7,7 +7,7 @@
 local events = require "util.events";
 local keys = require "util.iterators".keys;
 local st = require "util.stanza";
-local table = table;
+local ipairs, next, pairs, table = ipairs, next, pairs, table;
 
 module("pubsub", package.seeall);
 
@@ -19,6 +19,16 @@ local default_config = {
 	get_affiliation = function () end;
 	capabilities = {};
 };
+
+local function deserialize_data(data)
+	local restored_data = {};
+
+	for id, item in pairs(data or restored_data) do
+		restored_data[id] = st.deserialize(item);
+	end
+
+	return restored_data;
+end
 
 function new(config)
 	config = config or {};
@@ -343,6 +353,7 @@ function service:delete(node, actor)
 		end
 
 		local subscribers = self.nodes[node].subscribers;
+		for jid in pairs(subscribers) do self:remove_subscription(node, true, jid); end
 		self:purge_node(node);
 		self.nodes[node] = nil;
 		self:save()
@@ -372,6 +383,11 @@ function service:publish(node, actor, id, item, jid)
 
 	if not open_publish and not self:may(node, actor, "publish") then
 		return false, "forbidden";
+	end
+
+	if node_obj.delayed then
+		node_obj.data = deserialize_data(node_obj.data);
+		node_obj.delayed = nil;
 	end
 
 	if item then
@@ -433,9 +449,16 @@ end
 
 function service:retract(node, actor, id, retract)
 	local node_obj = self.nodes[node];
-	if (not node_obj) or (not node_obj.data[id]) then
+	if not node_obj then
 		return false, "item-not-found";
-	end
+	else
+		if node_obj.delayed then 
+			node_obj.data = deserialize_data(node_obj.data);
+			node_obj.delayed = nil;
+		end
+
+		if not node_obj.data[id] then return false, "item-not-found"; end
+	end		
 
 	local open_publish = node_obj and node_obj.config and 
 			     node_obj.config.publish_model == "open" and true or false;
@@ -466,6 +489,11 @@ function service:get_items(node, actor, id, max)
 	local node_obj = self.nodes[node];
 	if not node_obj then
 		return false, "item-not-found";
+	end
+
+	if node_obj.delayed then
+		node_obj.data = deserialize_data(node_obj.data);
+		node_obj.delayed = nil;
 	end
 
 	if not self:may(node, actor, "get_items") then
@@ -616,24 +644,58 @@ function service:save()
 	return true;
 end
 
-function service:restore()
+function service:restore(delayed)
 	if not self.config.store then return true; end
 	local data = self.config.store:get(nil);
 	if not data then return; end
 	self.affiliations = data.affiliations;
+	self.subscriptions = data.subscriptions;
 	for i, node in ipairs(data.nodes) do
-		self:restore_node(node);
+		self:restore_node(node, delayed);
 	end
+	self:sanitize_subscriptions();
 	return true;
+end
+
+function service:sanitize_subscriptions()
+	local nodes, subscriptions = self.nodes, self.subscriptions;
+	-- clean unexisting nodes, those that weren't persistant
+	-- this should be done far more cleanly, but it's still less expensive
+	-- then pre-hand checks, FIXME.
+	for normal_jid, entry in pairs(subscriptions) do
+		for jid, subs in pairs(entry) do
+			for node in pairs(subs) do
+				if not nodes[node] then
+					subscriptions[normal_jid][jid][node] = nil;
+				end
+			end
+		end
+	end
+
+	for normal_jid in pairs(subscriptions) do
+		for jid in pairs(subscriptions[normal_jid]) do
+			if not next(subscriptions[normal_jid][jid]) then
+				subscriptions[normal_jid][jid] = nil;
+			end
+		end
+		if not next(subscriptions[normal_jid]) then
+			subscriptions[normal_jid] = nil;
+		end
+	end
 end
 
 function service:save_node(node)
 	if not self.config.store then return true; end
 	local node_obj = self.nodes[node];
 	if not node_obj.config.persist_items then return true; end
-	local saved_data = {};
-	for id, item in pairs(node_obj.data) do
-		saved_data[id] = st.preserialize(item);
+	local saved_data;
+	if node_obj.delayed then
+		saved_data = node_obj.data;
+	else
+		saved_data = {};
+		for id, item in pairs(node_obj.data) do
+			saved_data[id] = st.preserialize(item);
+		end
 	end
 	self.config.store:set(node, {
 		subscribers = node_obj.subscribers;
@@ -651,28 +713,25 @@ function service:purge_node(node)
 	local node_obj = self.nodes[node];
 	if not node_obj.config.persist_items then return true; end
 	self.config.store:set(node, nil);
-	return true;		
+	return true;
 end
 
-function service:restore_node(node)
+function service:restore_node(node, delayed)
 	if not self.config.store then return true; end
 	local data = self.config.store:get(node);
 	if not data then return; end
-	local restored_data = {};
 
 	local node_obj = {
 		name = node;
 		subscribers = data.subscribers or {};
 		affiliations = data.affiliations or {};
 		config = data.config or {};
-		data = restored_data;
+		data = (not delayed and (data.data or {})) or deserialize_data(data.data);
 		data_id = data.data_id or {};
 		data_author = data.data_author or {};
+		delayed = delayed;
 	};
 
-	for id, item in pairs(data.data or restored_data) do
-		restored_data[id] = st.deserialize(item);
-	end
 	self.nodes[node] = node_obj;
 	return true;
 end

@@ -1,3 +1,9 @@
+metronome (2.2~megusta20) test; urgency=low
+
+  * Test build: Update to 2.3
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 07 Jul 2013 20:24:40 +0200
+
 metronome (2.2~megusta19) megusta; urgency=low
 
   * Production build: metronome - Launch at startup
