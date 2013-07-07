@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Force recompile
+if [ -f "/usr/share/yunohost/metronome-src/metronome.install" ]; then
+  rm /usr/share/yunohost/metronome-src/metronome.install
+fi
+
 if [ ! -f "/usr/share/yunohost/metronome-src/metronome.install" ]; then
   cd /usr/share/yunohost/metronome-src && ./configure --ostype=debian --prefix=/usr && make && make install
 fi
