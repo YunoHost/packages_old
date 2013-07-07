@@ -104,3 +104,9 @@ if grep -Fq "Unattended-Upgrade" /etc/apt/apt.conf.d/02periodic
 then
 	cp $TMP/unattended/* /etc/apt/apt.conf.d/
 fi
+
+#Firewall
+if [ ! -f /etc/yunohost/firewall.yml ];
+then
+	cp $TMP/others/firewall.yml /etc/yunohost/
+fi
