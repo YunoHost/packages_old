@@ -1,3 +1,9 @@
+yunohost-cli (1.0.0-81) test; urgency=low
+
+  * Test build: Init fix
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 07 Jul 2013 13:39:47 +0200
+
 yunohost-cli (1.0.0-80) test; urgency=low
 
   * Test build: DNS fixes
