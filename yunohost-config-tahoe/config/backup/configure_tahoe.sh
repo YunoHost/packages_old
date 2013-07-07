@@ -7,7 +7,7 @@ BACKUP_SIZE=$(($HOME_SIZE/10))
 DOMAIN='yunohost.org'
 if [ -f /etc/yunohost/current_host ];
 then
-    let DOMAIN=$(cat /etc/yunohost/current_host)
+    DOMAIN="$(cat /etc/yunohost/current_host)"
 fi
 sed -i "s/nameToChange/$DOMAIN/g" "$CONF"
 if [ $HOME_SIZE -gt 10000000 ] && [ $HOME_SIZE_LEFT -gt $BACKUP_SIZE ];
