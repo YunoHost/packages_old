@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta1~megusta4) megusta; urgency=low
+
+  * Production build: moulinette
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 08 Jul 2013 14:58:25 +0200
+
 yunohost-cli (2.0-beta1~megusta3) test; urgency=low
 
   * Test build: DynDNS improvements + bugfixes

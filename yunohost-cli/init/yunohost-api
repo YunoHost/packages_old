@@ -1,0 +1,34 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          yunohost-api
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start/stop YunoHost API server
+### END INIT INFO
+
+logger "API: Start script executed"
+API_SERVER_PATH="/usr/share/pyshared/yunohost-cli"
+export PYTHONPATH="$API_SERVER_PATH:$PYTHONPATH"
+
+case "$1" in
+  start)
+    logger "API Server: Starting"
+    echo "Starting API Server..."
+    cd $API_SERVER_PATH
+    twistd -y yunohost.tac -l "/var/log/yunohost.log" --pidfile twistd.pid
+    ;;
+  stop)
+    logger "API Server: Stopping"
+    echo "Stopping API Server..."
+    kill `cat $API_SERVER_PATH/twistd.pid`
+    ;;
+  *)
+    logger "API Server: Invalid usage"
+    echo "Usage: /etc/init.d/yunohost-api {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
