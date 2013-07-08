@@ -1,3 +1,9 @@
+yunohost-config-samba (2.0-beta1~megusta1) megusta; urgency=low
+
+  * Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 07 Jul 2013 23:38:22 +0200
+
 yunohost-config-samba (2.0-alpha1~megusta6) test; urgency=low
 
   * Test build: debug samba conf

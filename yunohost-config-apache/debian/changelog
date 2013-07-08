@@ -1,3 +1,9 @@
+yunohost-config-apache (2.0-beta1~megusta1) megusta; urgency=low
+
+  * Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 07 Jul 2013 23:54:45 +0200
+
 yunohost-config-apache (2.0-alpha1~megusta21) test; urgency=low
 
   * Test build: Remove 6767 listening from apache

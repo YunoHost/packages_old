@@ -1,3 +1,9 @@
+yunohost-config-tahoe (2.0-beta1~megusta1) megusta; urgency=low
+
+  * Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 07 Jul 2013 23:41:32 +0200
+
 yunohost-config-tahoe (2.0-alpha1~megusta77) test; urgency=low
 
   * Test build: Bugfix conf
