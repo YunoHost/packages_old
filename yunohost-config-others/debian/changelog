@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta1~megusta2) test; urgency=low
+
+  * Test build: allow multiple CA with yunohost.org
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 10 Jul 2013 15:09:36 +0200
+
 yunohost-config-others (2.0-beta1~megusta1) megusta; urgency=low
 
   * Bump version
