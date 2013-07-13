@@ -38,8 +38,8 @@ local rooms = rooms;
 local persistent_rooms = datamanager.load(nil, muc_host, "persistent") or {};
 
 -- Configurable options
-local max_history_messages = module:get_option_number("max_history_messages");
-
+local max_history_messages = module:get_option_number("max_history_messages", 100);
+muclib.set_max_history(max_history_messages);
 
 -- Superuser Adhoc handlers
 module:depends("adhoc");
@@ -116,12 +116,13 @@ for jid in pairs(persistent_rooms) do
 	local node = jid_split(jid);
 	local data = datamanager.load(node, muc_host, "config");
 	if data then
-		local room = muc_new_room(jid, {
-			max_history_length = max_history_messages;
-		});
+		local history_length = data._data.history_length;
+		local room = muc_new_room(jid);
 		room._data = data._data;
-		room._data.max_history_length = max_history_messages; -- Overwrite old max_history_length in data with current settings
 		room._affiliations = data._affiliations;
+		if history_length and history_length > max_history_messages then
+			room._data.history_length = 20;
+		end 
 		room.route_stanza = room_route_stanza;
 		room.save = room_save;
 		rooms[jid] = room;
@@ -133,9 +134,7 @@ for jid in pairs(persistent_rooms) do
 end
 if persistent_errors then datamanager.store(nil, muc_host, "persistent", persistent_rooms); end
 
-local host_room = muc_new_room(muc_host, {
-	max_history_length = max_history_messages;
-});
+local host_room = muc_new_room(muc_host);
 host_room.route_stanza = room_route_stanza;
 host_room.save = room_save;
 
@@ -148,7 +147,7 @@ end
 local function get_disco_items(stanza)
 	local reply = st.iq({type = "result", id = stanza.attr.id, from = muc_host, to = stanza.attr.from}):query("http://jabber.org/protocol/disco#items");
 	for jid, room in pairs(rooms) do
-		if not room:is_hidden() then
+		if not room:get_option("hidden") then
 			reply:tag("item", {jid = jid, name = room:get_name()}):up();
 		end
 	end
@@ -190,9 +189,7 @@ function stanza_handler(event)
 		if not ((hosts[from_host] and hosts[from_host].modules.auth_anonymous and true) or false) and
 		   (not restrict_room_creation or (restrict_room_creation == "admin" and is_admin(stanza.attr.from)) or
 		   (restrict_room_creation == "local" and from_host == module.host:gsub("^[^%.]+%.", ""))) then
-			room = muc_new_room(bare, {
-				max_history_length = max_history_messages;
-			});
+			room = muc_new_room(bare);
 			room.route_stanza = room_route_stanza;
 			room.save = room_save;
 			rooms[bare] = room;
@@ -292,7 +289,8 @@ function shutdown_component()
 	if not saved then
 		local stanza = st.presence({type = "unavailable"})
 			:tag("x", {xmlns = "http://jabber.org/protocol/muc#user"})
-				:tag("item", {affiliation = "none", role = "none"}):up();
+				:tag("item", {affiliation = "none", role = "none"}):up()
+				:tag("status", { code = "332"}):up();
 		for roomjid, room in pairs(rooms) do
 			shutdown_room(room, stanza);
 		end

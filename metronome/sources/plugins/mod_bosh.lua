@@ -276,7 +276,6 @@ function stream_callbacks.streamopened(context, attr)
 				s.attr.xmlns = "jabber:client";
 			end
 			s = filter("stanzas/out", s);
-			--log("debug", "Sending BOSH data: %s", tostring(s));
 			t_insert(session.send_buffer, tostring(s));
 
 			local oldest_request = r[1];
@@ -362,7 +361,7 @@ function stream_callbacks.handlestanza(context, stanza)
 			stanza.attr.xmlns = nil;
 		end
 		stanza = session.filter("stanzas/in", stanza);
-		core_process_stanza(session, stanza);
+		if stanza then core_process_stanza(session, stanza); end
 	end
 end
 
@@ -396,7 +395,6 @@ end
 
 local dead_sessions = {};
 function on_timer()
-	-- log("debug", "Checking for requests soon to timeout...");
 	local now = os_time() + 3;
 	for request, reply_before in pairs(waiting_requests) do
 		if reply_before <= now then
