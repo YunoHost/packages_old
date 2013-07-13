@@ -1,3 +1,9 @@
+metronome (2.3~megusta3) test; urgency=low
+
+  * Test build: Metronome update
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 13 Jul 2013 19:43:58 +0200
+
 metronome (2.3~megusta2) test; urgency=low
 
   * Test build: Metronome update

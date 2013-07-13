@@ -51,7 +51,6 @@ if [ -f /etc/yunohost/current_host ]; then
 	sed -i "s/yunohost.org/$DOMAIN/g" /etc/metronome/metronome.cfg.lua
 fi
 update-rc.d metronome defaults
-service metronome start
-service metronome reload
+service metronome restart
 
 exit 0
