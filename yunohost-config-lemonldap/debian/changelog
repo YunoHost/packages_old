@@ -1,3 +1,9 @@
+yunohost-config-lemonldap (2.0-alpha1~megusta28) test; urgency=low
+
+  * Test build: Add anti-override ProxyPass to sso apache template
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 14 Jul 2013 13:40:51 +0200
+
 yunohost-config-lemonldap (2.0-alpha1~megusta27) megusta; urgency=low
 
   * Remove yunohost-admin ldap scheme
