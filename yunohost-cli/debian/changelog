@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta1~megusta7) test; urgency=low
+
+  * Test build: Add NPZE & titoko's modifications
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 24 Jul 2013 12:23:46 +0200
+
 yunohost-cli (2.0-beta1~megusta6) megusta; urgency=low
 
   * Production build: moulinette
