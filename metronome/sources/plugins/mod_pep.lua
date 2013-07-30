@@ -255,11 +255,12 @@ end
 
 local function pep_autosubscribe_recs(service, node)
 	local recipients = service.recipients;
-	if not service.nodes[node] then return; end
+	local _node = service.nodes[node];
+	if not _node then return; end
 
 	for jid, hash in pairs(recipients) do
 		if type(hash) == "string" and hash_map[hash] and hash_map[hash][node] then
-			service.nodes[node].subscribers[jid] = true;
+			_node.subscribers[jid] = true;
 		end
 	end
 end
@@ -705,13 +706,25 @@ module:hook("presence/bare", function(event)
 			local recipient = stanza.attr.from;
 			local current = recipients and recipients[recipient];
 			local hash = get_caps_hash_from_presence(stanza);
-			if not hash then hash = current; end
+			if not hash then
+				if current then	
+					hash = current;
+				else
+					-- We shall drop sending disco infos to all clients which don't include caps
+					-- in their presence, it's not perfect, but it's the only way to get optimal
+					-- non-volatile states.
+					current = false;
+					recipients[recipient] = false;
+				end
+			else
+				recipients[recipient] = hash;
+			end
 				
 			if not hash_map[hash] then
 				if current ~= false then
 					module:fire_event("pep-get-client-filters", 
 					{ user = user; to = stanza.attr.from or origin.full_jid,
-					  hash = hash, recipients = recipients });
+					  recipients = recipients });
 				
 					-- ignore filters once either because they aren't supported or because we don't have 'em yet
 					pep_send(recipient, user, true);
@@ -723,22 +736,22 @@ module:hook("presence/bare", function(event)
 		end
 	elseif t == "unavailable" then
 		local from = stanza.attr.from;
-		local client_map = hash_map[service.recipients[from]];
+		local client_map = hash_map[recipients[from]];
 		for name in pairs(client_map or NULL) do
 			if nodes[name] then nodes[name].subscribers[from] = nil; end
 		end
-		service.recipients[from] = nil;
+		recipients[from] = nil;
 	elseif not self and t == "unsubscribe" then
 		local from = jid_bare(stanza.attr.from);
-		local subscriptions = service.recipients;
+		local subscriptions = recipients;
 		if subscriptions then
 			for subscriber in pairs(subscriptions) do
 				if jid_bare(subscriber) == from then
-					local client_map = hash_map[service.recipients[subscriber]];
+					local client_map = hash_map[recipients[subscriber]];
 					for name in pairs(client_map or NULL) do
 						if nodes[name] then nodes[name].subscribers[subscriber] = nil; end
 					end
-					service.recipients[subscriber] = nil;
+					recipients[subscriber] = nil;
 				end
 			end
 		end
@@ -746,8 +759,7 @@ module:hook("presence/bare", function(event)
 end, 10);
 
 module:hook("pep-get-client-filters", function(event)
-	local user, to, hash, recipients = event.user, event.to, event.hash, event.recipients;
-	if hash then recipients[to] = hash; end -- could not obtain caps via presence
+	local user, to, recipients = event.user, event.to, event.hash, event.recipients;
 	disco_info_query(user, to);
 end, 100);
 
@@ -762,12 +774,12 @@ module:hook("iq-result/bare/disco", function(event)
 			local service = services[user];
 			if not service then return true; end -- User's pep service doesn't exist
 			local nodes = service.nodes;
+			local recipients = service.recipients;
 			local contact = stanza.attr.from;
-			local current = service.recipients[contact];
-			if current == false then return true; end
+			local current = recipients[contact];
+			if not current then return true; end
 
 			module:log("debug", "Processing disco response from %s", stanza.attr.from);
-			if current == nil then current = ""; end
 			local ver = current;
 			if not string.find(current, "#") then
 				ver = calculate_hash(disco.tags); -- calculate hash
@@ -781,11 +793,12 @@ module:hook("iq-result/bare/disco", function(event)
 				end
 			end
 			if not has_notify then 
-				service.recipients[contact] = false;
+				hash_map[ver] = notify;
+				recipients[contact] = false;
 				return true;
 			end
 			hash_map[ver] = notify; -- update hash map
-			service.recipients[contact] = ver; -- and contact hash
+			recipients[contact] = ver; -- and contact hash
 			if self then
 				module:log("debug", "Discovering interested roster contacts...");
 				for jid, item in pairs(session.roster) do -- for all interested contacts

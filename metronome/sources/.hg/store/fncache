@@ -227,3 +227,4 @@ data/util/uuid.lua.i
 data/util/watchdog.lua.i
 data/util/x509.lua.i
 data/util/xmppstream.lua.i
+data/plugins/mod_extdisco.lua.i

@@ -21,6 +21,7 @@ local bare_sessions = bare_sessions;
 local datamanager = require "util.datamanager";
 local um_user_exists = require "core.usermanager".user_exists;
 local st = require "util.stanza";
+local jid_split = require "util.jid".split;
 
 module "rostermanager"
 
@@ -117,6 +118,11 @@ function save_roster(username, host, roster)
 		roster = hosts[host] and hosts[host].sessions[username] and hosts[host].sessions[username].roster;
 	end
 	if roster then
+		local __readonly = roster.__readonly;
+		if __readonly then
+			roster.__readonly = nil;
+		end
+
 		local metadata = roster[false];
 		if not metadata then
 			metadata = {};
@@ -126,9 +132,34 @@ function save_roster(username, host, roster)
 			metadata.version = (metadata.version or 0) + 1;
 		end
 		if roster[false].broken then return nil, "Not saving broken roster" end
-		return datamanager.store(username, host, "roster", roster);
+		local ok, err = datamanager.store(username, host, "roster", roster);
+		roster.__readonly = __readonly;
+		return ok, err;
 	end
 	log("warn", "save_roster: user had no roster to save");
+	return nil;
+end
+
+function get_readonly_rosters(user, host)
+	local bare_session = bare_sessions[user .. "@" .. host];
+	local roster = (bare_session and bare_session.roster) or load_roster(user, host);
+	local readonly = roster.__readonly;
+	if not readonly then 
+		return function() end
+	else
+		local i, n = 0, #readonly;
+		return function() 
+			i = i + 1;
+			if i <= n then return readonly[i]; end
+		end
+	end
+end
+
+function get_readonly_item(user, host, jid)
+	for ro_roster in get_readonly_rosters(user, host) do
+		if ro_roster[jid] then return ro_roster[jid]; end
+	end
+
 	return nil;
 end
 
@@ -192,7 +223,14 @@ end
 
 local function _get_online_roster_subscription(jidA, jidB)
 	local user = bare_sessions[jidA];
-	local item = user and (user.roster[jidB] or { subscription = "none" });
+	if not user then return nil; end
+	local username, host = jid_split(jidA); 
+	local roster = user.roster;
+
+	local readonly_item = get_readonly_item(username, host, jidB);
+	if readonly_item then return readonly_item.subscription; end
+
+	local item = roster[jidB] or { subscription = "none" };
 	return item and item.subscription;
 end
 function is_contact_subscribed(username, host, jid)
@@ -205,7 +243,14 @@ function is_contact_subscribed(username, host, jid)
 	end
 	local roster, err = load_roster(username, host);
 	local item = roster[jid];
-	return item and (item.subscription == "from" or item.subscription == "both"), err;
+	if item then
+		return (item.subscription == "from" or item.subscription == "both"), err;
+	end
+
+	local readonly_item = get_readonly_item(username, host, jid);
+	if readonly_item then
+		return (readonly_item.subscription == "from" or readonly_item.subscription == "both");
+	end
 end
 
 function is_contact_pending_in(username, host, jid)

@@ -11,6 +11,7 @@ local st = require "util.stanza"
 
 local jid_split = require "util.jid".split;
 local jid_prep = require "util.jid".prep;
+local jid_bare = require "util.jid".bare;
 local t_concat = table.concat;
 local tonumber = tonumber;
 local pairs, ipairs = pairs, ipairs;
@@ -30,32 +31,49 @@ module:hook("stream-features", function(event)
 	end
 end);
 
+local function roster_stanza_builder(stanza, roster, owner)
+	for jid, item in pairs(roster) do
+		if jid ~= "pending" and 
+		   jid ~= "__readonly" and
+		   jid ~= owner and jid then
+			stanza:tag("item", {
+				jid = jid,
+				subscription = item.subscription,
+				ask = item.ask,
+				name = item.name,
+			});
+			for group in pairs(item.groups) do
+				stanza:tag("group"):text(group):up();
+			end
+			stanza:up(); -- move out from item
+		end
+	end
+end
+
 module:hook("iq/self/jabber:iq:roster:query", function(event)
 	local session, stanza = event.origin, event.stanza;
+	local session_roster = session.roster;
+	local session_username, session_host = session.username, session.host;
 
 	if stanza.attr.type == "get" then
+		local bare_jid = session_username .. "@" .. session_host;
 		local roster = st.reply(stanza);
 		
 		local client_ver = tonumber(stanza.tags[1].attr.ver);
 		local server_ver = tonumber(session.roster[false].version or 1);
 		
 		if not (client_ver and server_ver) or client_ver ~= server_ver then
-			roster:query("jabber:iq:roster");
 			-- Client does not support versioning, or has stale roster
-			for jid, item in pairs(session.roster) do
-				if jid ~= "pending" and jid then
-					roster:tag("item", {
-						jid = jid,
-						subscription = item.subscription,
-						ask = item.ask,
-						name = item.name,
-					});
-					for group in pairs(item.groups) do
-						roster:tag("group"):text(group):up();
-					end
-					roster:up(); -- move out from item
-				end
+			roster:query("jabber:iq:roster");
+
+			-- Append read-only rosters, if there.
+			for ro_roster in rostermanager.get_readonly_rosters(session_username, session_host) do
+				roster_stanza_builder(roster, ro_roster, bare_jid);
 			end
+
+			-- Now append the real one.
+			roster_stanza_builder(roster, session_roster, bare_jid);		
+
 			roster.tags[1].attr.ver = server_ver;
 		end
 		session.send(roster);
@@ -70,15 +88,19 @@ module:hook("iq/self/jabber:iq:roster:query", function(event)
 			local from_node, from_host = jid_split(stanza.attr.from);
 			local from_bare = from_node and (from_node.."@"..from_host) or from_host; -- bare JID
 			local jid = jid_prep(item.attr.jid);
+			if rostermanager.get_readonly_item(session_username, session_host, jid_bare(jid)) then
+				module:log("debug", "%s attempted to remove a readonly roster entry (%s)", session.full_jid, jid);
+				return session.send(st.error_reply(stanza, "cancel", "forbidden",
+					"Modifying read-only roster entries is forbidden."));
+			end
 			local node, host, resource = jid_split(jid);
 			if not resource and host then
 				if jid ~= from_node.."@"..from_host then
 					if item.attr.subscription == "remove" then
-						local roster = session.roster;
-						local r_item = roster[jid];
+						local r_item = session_roster[jid];
 						if r_item then
 							local to_bare = node and (node.."@"..host) or host; -- bare JID
-							if r_item.subscription == "both" or r_item.subscription == "from" or (roster.pending and roster.pending[jid]) then
+							if r_item.subscription == "both" or r_item.subscription == "from" or (session_roster.pending and session_roster.pending[jid]) then
 								core_post_stanza(session, st.presence({type="unsubscribed", from=session.full_jid, to=to_bare}));
 							end
 							if r_item.subscription == "both" or r_item.subscription == "to" or r_item.ask then
@@ -97,9 +119,9 @@ module:hook("iq/self/jabber:iq:roster:query", function(event)
 					else
 						local r_item = {name = item.attr.name, groups = {}};
 						if r_item.name == "" then r_item.name = nil; end
-						if session.roster[jid] then
-							r_item.subscription = session.roster[jid].subscription;
-							r_item.ask = session.roster[jid].ask;
+						if session_roster[jid] then
+							r_item.subscription = session_roster[jid].subscription;
+							r_item.ask = session_roster[jid].ask;
 						else
 							r_item.subscription = "none";
 						end
