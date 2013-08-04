@@ -10,7 +10,7 @@ fi
 
 if [ ! -d /home/yunohost.backup/tahoe ]; then
         tahoe create-client /home/yunohost.backup/tahoe
-        cp $TMP/backup/tahoe.cfg /home/yunohost.backup/tahoe
+        cp $TMP/backup/tahoe.cfg /home/yunohost.backup/tahoe/
         update-rc.d tahoe-lafs defaults
         service tahoe-lafs start
 fi
