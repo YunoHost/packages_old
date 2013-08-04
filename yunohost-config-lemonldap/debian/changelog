@@ -1,3 +1,9 @@
+yunohost-config-lemonldap (2.0-alpha1~megusta29) test; urgency=low
+
+  * Test build: Fix lemon skin (woot ?)
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 04 Aug 2013 23:06:56 +0200
+
 yunohost-config-lemonldap (2.0-alpha1~megusta28) test; urgency=low
 
   * Test build: Add anti-override ProxyPass to sso apache template
