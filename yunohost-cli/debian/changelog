@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta1~megusta8) test; urgency=low
+
+  * Test build: Change tahoe path in CLI
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 04 Aug 2013 12:35:42 +0200
+
 yunohost-cli (2.0-beta1~megusta7) test; urgency=low
 
   * Test build: Add NPZE & titoko's modifications
