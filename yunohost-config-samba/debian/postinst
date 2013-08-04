@@ -7,9 +7,9 @@ if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep samba /etc/yunohost/yunohost
 then
         cp $TMP/samba/* /etc/samba/
         cp $TMP/smbldap-tools/* /etc/smbldap-tools/
-	mkdir -p /home/{samba.share,samba.public,samba.profiles,samba.netlogon}
-        chmod 770 /home/samba.share /home/samba.public
-        chmod 777 /home/samba.profiles
+	mkdir -p /home/yunohost.samba/{share,public,profiles,netlogon}
+        chmod 770 /home/yunohost.samba/share /home/yunohost.samba/public
+        chmod 777 /home/yunohost.samba/profiles
         chmod 600 /etc/smbldap-tools/smbldap_bind.conf
 fi
 
