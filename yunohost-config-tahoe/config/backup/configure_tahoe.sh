@@ -14,3 +14,12 @@ if [ $HOME_SIZE -gt 10000000 ] && [ $HOME_SIZE_LEFT -gt $BACKUP_SIZE ];
 then
     sed -i "s/spaceToChange/$(($HOME_SIZE-$BACKUP_SIZE))/g" "$CONF"
 fi
+
+if [[ "${1:-1}" = 1 ]]
+then
+    HELPER="false"
+else
+    HELPER="true"
+fi
+
+sed -i "s/helperToChange/$HELPER/g" "$CONF"

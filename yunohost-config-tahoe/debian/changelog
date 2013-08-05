@@ -1,3 +1,9 @@
+yunohost-config-tahoe (2.0-beta1~megusta3) test; urgency=low
+
+  * Test build: Configure taoe at CLI postinstall
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 05 Aug 2013 09:33:23 +0200
+
 yunohost-config-tahoe (2.0-beta1~megusta2) test; urgency=low
 
   * Test build: Tahoe bugifx ?
