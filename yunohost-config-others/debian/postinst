@@ -19,10 +19,10 @@ else
 fi
 
 # Hosts
-if ! grep -Fq "yunohost.org" /etc/hosts || ! grep -Fq "$DOMAIN" /etc/hosts
-then
-       cp $TMP/others/hosts /etc/
-fi
+#if ! grep -Fq "yunohost.org" /etc/hosts || ! grep -Fq "$DOMAIN" /etc/hosts
+#then
+#       cp $TMP/others/hosts /etc/
+#fi
 
 # SSL
 mkdir -p /usr/share/yunohost/yunohost-config/ssl/yunoCA/{ca,certs,crl,newcerts}
