@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta1~megusta9) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 05 Aug 2013 09:39:42 +0200
+
 yunohost-cli (2.0-beta1~megusta8) test; urgency=low
 
   * Test build: Change tahoe path in CLI
