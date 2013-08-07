@@ -1,3 +1,9 @@
+yunohost-config-apache (2.0-beta1~megusta4) megusta; urgency=low
+
+  * Production build: Apache
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 07 Aug 2013 16:59:30 +0200
+
 yunohost-config-apache (2.0-beta1~megusta3) test; urgency=low
 
   * Test build: Apache vanilla configuration + yunohost.conf update
