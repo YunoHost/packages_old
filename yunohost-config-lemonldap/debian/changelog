@@ -1,3 +1,9 @@
+yunohost-config-lemonldap (2.0-alpha1~megusta30) megusta; urgency=low
+
+  * Production build: Lemon
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 07 Aug 2013 17:01:52 +0200
+
 yunohost-config-lemonldap (2.0-alpha1~megusta29) test; urgency=low
 
   * Test build: Fix lemon skin (woot ?)
