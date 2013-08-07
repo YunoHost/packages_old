@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta1~megusta6) megusta; urgency=low
+
+  * Production build: Others
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 07 Aug 2013 17:04:00 +0200
+
 yunohost-config-others (2.0-beta1~megusta5) test; urgency=low
 
   * Test build: Do not touch /etc/hosts anymore
