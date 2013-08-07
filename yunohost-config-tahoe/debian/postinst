@@ -11,4 +11,5 @@ fi
 if [ -d /home/yunohost.backup/tahoe ] && [ -f /etc/yunohost/yunohost.conf ] && [ $(grep backup /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
         cp $TMP/backup/tahoe.cfg /home/yunohost.backup/tahoe/
+	service tahoe-lafs restart
 fi
