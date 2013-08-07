@@ -1,0 +1,38 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          tahoe-lafs
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start/stop YunoHost API server
+### END INIT INFO
+
+logger "Tahoe: Start script executed"
+TAHOE_PATH="/home/yunohost.backup/tahoe"
+
+case "$1" in
+  start)
+    logger "Tahoe node: Starting"
+    echo "Starting Tahoe backup system..."
+    tahoe start $TAHOE_PATH
+    ;;
+  stop)
+    logger "Tahoe node: Stopping"
+    echo "Stopping Tahoe backup system..."
+    tahoe stop $TAHOE_PATH
+    ;;
+  restart)
+    logger "Tahoe node: Restarting"
+    echo "Restarting Tahoe backup system..."
+    tahoe stop $TAHOE_PATH
+    tahoe start $TAHOE_PATH
+    ;;
+  *)
+    logger "Tahoe control: Invalid usage"
+    echo "Usage: /etc/init.d/tahoe-lafs {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0

@@ -1,3 +1,9 @@
+yunohost-config-tahoe (2.0-beta1~megusta8) megusta; urgency=low
+
+  * Production build: Tahoe
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 07 Aug 2013 16:19:20 +0200
+
 yunohost-config-tahoe (2.0-beta1~megusta7) test; urgency=low
 
   * Test build: change tahoe conf
