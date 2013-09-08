@@ -1,3 +1,9 @@
+yunohost-config-postfix (2.0-alpha1~megusta17) test; urgency=low
+
+  * Test build: Add rsyslog to yunohost-config-postfix dependencies
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 08 Sep 2013 17:32:18 +0200
+
 yunohost-config-postfix (2.0-alpha1~megusta16) megusta; urgency=low
 
   * Change ldap config for mail aliases/forward
