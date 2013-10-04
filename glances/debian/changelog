@@ -1,3 +1,9 @@
+glances (1.6-3) test; urgency=low
+
+  * Test build: update glances 1.7.1
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 04 Oct 2013 21:57:33 +0200
+
 glances (1.6-2) megusta; urgency=low
 
   * add init script 
