@@ -1,6 +1,0 @@
-#!/bin/bash
-
-chmod +x /etc/init.d/glances
-update-rc.d glances defaults
-
-service glances start
