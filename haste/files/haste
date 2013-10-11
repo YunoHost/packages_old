@@ -1,0 +1,36 @@
+#!/bin/bash
+clean(){
+if [ -f /tmp/paste ];
+then
+        rm /tmp/paste
+fi
+
+if [ -f /tmp/url ];
+then
+        rm /tmp/url
+fi
+}
+
+if [ -z "$1" ];
+then
+	echo -e "Error\nUsage : command | haste pseudo"
+	exit 1
+else
+	user=$1
+fi
+
+cat /dev/stdin > /tmp/paste
+cmd='cat /tmp/paste'
+echo "Send file progress"
+( echo "% $user"; eval "$cmd" ) | curl -F "$user=<-" http://paste.yunohost.org/documents -# | awk -F '"' '{print "http://paste.yunohost.org/"$4}' > /tmp/url
+url=$(cat /tmp/url)
+if [ -z "$url" ];
+then
+	echo "url not find"
+	clean
+	exit 1
+else
+	botsend $url $user > /dev/null 2>&1
+	clean
+	exit 0
+fi

@@ -1,0 +1,13 @@
+Source: haste
+Section: utils
+Priority: extra
+Maintainer: Adrien Beudin <beudbeud@yunohost.org>
+Build-Depends: debhelper (>=8.0.0)
+Standards-Version: 3.9.1
+
+Package: haste
+Architecture: all
+Homepage: http://www.yunohost.org
+Depends: python-xmpp
+Description: meta package to install environement for yunohost
+ meta package to install environement for yunohost

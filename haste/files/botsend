@@ -1,0 +1,19 @@
+#!/usr/bin/python
+import xmpp
+import sys
+
+
+nickname = "haste." + sys.argv[2]
+login = 'anonymous@yunohost.org'
+room = "support@conference.yunohost.org"
+msg = "New file " + str(sys.argv[1])
+jid=xmpp.protocol.JID(login)
+
+conn = xmpp.Client(jid.getDomain())
+conn.connect()
+conn.auth(None, None)
+conn.send(xmpp.Presence(to="%s/%s" % (room, nickname)))
+msg = xmpp.protocol.Message(body=msg)
+msg.setTo(room)
+msg.setType('groupchat')
+conn.send(msg)

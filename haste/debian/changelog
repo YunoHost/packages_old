@@ -1,0 +1,11 @@
+haste (1.0-beta1~megusta2) test; urgency=low
+
+  * Test build:
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 11 Oct 2013 16:49:45 +0200
+
+haste (1.0-beta1~megusta1) megusta; urgency=low
+
+  * first release
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 07 Jul 2013 23:56:55 +0200
