@@ -95,7 +95,7 @@ echo -E " mmmQ                       Ymmmm Uptime: ${uptime}" >> /etc/issue
 echo -E " mmm#   .2A929     .12iQ7   :mmmm CPU: ${cpu}" >> /etc/issue
 echo -E " mmmp    ;mmmm#   :mmmmp.   ,mmmm RAM: ${mem}" >> /etc/issue
 echo -E " mmm#     ,mmmQ5 .Ymmmp     :mmmm IP: ${ip}" >> /etc/issue
-echo -E " mmmp      ,mmmp ,mmmp      ,mmmm Domain: $(/etc/yunohost/current_host)" >> /etc/issue
+echo -E " mmmp      ,mmmp ,mmmp      ,mmmm Domain: $(cat /etc/yunohost/current_host)" >> /etc/issue
 echo -E " mmm#       ;mmmmNmmp       :mmmm " >> /etc/issue
 echo -E " mmmp       .YmmmmmA;       ,mmmm " >> /etc/issue
 echo -E " mmm#        .KmmmQY        :mmmm " >> /etc/issue

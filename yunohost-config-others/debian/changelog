@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta1~megusta8) test; urgency=low
+
+  * Test build: fix domain in boot_prompt
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 14 Oct 2013 14:48:44 +0200
+
 yunohost-config-others (2.0-beta1~megusta7) test; urgency=low
 
   * Test build: update boot prompt
