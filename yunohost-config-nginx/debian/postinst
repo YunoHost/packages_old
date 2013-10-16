@@ -14,4 +14,3 @@ function randpass() {
 
 cp $TMP/* /etc/nginx/conf.d/
 
-service nginx reload
