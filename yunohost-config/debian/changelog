@@ -1,3 +1,9 @@
+yunohost-config (2.0-beta1~megusta3) test; urgency=low
+
+  * Test build: replace apache2 by nginx
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 16 Oct 2013 19:08:04 +0200
+
 yunohost-config (2.0-beta1~megusta2) test; urgency=low
 
   * Test build: add depends haste

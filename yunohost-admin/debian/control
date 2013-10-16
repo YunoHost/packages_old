@@ -10,6 +10,6 @@ Architecture: all
 Homepage: http://yunohost.org/
 Conflicts: yunohost-apps-admin
 Replaces: yunohost-apps-admin
-Depends: yunohost-cli, yunohost-config-lemonldap
+Depends: yunohost-cli
 Description: Yunohost admin nterface
  Yunohost admin interface
