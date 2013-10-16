@@ -1,0 +1,24 @@
+ssowat (1.0~megusta3) test; urgency=low
+
+  * Test build: mv login.html to index.html
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 16 Oct 2013 18:53:03 +0200
+
+ssowat (1.0~megusta2) test; urgency=low
+
+  * Test build: mv login.html to index.html
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 16 Oct 2013 18:51:00 +0200
+
+ssowat (1.0~megusta1) test; urgency=low
+
+  * Test build: add ssowat
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 16 Oct 2013 18:34:46 +0200
+
+ssowat (1.0~megusta0) megusta; urgency=low
+
+  * Init
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 30 May 2013 16:27:13 +0200
+

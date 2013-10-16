@@ -1,0 +1,5 @@
+#!/bin/bash
+
+service nginx reload
+
+exit 0
