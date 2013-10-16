@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta2) test; urgency=low
+
+  * Test build: create nginx config
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 16 Oct 2013 19:03:04 +0200
+
 yunohost-config-nginx (2.0-alpha1~megusta1) test; urgency=low
 
   * Test build: create nginx config
