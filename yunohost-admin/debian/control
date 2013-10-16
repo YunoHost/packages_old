@@ -11,5 +11,5 @@ Homepage: http://yunohost.org/
 Conflicts: yunohost-apps-admin
 Replaces: yunohost-apps-admin
 Depends: yunohost-cli
-Description: Yunohost admin nterface
+Description: Yunohost admin interface
  Yunohost admin interface
