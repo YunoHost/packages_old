@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta1~megusta15) test; urgency=low
+
+  * Test build: Update moulinette from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 17 Oct 2013 13:37:49 +0200
+
 yunohost-cli (2.0-beta1~megusta14) test; urgency=low
 
   * Test build: Update moulinette from git
