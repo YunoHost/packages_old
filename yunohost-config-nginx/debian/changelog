@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta6) test; urgency=low
+
+  * Test build: Update cert/key path
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 17 Oct 2013 11:21:53 +0200
+
 yunohost-config-nginx (2.0-alpha1~megusta5) test; urgency=low
 
   * Test build: Replace php5 apache dependencies by php5-fpm
