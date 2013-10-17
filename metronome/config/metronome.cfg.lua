@@ -61,7 +61,7 @@ modules_enabled = {
         -- Other specific functionality
                 "bosh"; -- Enable BOSH clients, aka "Jabber over HTTP"
                 --"httpserver"; -- Serve static files from a directory over HTTP
-                "groups"; -- Shared roster support
+                --"groups"; -- Shared roster support
                 --"announce"; -- Send announcement to all online users
                 --"welcome"; -- Welcome users who register accounts
                 --"watchregistrations"; -- Alert admins of registrations
