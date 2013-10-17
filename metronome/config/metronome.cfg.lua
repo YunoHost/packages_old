@@ -96,11 +96,6 @@ allow_registration = false
 
 storage = "ldap"
 
-ssl = {
-      key = "/etc/metronome/certs/yunohost_key.pem";
-      certificate = "/etc/ssl/certs/yunohost_crt.pem";
-}
-
 Component "localhost" "http"
 	modules_enabled = { "bosh" }
 

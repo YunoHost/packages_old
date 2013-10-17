@@ -1,3 +1,9 @@
+metronome (2.9~megusta3) test; urgency=low
+
+  * Test build: Report SSL configuration to virtual hosts
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 17 Oct 2013 12:20:49 +0200
+
 metronome (2.9~megusta2) test; urgency=low
 
   * Test build: Update metronome from upstream
