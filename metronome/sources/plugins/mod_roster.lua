@@ -19,6 +19,7 @@ local pairs, ipairs = pairs, ipairs;
 local rm_remove_from_roster = require "core.rostermanager".remove_from_roster;
 local rm_add_to_roster = require "core.rostermanager".add_to_roster;
 local rm_roster_push = require "core.rostermanager".roster_push;
+local rm_load_roster = require "core.rostermanager".load_roster;
 local core_post_stanza = metronome.core_post_stanza;
 
 module:add_feature("jabber:iq:roster");
@@ -158,4 +159,26 @@ module:hook("iq/self/jabber:iq:roster:query", function(event)
 		end
 	end
 	return true;
+end);
+
+module:hook("user-pre-delete", function(event)
+	local username, host, _roster = event.username, event.host, event.session and event.session.roster;
+	local bare = username.."@"..host;
+	local roster = {};
+
+	for key, value in pairs(_roster or rm_load_roster(username, host) or roster) do
+		roster[key] = value;
+	end
+
+	module:log("info", "Broadcasting unsubscription stanzas to %s contacts as the account is getting deleted", bare);
+	for jid, item in pairs(roster) do
+		if jid and jid ~= "pending" then
+			if item.subscription == "both" or item.subscription == "from" or (roster.pending and roster.pending[jid]) then
+				module:send(st.presence({type="unsubscribed", from=bare, to=jid}));
+			end
+			if item.subscription == "both" or item.subscription == "to" or item.ask then
+				module:send(st.presence({type="unsubscribe", from=bare, to=jid}));
+			end
+		end
+	end
 end);

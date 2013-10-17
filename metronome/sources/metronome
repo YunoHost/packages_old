@@ -93,7 +93,14 @@ function read_config()
 	end
 end
 
-function load_libraries()
+function preload_libraries()
+	local libs = config.get("*", "metronome_preload_libraries");
+	libs = type(libs) ~= "table" and {} or libs;
+
+	for _, name in ipairs(libs) do pcall(require, name); end
+end
+
+function init_net_server()
 	server = require "net.server"
 end	
 
@@ -180,8 +187,8 @@ function init_global_state()
 	metronome.full_sessions = full_sessions;
 	metronome.hosts = hosts;
 	
-	local data_path = config.get("*", "core", "data_path") or CFG_DATADIR or "data";
-	local custom_plugin_paths = config.get("*", "core", "plugin_paths");
+	local data_path = config.get("*", "data_path") or CFG_DATADIR or "data";
+	local custom_plugin_paths = config.get("*", "plugin_paths");
 	if custom_plugin_paths then
 		local path_sep = package.config:sub(3,3);
 		-- path1;path2;path3;defaultpath...
@@ -193,16 +200,10 @@ function init_global_state()
 	metronome.arg = _G.arg;
 
 	metronome.platform = "unknown";
-	if os.getenv("WINDIR") then
-		metronome.platform = "windows";
-	elseif package.config:sub(1,1) == "/" then
-		metronome.platform = "posix";
-	end
+	if package.config:sub(1,1) == "/" then metronome.platform = "posix"; end
 	
 	metronome.installed = nil;
-	if CFG_SOURCEDIR and (metronome.platform == "windows" or CFG_SOURCEDIR:match("^/")) then
-		metronome.installed = true;
-	end
+	if CFG_SOURCEDIR and CFG_SOURCEDIR:match("^/") then metronome.installed = true; end
 
 	if metronome.installed then require "lfs".chdir(data_path); end
 	
@@ -231,40 +232,49 @@ function init_global_state()
 		metronome.events.fire_event("server-stopping", {reason = reason});
 		server.setquitting(true);
 	end
-
+	
+	function metronome.set_gc()
+		local settings = config.get("*", "metronome_gc");
+		settings = type(settings) ~= "table" and {} or settings;
+		collectgarbage("setpause", settings.setpause or 100);
+		collectgarbage("setstepmul", settings.setstepmul or 150);
+		collectgarbage("restart");
+	end
+	
 	local certmanager = require "core.certmanager";
 	local global_ssl_ctx = certmanager.create_context("*", "server");
 	metronome.global_ssl_ctx = global_ssl_ctx;
-
+	metronome.set_gc();
+	metronome.events.add_handler("config-reloaded", metronome.set_gc, 1000);
 end
 
 read_version = require "util.auxiliary".read_version;
 ripairs = require "util.auxiliary".ripairs;
 
 function load_secondary_libraries()
-	require "util.import"
-	require "util.xmppstream"
-	require "core.stanza_router"
-	require "core.hostmanager"
-	require "core.portmanager"
-	require "core.modulemanager"
-	require "core.usermanager"
-	require "core.rostermanager"
-	require "core.sessionmanager"
+	require "util.import";
+	require "util.xmppstream";
+	require "core.stanza_router";
+	require "core.hostmanager";
+	require "core.portmanager";
+	require "core.modulemanager";
+	require "core.usermanager";
+	require "core.rostermanager";
+	require "core.sessionmanager";
 	package.loaded['core.componentmanager'] = setmetatable({},{__index=function()
 		log("warn", "componentmanager is deprecated: %s", debug.traceback():match("\n[^\n]*\n[ \t]*([^\n]*)"));
 		return function() end
 	end});
 
-	require "net.http"
+	require "net.http";
 	
-	require "util.array"
-	require "util.datetime"
-	require "util.iterators"
-	require "util.timer"
-	require "util.helpers"
+	require "util.array";
+	require "util.datetime";
+	require "util.iterators";
+	require "util.timer";
+	require "util.helpers";
 	
-	pcall(require, "util.signal") -- Not on Windows
+	pcall(require, "util.signal");
 	
 	-- Commented to protect us from 
 	-- the second kind of people
@@ -273,8 +283,8 @@ function load_secondary_libraries()
 	if remdebug then remdebug.engine.start() end
 	]]
 
-	require "util.stanza"
-	require "util.jid"
+	require "util.stanza";
+	require "util.jid";
 end
 
 function init_data_store()
@@ -369,7 +379,8 @@ init_logging();
 sanity_check();
 sandbox_require();
 set_function_metatable();
-load_libraries();
+preload_libraries();
+init_net_server();
 init_global_state();
 read_version();
 log("info", "Hello and welcome to Metronome version %s", metronome.version);

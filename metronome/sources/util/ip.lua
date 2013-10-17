@@ -5,7 +5,7 @@
 -- information about copyright and licensing.
 --
 -- As per the sublicensing clause, this file is also MIT/X11 Licensed.
--- ** Copyright (c) 2011-2012, Florian Zeitz, Matthew Wild
+-- ** Copyright (c) 2011-2013, Florian Zeitz, Matthew Wild
 
 local ip_methods = {};
 local ip_mt = { __index = function (ip, key) return (ip_methods[key])(ip); end,
@@ -16,6 +16,13 @@ local hex2bits = { ["0"] = "0000", ["1"] = "0001", ["2"] = "0010", ["3"] = "0011
 local function new_ip(ipStr, proto)
 	if proto ~= "IPv4" and proto ~= "IPv6" then
 		return nil, "invalid protocol";
+	end
+	if proto == "IPv6" and ipStr:find('.', 1, true) then
+		local changed;
+		ipStr, changed = ipStr:gsub(":(%d+)%.(%d+)%.(%d+)%.(%d+)$", function(a,b,c,d)
+			return (":%04X:%04X"):format(a*256+b,c*256+d);
+		end);
+		if changed ~= 1 then return nil, "invalid-address"; end
 	end
 
 	return setmetatable({ addr = ipStr, proto = proto }, ip_mt);
@@ -57,6 +64,11 @@ local function commonPrefixLength(ipA, ipB)
 	return 128;
 end
 
+local function match_prefix(ipA, ipB)
+	local len = commonPrefixLength(ipA, ipB);
+	return len < 64 and len or 64;
+end
+
 local function v4scope(ip)
 	local fields = {};
 	ip:gsub("([^.]*).?", function (c) fields[#fields + 1] = tonumber(c) end);
@@ -66,9 +78,6 @@ local function v4scope(ip)
 	-- Link-local unicast:
 	elseif fields[1] == 169 and fields[2] == 254 then
 		return 0x2;
-	-- Site-local unicast:
-	elseif (fields[1] == 10) or (fields[1] == 192 and fields[2] == 168) or (fields[1] == 172 and (fields[2] >= 16 and fields[2] < 32)) then
-		return 0x5;
 	-- Global unicast:
 	else
 		return 0xE;
@@ -99,6 +108,14 @@ local function label(ip)
 		return 0;
 	elseif commonPrefixLength(ip, new_ip("2002::", "IPv6")) >= 16 then
 		return 2;
+	elseif commonPrefixLength(ip, new_ip("2001::", "IPv6")) >= 32 then
+		return 5;
+	elseif commonPrefixLength(ip, new_ip("fc00::", "IPv6")) >= 7 then
+		return 13;
+	elseif commonPrefixLength(ip, new_ip("fec0::", "IPv6")) >= 10 then
+		return 11;
+	elseif commonPrefixLength(ip, new_ip("3ffe::", "IPv6")) >= 16 then
+		return 12;
 	elseif commonPrefixLength(ip, new_ip("::", "IPv6")) >= 96 then
 		return 3;
 	elseif commonPrefixLength(ip, new_ip("::ffff:0:0", "IPv6")) >= 96 then
@@ -113,10 +130,18 @@ local function precedence(ip)
 		return 50;
 	elseif commonPrefixLength(ip, new_ip("2002::", "IPv6")) >= 16 then
 		return 30;
+	elseif commonPrefixLength(ip, new_ip("2001::", "IPv6")) >= 32 then
+		return 5;
+	elseif commonPrefixLength(ip, new_ip("fc00::", "IPv6")) >= 7 then
+		return 3;
+	elseif commonPrefixLength(ip, new_ip("fec0::", "IPv6")) >= 10 then
+		return 1;
+	elseif commonPrefixLength(ip, new_ip("3ffe::", "IPv6")) >= 16 then
+		return 1;
 	elseif commonPrefixLength(ip, new_ip("::", "IPv6")) >= 96 then
-		return 20;
+		return 1;
 	elseif commonPrefixLength(ip, new_ip("::ffff:0:0", "IPv6")) >= 96 then
-		return 10;
+		return 35;
 	else
 		return 40;
 	end
@@ -133,6 +158,88 @@ local function toV4mapped(ip)
 	ret = ret .. ("%02x"):format(fields[4]);
 	return new_ip(ret, "IPv6");
 end
+
+local function compare_destination(ipA, ipB, sourceAddrs)
+	local ipAsource = sourceAddrs[ipA];
+	local ipBsource = sourceAddrs[ipB];
+	-- Rule 2: Prefer matching scope
+	if ipA.scope == ipAsource.scope and ipB.scope ~= ipBsource.scope then
+		return true;
+	elseif ipA.scope ~= ipAsource.scope and ipB.scope == ipBsource.scope then
+		return false;
+	end
+
+	-- Rule 5: Prefer matching label
+	if ipAsource.label == ipA.label and ipBsource.label ~= ipB.label then
+		return true;
+	elseif ipBsource.label == ipB.label and ipAsource.label ~= ipA.label then
+		return false;
+	end
+
+	-- Rule 6: Prefer higher precedence
+	if ipA.precedence > ipB.precedence then
+		return true;
+	elseif ipA.precedence < ipB.precedence then
+		return false;
+	end
+
+	-- Rule 8: Prefer smaller scope
+	if ipA.scope < ipB.scope then
+		return true;
+	elseif ipA.scope > ipB.scope then
+		return false;
+	end
+
+	-- Rule 9: Use longest matching prefix
+	if match_prefix(ipA, ipAsource) > match_prefix(ipB, ipBsource) then
+		return true;
+	elseif match_prefix(ipA, ipAsource) < match_prefix(ipB, ipBsource) then
+		return false;
+	end
+
+		-- Rule 10: Otherwise, leave order unchanged
+	return true;
+end
+
+local function compare_source(ipA, ipB, dest)
+	-- Rule 1: Prefer same address
+	if dest == ipA then
+		return true;
+	elseif dest == ipB then
+		return false;
+	end
+
+	-- Rule 2: Prefer appropriate scope
+	if ipA.scope < ipB.scope then
+		if ipA.scope < dest.scope then
+			return false;
+		else
+			return true;
+		end
+	elseif ipA.scope > ipB.scope then
+		if ipB.scope < dest.scope then
+			return true;
+		else
+			return false;
+		end
+	end
+
+	-- Rule 6: Prefer matching label
+	if ipA.label == dest.label and ipB.label ~= dest.label then
+		return true;
+	elseif ipB.label == dest.label and ipA.label ~= dest.label then
+		return false;
+	end
+
+	-- Rule 8: Use longest matching prefix
+	if match_prefix(ipA, dest) > match_prefix(ipB, dest) then
+		return true;
+	else
+		return false;
+	end
+end
+
+-- Methods
 
 function ip_methods:toV4mapped()
 	if self.proto ~= "IPv4" then return nil, "No IPv4 address" end
@@ -174,5 +281,9 @@ function ip_methods:scope()
 	return value;
 end
 
-return {new_ip = new_ip,
-	commonPrefixLength = commonPrefixLength};
+return {
+	new_ip = new_ip,
+	compare_destination = compare_destination,
+	compare_source = compare_source,
+	match_prefix = match_prefix
+};

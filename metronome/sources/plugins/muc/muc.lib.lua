@@ -8,7 +8,7 @@
 -- ** Copyright (c) 2009-2013, Kim Alvefur, Marco Cirillo, Markus Kutter, Matthew Wild, Rob Hoelz, Waqas Hussain
 
 local select = select;
-local pairs, ipairs, next = pairs, ipairs, next;
+local pairs, ipairs, next, ripairs = pairs, ipairs, next, ripairs;
 
 local datetime = require "util.datetime";
 
@@ -76,6 +76,11 @@ local function getUsingPath(stanza, path, getText)
 end
 local function getTag(stanza, path) return getUsingPath(stanza, path); end
 local function getText(stanza, path) return getUsingPath(stanza, path, true); end
+local function removeElem(sub, name)
+	for i, tag in ipairs(sub) do
+		if tag.name == name then t_remove(sub, i); end
+	end
+end
 -----------
 
 local room_mt = {};
@@ -110,7 +115,7 @@ function room_mt:broadcast_presence(stanza, sid, code, nick)
 		self:_route_stanza(stanza);
 	end
 end
-function room_mt:broadcast_message(stanza, historic)
+function room_mt:broadcast_message(stanza, historic, from)
 	local to = stanza.attr.to;
 	for occupant, o_data in pairs(self._occupants) do
 		for jid in pairs(o_data.sessions) do
@@ -125,10 +130,22 @@ function room_mt:broadcast_message(stanza, historic)
 		if not history then history = {}; self._data["history"] = history; end
 		stanza = st.clone(stanza);
 		stanza.attr.to = "";
+		local replace = stanza:get_child("replace", "urn:xmpp:message-correct:0");
 		local stamp = datetime.datetime();
 		stanza:tag("delay", {xmlns = "urn:xmpp:delay", from = muc_domain, stamp = stamp}):up(); -- XEP-0203
 		stanza:tag("x", {xmlns = "jabber:x:delay", from = muc_domain, stamp = datetime.legacy()}):up(); -- XEP-0091 (deprecated)
-		local entry = { stanza = stanza, stamp = stamp };
+		local entry = { stanza = stanza, stamp = stamp, from = from };
+		if replace then -- XEP-308, so we wipe from history
+			local id = stanza.attr.id;
+			local rid = replace.attr.id;
+			if rid and id ~= rid then
+				for i, entry in ripairs(history) do
+					if from == entry.from and rid == entry.stanza.attr.id then t_remove(history, i); break; end
+				end
+			end
+			removeElem(stanza, "replace");
+			removeElem(stanza.tags, "replace");
+		end
 		t_insert(history, entry);
 		while #history > self._data.history_length do t_remove(history, 1) end
 	end
@@ -279,16 +296,29 @@ end
 -- custom config registry
 
 room_mt.cc_registry = {};
+room_mt.cc_index = {};
 function room_mt:register_cc(xmlns, params)
-	self.cc_registry[xmlns] = {
+	local registry, index = self.cc_registry, self.cc_index;
+	registry[xmlns] = {
 		name = params.name;
 		field = params.field;
 		check = params.check;
 		submitted = params.submitted;
 		onjoin = params.onjoin;
 	};
+	index[#index + 1] = xmlns;
 end
-function room_mt:custom_configs() return next, self.cc_registry end
+function room_mt:custom_configs()
+	local index, registry = self.cc_index, self.cc_registry;
+	local i, max = 0, #index;
+	return function()
+		i = i + 1;
+		if i <= max then
+			local xmlns = index[i];
+			return xmlns, registry[xmlns];
+		end
+	end
+end
 function room_mt:get_custom_config(xmlns, method, stanza, conf, changed)
 	if not self.cc_registry[xmlns] and method then
 		log("error", "attempting to call unexistant custom configuration: %s !!!", xmlns);
@@ -314,6 +344,8 @@ function room_mt:cc_has_method(xmlns, method)
 end
 function room_mt:deregister_cc(xmlns)
 	self.cc_registry[xmlns] = nil;
+	local index = self.cc_index;
+	for i, ns in ipairs(index) do if xmlns == ns then t_remove(index, i); break; end end
 end
 
 local function construct_stanza_id(room, stanza)
@@ -679,6 +711,9 @@ function room_mt:process_form(origin, stanza)
 			local invalid = self:get_custom_config(ns, "check", stanza, value);
 			if invalid then return origin.send(invalid); end
 		end
+		if self:cc_has_method(ns, "process") then
+			value = self:get_custom_config(ns, "process", value);
+		end
 		if self:cc_has_method(ns, "submitted") then
 			submitted[ns] = true;	
 		end
@@ -862,7 +897,7 @@ function room_mt:handle_to_room(origin, stanza) -- presence changes and groupcha
 					origin.send(st.error_reply(stanza, "auth", "forbidden"));
 				end
 			else
-				self:broadcast_message(stanza, self:get_option("history_length") > 0);
+				self:broadcast_message(stanza, self:get_option("history_length") > 0, from);
 			end
 			stanza.attr.from = from;
 		end

@@ -372,7 +372,11 @@ module:hook("presence/bare", function(data)
 		if user then
 			for _, session in pairs(user.sessions) do
 				if session.presence then -- only send to available resources
-					session.send(stanza);
+					if session.to_block and session.to_block[stanza] then -- block it
+						session.to_block[stanza] = nil;
+					else
+						session.send(stanza);
+					end
 				end
 			end
 		end -- no resources not online, discard
@@ -433,5 +437,29 @@ module:hook("resource-unbind", function(event)
 			core_post_stanza(session, pres, true);
 		end
 		session.directed = nil;
+	end
+end);
+
+module:hook_global("server-stopping", function()
+	local full_sessions = full_sessions;
+	local module_host = module.host;
+	module:log("debug", "%s -- broadcasting unavailable status to all non-self directed presences...", module_host);
+	local pres = st.presence({ type = "unavailable" }):tag("status"):text("Disconnected: Server is shutting down."):up();
+
+	for jid, session in pairs(full_sessions) do
+		if session.host == module_host then
+			local directed = session.directed;
+			if directed then
+				local self_jid = jid_bare(jid);
+				for to_jid in pairs(directed) do
+					if jid_bare(to_jid) ~= self_jid then
+						pres.attr.from = session.full_jid;
+						pres.attr.to = to_jid;
+						core_post_stanza(session, pres, true);
+						directed[to_jid] = nil;
+					end
+				end
+			end
+		end
 	end
 end);

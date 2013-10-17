@@ -79,6 +79,13 @@ local function connect()
 		module:log("debug", "Successfully connected to database");
 		dbh:autocommit(false); -- don't commit automatically
 		connection = dbh;
+		if params.driver == "MySQL" then
+			local stmt;
+			stmt = connection:prepare("SET collation_connection = utf8_general_ci;"); stmt:execute();
+			stmt = connection:prepare("SET collation_server = utf8_general_ci;"); stmt:execute();
+			stmt = connection:prepare("SET NAMES utf8;"); stmt:execute(); 
+			connection:commit();
+		end
 
 		connections[dburi] = dbh;
 	end
@@ -93,7 +100,7 @@ local function create_table()
 	if params.driver == "PostgreSQL" then
 		create_sql = create_sql:gsub("`", "\"");
 	elseif params.driver == "MySQL" then
-		create_sql = create_sql:gsub("`value` TEXT", "`value` MEDIUMTEXT");
+		create_sql = create_sql:gsub("`value` TEXT", "`value` LONGTEXT");
 	end
 	
 	local stmt, err = connection:prepare(create_sql);
@@ -119,7 +126,7 @@ local function create_table()
 			end
 		end
 	elseif params.driver ~= "SQLite3" then -- SQLite normally fails to prepare for existing table
-		module:log("warn", "Metronome was not able to automatically check/create the database table (%)",
+		module:log("warn", "Metronome was not able to automatically check/create the database table (%s)",
 			err or "unknown error");
 	end
 end
@@ -181,12 +188,14 @@ local function dosql(sql, ...)
 		sql = sql:gsub("`", "\"");
 	end
 	-- do prepared statement stuff
+	if not connection and not connect() then return nil, "Unable to connect to database"; end
 	local stmt, err = connection:prepare(sql);
-	if not stmt and not test_connection() then error("connection failed"); end
-	if not stmt then module:log("error", "QUERY FAILED: %s %s", err, debug.traceback()); return nil, err; end
+	if err and err:match(".*MySQL server has gone away$") then
+		stmt, err = connect() and connection:prepare(sql); -- reconnect
+	end
+	if not stmt then module:log("error", "QUERY FAILED: %s -- %s", err or "Connection to database failed", debug.traceback()); return nil, err; end
 	-- run query
 	local ok, err = stmt:execute(...);
-	if not ok and not test_connection() then error("connection failed"); end
 	if not ok then return nil, err; end
 	
 	return stmt;
@@ -258,20 +267,12 @@ local keyval_store = {};
 keyval_store.__index = keyval_store;
 function keyval_store:get(username)
 	user, store = username, self.store;
-	if not connection and not connect() then return nil, "Unable to connect to database"; end
 	local success, ret, err = xpcall(keyval_store_get, debug.traceback);
-	if not connection and connect() then
-		success, ret, err = xpcall(keyval_store_get, debug.traceback);
-	end
 	if success then return ret, err; else return rollback(nil, ret); end
 end
 function keyval_store:set(username, data)
 	user, store = username, self.store;
-	if not connection and not connect() then return nil, "Unable to connect to database"; end
 	local success, ret, err = xpcall(function() return keyval_store_set(data); end, debug.traceback);
-	if not connection and connect() then
-		success, ret, err = xpcall(function() return keyval_store_set(data); end, debug.traceback);
-	end
 	if success then return ret, err; else return rollback(nil, ret); end
 end
 

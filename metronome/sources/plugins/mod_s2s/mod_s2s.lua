@@ -13,7 +13,7 @@ local metronome = metronome;
 local hosts = metronome.hosts;
 local core_process_stanza = metronome.core_process_stanza;
 
-local tostring, type = tostring, type;
+local tostring, type, now = tostring, type, os.time;
 local t_insert = table.insert;
 local xpcall, traceback = xpcall, debug.traceback;
 
@@ -36,12 +36,32 @@ local s2sout = module:require("s2sout");
 local connect_timeout = module:get_option_number("s2s_timeout", 90);
 local stream_close_timeout = module:get_option_number("s2s_close_timeout", 5);
 local s2s_strict_mode = module:get_option_boolean("s2s_strict_mode", false);
+local max_inactivity = module:get_option_number("s2s_max_inactivity", 1800);
+local check_inactivity = module:get_option_number("s2s_check_inactivity", 900);
 
 local sessions = module:shared("sessions");
 
 local log = module._log;
+local last_inactive_clean = now();
 
 --- Handle stanzas to remote domains
+
+local function time_and_clean(_session, now)
+	_session["last_"..((_session.direction == "outgoing" and "send") or "receive")] = now;
+	if now - last_inactive_clean > check_inactivity then
+		module:log("debug", "checking incoming streams for inactivity...");
+		for session in pairs(metronome.incoming_s2s) do
+			if now - session.last_receive > max_inactivity then session:close(); end
+		end
+		module:log("debug", "checking outgoing streams for inactivity...");
+		for _, host in pairs(hosts) do
+			for domain, session in pairs(host.s2sout) do
+				if now - (session.last_send or 0) > max_inactivity then session:close(); end
+			end
+		end
+		last_inactive_clean = now;
+	end
+end
 
 local bouncy_stanzas = { message = true, presence = true, iq = true };
 local function bounce_sendq(session, reason)
@@ -81,6 +101,7 @@ function route_to_existing_session(event)
 	end
 	local host = hosts[from_host].s2sout[to_host];
 	if host then
+		time_and_clean(host, now());
 		-- We have a connection to this host already
 		if host.type == "s2sout_unauthed" and (stanza.name ~= "db:verify" or not host.dialback_key) then
 			(host.log or log)("debug", "trying to send over unauthed s2sout to "..to_host);
@@ -458,6 +479,12 @@ local function initialize_session(session)
 	function session.dispatch_stanza(session, stanza)
 		return handlestanza(session, stanza);
 	end
+	
+	if session.type == "s2sin_unauthed" then
+		session.last_receive = now();
+	elseif session.type == "s2sout_unauthed" then
+		session.last_send = now();
+	end
 
 	add_task(connect_timeout, function ()
 		if session.type == "s2sin" or session.type == "s2sout" then
@@ -501,6 +528,7 @@ end
 function listener.onincoming(conn, data)
 	local session = sessions[conn];
 	if session then
+		time_and_clean(session, now());
 		session.data(data);
 	end
 end
