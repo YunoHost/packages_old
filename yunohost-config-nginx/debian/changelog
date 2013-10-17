@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta5) test; urgency=low
+
+  * Test build: Replace php5 apache dependencies by php5-fpm
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 17 Oct 2013 09:26:46 +0200
+
 yunohost-config-nginx (2.0-alpha1~megusta4) test; urgency=low
 
   * Test build: update postinst
