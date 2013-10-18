@@ -30,14 +30,19 @@ fi
 #fi
 
 # SSL
-mkdir -p /usr/share/yunohost/yunohost-config/ssl/yunoCA/{ca,certs,crl,newcerts}
-if [ ! -f /usr/share/ca-certificates/ca-yunohost_crt.pem ];
+#SSL
+if [ ! -f /etc/yunohost/certs/yunohost.org/ca.pem ];
 then
-	if ! grep -Fq "ca-yunohost_crt.pem" /etc/ca-certificates.conf ; then
-	echo "ca-yunohost_crt.pem" >> /etc/ca-certificates.conf
-	fi
+	mkdir -p /etc/yunohost/certs/yunohost.org/
+        openssl req -x509 -new -config $TMP/ssl/yunoCA/openssl.cnf -days 3650 -out /etc/yunohost/certs/yunohost.org/ca.pem -keyout /etc/yunohost/certs/yunohost.org/cakey.pem -nodes -batch
 fi
 
+if [ ! -f /etc/yunohost/certs/yunohost.org/crt.pem ];
+then
+        openssl req -new -config $TMP/ssl/yunoCA/openssl.cnf -days 730 -out $TMP/ssl/yunoCA/certs/yunohost_csr.pem -keyout /etc/yunohost/certs/yunohost.org/key.pem -nodes -batch
+        openssl ca -config $TMP/ssl/yunoCA/openssl.cnf -days 730 -in $TMP/ssl/yunoCA/certs/yunohost_csr.pem -out /etc/yunohost/certs/yunohost.org/crt.pem -batch
+        #cp $TMP/ssl/yunoCA/newcerts/01.pem /etc/ssl/certs/yunohost_crt.pem
+fi
 
 #Iptables
 cp $TMP/others/iptables /etc/init.d/

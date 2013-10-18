@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta1~megusta10) test; urgency=low
+
+  * Test build: add ssl init
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 18 Oct 2013 13:03:16 +0200
+
 yunohost-config-others (2.0-beta1~megusta9) test; urgency=low
 
   * Test build: Update postinstall script
