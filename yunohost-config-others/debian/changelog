@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta1~megusta12) test; urgency=low
+
+  * Test build: fix ssl create
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 18 Oct 2013 14:51:06 +0200
+
 yunohost-config-others (2.0-beta1~megusta11) test; urgency=low
 
   * Test build: fix bug ssl init

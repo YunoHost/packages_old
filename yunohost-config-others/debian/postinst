@@ -31,6 +31,8 @@ fi
 
 # SSL
 #SSL
+mkdir -p /usr/share/yunohost/yunohost-config/ssl/yunoCA/{ca,certs,crl,newcerts}
+
 if [ ! -f /etc/yunohost/certs/yunohost.org/ca.pem ];
 then
 	mkdir -p /etc/yunohost/certs/yunohost.org/
@@ -40,8 +42,8 @@ fi
 if [ ! -f /etc/yunohost/certs/yunohost.org/crt.pem ];
 then
         openssl req -new -config $TMP/ssl/yunoCA/openssl.cnf -days 730 -out $TMP/ssl/yunoCA/certs/yunohost_csr.pem -keyout /etc/yunohost/certs/yunohost.org/key.pem -nodes -batch
-        openssl ca -config $TMP/ssl/yunoCA/openssl.cnf -days 730 -in $TMP/ssl/yunoCA/certs/yunohost_csr.pem -out /etc/yunohost/certs/yunohost.org/crt.pem -batch
-        #cp $TMP/ssl/yunoCA/newcerts/01.pem /etc/ssl/certs/yunohost_crt.pem
+        openssl ca -config $TMP/ssl/yunoCA/openssl.cnf -days 730 -in $TMP/ssl/yunoCA/certs/yunohost_csr.pem -out $TMP/ssl/yunoCA/newcerts/01.pem -batch
+        cp $TMP/ssl/yunoCA/newcerts/01.pem /etc/yunohost/certs/yunohost.org/crt.pem
 fi
 
 #Iptables
