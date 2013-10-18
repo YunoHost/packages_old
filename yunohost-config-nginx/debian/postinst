@@ -12,5 +12,4 @@ function randpass() {
     echo
 }
 
-cp $TMP/* /etc/nginx/conf.d/
-
+cp $TMP/ssowat.conf /etc/nginx/conf.d/

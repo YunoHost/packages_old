@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta8) test; urgency=low
+
+  * Test build: Adjust Nginx conf
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 18 Oct 2013 17:47:30 +0200
+
 yunohost-config-nginx (2.0-alpha1~megusta7) test; urgency=low
 
   * Test build: update ssl path
