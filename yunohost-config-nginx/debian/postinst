@@ -13,3 +13,5 @@ function randpass() {
 }
 
 cp $TMP/ssowat.conf /etc/nginx/conf.d/
+
+rm /etc/nginx/sites-enabled/default

@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta10) test; urgency=low
+
+  * Test build: Fixes
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 18 Oct 2013 19:17:21 +0200
+
 yunohost-config-nginx (2.0-alpha1~megusta9) test; urgency=low
 
   * Test build: server_names_hash_bucket_size bugfix
