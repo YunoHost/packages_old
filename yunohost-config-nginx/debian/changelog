@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta7) test; urgency=low
+
+  * Test build: update ssl path
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 18 Oct 2013 15:07:44 +0200
+
 yunohost-config-nginx (2.0-alpha1~megusta6) test; urgency=low
 
   * Test build: Update cert/key path
