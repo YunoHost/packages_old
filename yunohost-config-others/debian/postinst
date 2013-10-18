@@ -10,6 +10,11 @@ function randpass() {
     echo
 }
 
+if [ ! -d /etc/yunohost ];
+then
+	mkdir /etc/yunohost
+fi
+
 if [ -f /etc/yunohost/current_host ];
 then
         DOMAIN=$(cat /etc/yunohost/current_host)

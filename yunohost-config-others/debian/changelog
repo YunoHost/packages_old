@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta1~megusta9) test; urgency=low
+
+  * Test build: Update postinstall script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 18 Oct 2013 10:57:52 +0200
+
 yunohost-config-others (2.0-beta1~megusta8) test; urgency=low
 
   * Test build: fix domain in boot_prompt
