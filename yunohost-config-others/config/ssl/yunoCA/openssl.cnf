@@ -34,7 +34,7 @@ default_ca	= Yunohost		# The default ca section
 ####################################################################
 [ Yunohost ]
 
-dir		= /usr/share/yunohost/yunohost-config/ssl/yunoCA		# Where everything is kept
+dir		= /etc/yunohost/certs/yunohost.org		# Where everything is kept
 certs		= $dir/certs		# Where the issued certs are kept
 crl_dir		= $dir/crl		# Where the issued crl are kept
 database	= $dir/index.txt	# database index file.
