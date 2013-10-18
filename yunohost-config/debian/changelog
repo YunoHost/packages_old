@@ -1,3 +1,9 @@
+yunohost-config (2.0-beta1~megusta5) test; urgency=low
+
+  * Test build: Update depends
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 18 Oct 2013 09:53:03 +0200
+
 yunohost-config (2.0-beta1~megusta4) test; urgency=low
 
   * Test build: Remove nagios-plugins from YunoHost dependencies
