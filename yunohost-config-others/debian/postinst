@@ -46,6 +46,9 @@ then
 	cp $TMP/ssl/yunoCA/ca/cacert.pem /etc/yunohost/certs/yunohost.org/ca.pem
 	cp $TMP/ssl/yunoCA/certs/yunohost_key.pem /etc/yunohost/certs/yunohost.org/key.pem
 	cp $TMP/ssl/yunoCA/newcerts/01.pem /etc/yunohost/certs/yunohost.org/crt.pem
+	ln -s /etc/yunohost/certs/yunohost.org/crt.pem /etc/ssl/certs/yunohost_crt.pem
+	ln -s /etc/yunohost/certs/yunohost.org/key.pem /etc/ssl/private/yunohost_key.pem
+	ln -s /etc/yunohost/certs/yunohost.org/ca.pem /etc/ssl/certs/ca-yunohost_crt.pem
 fi
 
 #Iptables

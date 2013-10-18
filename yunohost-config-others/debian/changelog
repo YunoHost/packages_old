@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta1~megusta14) test; urgency=low
+
+  * Test build: ssl path fix2
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 18 Oct 2013 15:37:21 +0200
+
 yunohost-config-others (2.0-beta1~megusta13) test; urgency=low
 
   * Test build: fix ssl create 2
