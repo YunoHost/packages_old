@@ -1,3 +1,9 @@
+yunohost-config-slapd (2.0-beta1~megusta3) test; urgency=low
+
+  * Test build: Update slapd.conf for SSOwat
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 21 Oct 2013 08:48:23 +0200
+
 yunohost-config-slapd (2.0-beta1~megusta2) test; urgency=low
 
   * Test build: Add user self modification attrs to slapd.conf
