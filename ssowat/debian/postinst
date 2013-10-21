@@ -2,7 +2,7 @@
 
 if [ -f /etc/yunohost/installed ];
 then
-    yunohost domain ssowatconf
+    #yunohost domain ssowatconf
 fi
 
 exit 0
