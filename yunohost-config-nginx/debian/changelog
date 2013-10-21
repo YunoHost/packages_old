@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta12) test; urgency=low
+
+  * Test build: fix rm file
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 21 Oct 2013 21:49:07 +0200
+
 yunohost-config-nginx (2.0-alpha1~megusta11) test; urgency=low
 
   * Test build: Update SSOwat nginx conf
