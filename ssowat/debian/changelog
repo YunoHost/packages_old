@@ -1,3 +1,9 @@
+ssowat (1.0~megusta6) test; urgency=low
+
+  * Test build: Reload ssowat conf on update
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 21 Oct 2013 22:17:44 +0200
+
 ssowat (1.0~megusta5) test; urgency=low
 
   * Test build:

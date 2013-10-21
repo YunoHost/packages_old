@@ -1,5 +1,8 @@
 #!/bin/bash
 
-service nginx reload
+if [ -f /etc/yunohost/installed ];
+then
+    yunohost domain ssowatconf
+fi
 
 exit 0
