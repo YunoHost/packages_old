@@ -1,3 +1,9 @@
+ssowat (1.0~megusta5) test; urgency=low
+
+  * Test build:
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 21 Oct 2013 21:38:10 +0200
+
 ssowat (1.0~megusta4) test; urgency=low
 
   * Test build: Update SSOwat from git

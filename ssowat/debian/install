@@ -1,5 +1,2 @@
-sources/init.lua /var/lib/ssowat
-sources/access.lua /var/lib/ssowat
+sources/* /usr/share/ssowat
 sources/conf.json /etc/ssowat
-sources/README.md /usr/share/ssowat
-sources/portal/* /usr/share/ssowat/portal
