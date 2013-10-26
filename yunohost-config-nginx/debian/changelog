@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta13) test; urgency=low
+
+  * Test build: Merge configs
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 26 Oct 2013 18:37:00 +0200
+
 yunohost-config-nginx (2.0-alpha1~megusta12) test; urgency=low
 
   * Test build: fix rm file
