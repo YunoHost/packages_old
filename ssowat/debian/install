@@ -1,2 +1,2 @@
-sources/* /usr/share/ssowat
-sources/conf.json /etc/ssowat
+src/* /usr/share/ssowat
+src/conf.json /etc/ssowat
