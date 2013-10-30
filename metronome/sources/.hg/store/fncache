@@ -247,3 +247,5 @@ data/plugins/pubsub_aux.lib.lua.i
 data/plugins/service_directory/mod_service_directory.lua.i
 data/util/address_selection.lua.i
 data/util/rfc6724.lua.i
+data/plugins/sasl_aux.lib.lua.i
+data/util/sasl/external.lua.i

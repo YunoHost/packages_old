@@ -51,7 +51,7 @@ setmetatable(events._handlers, {
 			is_wildcard_event(event) and is_wildcard_match(event, curr_event) then
 				for handler, priority in pairs(handlers_set) do
 					matching_handlers_set[handler] = { (select(2, event:gsub("/", "%1"))), is_wildcard_event(event) and 0 or 1, priority };
-					table.insert(handlers_array, handler);
+					t_insert(handlers_array, handler);
 				end
 			end
 		end
@@ -70,9 +70,9 @@ setmetatable(events._handlers, {
 		end
 		rawset(handlers, curr_event, handlers_array);
 		if not event_map[curr_event] then
-			table.insert(recent_wildcard_events, curr_event);
+			t_insert(recent_wildcard_events, curr_event);
 			if #recent_wildcard_events > max_cached_wildcard_events then
-				rawset(handlers, table.remove(recent_wildcard_events, 1), nil);
+				rawset(handlers, t_remove(recent_wildcard_events, 1), nil);
 			end
 		end	
 		return handlers_array;
@@ -163,11 +163,11 @@ function _M.hijack_response(response, listener)
 end
 function handle_request(conn, request, finish_cb)
 	local headers = {};
-	for k,v in pairs(request.headers) do headers[k:gsub("-", "_")] = v; end
+	for k, v in pairs(request.headers) do headers[k:gsub("-", "_")] = v; end
 	request.headers = headers;
 	request.conn = conn;
 
-	local date_header = os_date('!%a, %d %b %Y %H:%M:%S GMT'); -- FIXME use
+	local date_header = os_date('!%a, %d %b %Y %H:%M:%S GMT');
 	local conn_header = request.headers.connection;
 	local keep_alive = conn_header == "Keep-Alive" or (request.httpversion == "1.1" and conn_header ~= "close");
 
@@ -246,7 +246,7 @@ function _M.send_response(response, body)
 	headers.connection = response.keep_alive and "Keep-Alive" or "close";
 
 	local output = { status_line };
-	for k,v in pairs(headers) do
+	for k, v in pairs(headers) do
 		t_insert(output, headerfix[k]..v);
 	end
 	t_insert(output, "\r\n\r\n");

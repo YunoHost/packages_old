@@ -1,3 +1,9 @@
+metronome (2.9~megusta5) test; urgency=low
+
+  * Test build: Update to metronome 3.0
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 30 Oct 2013 21:41:06 +0100
+
 metronome (2.9~megusta4) test; urgency=low
 
   * Test build: Remove group shared roster from configuration
