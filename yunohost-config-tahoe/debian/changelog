@@ -1,3 +1,9 @@
+yunohost-config-tahoe (2.0-beta1~megusta9) test; urgency=low
+
+  * Test build: Beautify Tahoe init script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 30 Oct 2013 23:14:18 +0100
+
 yunohost-config-tahoe (2.0-beta1~megusta8) megusta; urgency=low
 
   * Production build: Tahoe

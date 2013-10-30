@@ -8,25 +8,32 @@
 # Short-Description: Start/stop YunoHost API server
 ### END INIT INFO
 
+set -e
+
+. /lib/lsb/init-functions
+
 logger "Tahoe: Start script executed"
 TAHOE_PATH="/home/yunohost.backup/tahoe"
 
 case "$1" in
   start)
     logger "Tahoe node: Starting"
-    echo "Starting Tahoe backup system..."
-    tahoe start $TAHOE_PATH
+    log_daemon_msg "Starting backup daemon" "Tahoe-LAFS"
+    tahoe start $TAHOE_PATH > /dev/null
+    log_end_msg $?
     ;;
   stop)
     logger "Tahoe node: Stopping"
-    echo "Stopping Tahoe backup system..."
-    tahoe stop $TAHOE_PATH
+    log_daemon_msg "Stopping backup daemon" "Tahoe-LAFS"
+    tahoe stop $TAHOE_PATH > /dev/null
+    log_end_msg $?
     ;;
   restart)
     logger "Tahoe node: Restarting"
-    echo "Restarting Tahoe backup system..."
-    tahoe stop $TAHOE_PATH
-    tahoe start $TAHOE_PATH
+    log_daemon_msg "Restarting backup daemon" "Tahoe-LAFS"
+    tahoe stop $TAHOE_PATH > /dev/null
+    tahoe start $TAHOE_PATH > /dev/null
+    log_end_msg $?
     ;;
   *)
     logger "Tahoe control: Invalid usage"
