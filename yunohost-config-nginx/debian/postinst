@@ -13,3 +13,5 @@ if [ -f /etc/nginx/sites-enabled/default ];
 then
 	rm /etc/nginx/sites-enabled/default
 fi
+
+service nginx restart
