@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta14) test; urgency=low
+
+  * Test build: Move access in server{} scope
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 30 Oct 2013 20:41:19 +0100
+
 yunohost-config-nginx (2.0-alpha1~megusta13) test; urgency=low
 
   * Test build: Merge configs
