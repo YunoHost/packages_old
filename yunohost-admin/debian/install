@@ -1,2 +1,1 @@
-admin/* /usr/share/yunohost/admin/
-user/* /usr/share/yunohost/user/
+src/* /usr/share/yunohost/admin/

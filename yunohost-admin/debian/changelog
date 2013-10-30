@@ -1,3 +1,9 @@
+yunohost-admin (2.0-beta1~megusta4) test; urgency=low
+
+  * Test build: Package admin_js
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 30 Oct 2013 20:44:14 +0100
+
 yunohost-admin (2.0-beta1~megusta3) test; urgency=low
 
   * Test build: remove apache2 reload

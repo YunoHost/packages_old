@@ -1,3 +1,2 @@
 #!/bin/bash
-#chown -R yunohost-admin:yunohost-admin /usr/share/yunohost/admin
-chown -R www-data:www-data /usr/share/yunohost/user
+chown -R www-data: /usr/share/yunohost/admin
