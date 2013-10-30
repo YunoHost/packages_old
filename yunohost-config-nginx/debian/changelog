@@ -1,3 +1,10 @@
+yunohost-config-nginx (2.0-alpha1~megusta18) test; urgency=low
+
+  * Test build: Redirect to HTTPS to validate certificate before
+    postinstall
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 30 Oct 2013 21:38:57 +0100
+
 yunohost-config-nginx (2.0-alpha1~megusta17) test; urgency=low
 
   * Test build: Restart Nginx at the end of postinst
