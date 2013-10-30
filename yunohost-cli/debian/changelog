@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta1~megusta32) test; urgency=low
+
+  * Test build: Beautify API init script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 30 Oct 2013 23:10:12 +0100
+
 yunohost-cli (2.0-beta1~megusta31) test; urgency=low
 
   * Test build: API without SSL

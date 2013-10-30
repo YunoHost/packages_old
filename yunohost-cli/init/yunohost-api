@@ -8,6 +8,10 @@
 # Short-Description: Start/stop YunoHost API server
 ### END INIT INFO
 
+set -e
+
+. /lib/lsb/init-functions
+
 logger "API: Start script executed"
 API_SERVER_PATH="/usr/share/pyshared/yunohost-cli"
 export PYTHONPATH="$API_SERVER_PATH:$PYTHONPATH"
@@ -15,14 +19,24 @@ export PYTHONPATH="$API_SERVER_PATH:$PYTHONPATH"
 case "$1" in
   start)
     logger "API Server: Starting"
-    echo "Starting API Server..."
+    log_daemon_msg "Starting YunoHost" "API"
     cd $API_SERVER_PATH
     twistd -y yunohost.tac -l "/var/log/yunohost.log" --pidfile twistd.pid
+    log_end_msg $?
     ;;
   stop)
     logger "API Server: Stopping"
-    echo "Stopping API Server..."
+    log_daemon_msg "Stopping YunoHost" "API"
     kill `cat $API_SERVER_PATH/twistd.pid`
+    log_end_msg $?
+    ;;
+  restart)
+    logger "API Server: Restarting"
+    log_daemon_msg "Restarting YunoHost" "API"
+    kill `cat $API_SERVER_PATH/twistd.pid`
+    cd $API_SERVER_PATH
+    twistd -y yunohost.tac -l "/var/log/yunohost.log" --pidfile twistd.pid
+    log_end_msg $?
     ;;
   *)
     logger "API Server: Invalid usage"
