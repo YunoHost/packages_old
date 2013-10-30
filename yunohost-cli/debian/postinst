@@ -1,8 +1,3 @@
 #!/bin/bash
 
-grep -q yunohost-app /etc/passwd
-if [ $? =  "1" ]; then
-	useradd yunohost-app
-fi
-
 update-rc.d yunohost-api defaults
