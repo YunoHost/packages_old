@@ -4,6 +4,11 @@ TMP="/usr/share/yunohost/yunohost-config/nginx"
 
 cp $TMP/ssowat.conf /etc/nginx/conf.d/
 
+if [ ! -f /etc/yunohost/installed ];
+then
+        cp $TMP/ynhadmin.conf /etc/nginx/conf.d/
+fi
+
 if [ -f /etc/nginx/sites-enabled/default ];
 then
 	rm /etc/nginx/sites-enabled/default

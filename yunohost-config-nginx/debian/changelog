@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta16) test; urgency=low
+
+  * Test build: Add ynhadmin to Nginx config
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 30 Oct 2013 21:08:13 +0100
+
 yunohost-config-nginx (2.0-alpha1~megusta15) test; urgency=low
 
   * Test build: Add ynhadmin to Nginx config
