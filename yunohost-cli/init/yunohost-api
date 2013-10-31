@@ -8,8 +8,6 @@
 # Short-Description: Start/stop YunoHost API server
 ### END INIT INFO
 
-set -e
-
 . /lib/lsb/init-functions
 
 logger "API: Start script executed"
@@ -27,20 +25,24 @@ case "$1" in
   stop)
     logger "API Server: Stopping"
     log_daemon_msg "Stopping YunoHost" "API"
-    kill `cat $API_SERVER_PATH/twistd.pid`
+    if [ -f $API_SERVER_PATH/twistd.pid ]; then
+        kill `cat $API_SERVER_PATH/twistd.pid`
+    fi
     log_end_msg $?
     ;;
   restart)
     logger "API Server: Restarting"
     log_daemon_msg "Restarting YunoHost" "API"
-    kill `cat $API_SERVER_PATH/twistd.pid`
+    if [ -f $API_SERVER_PATH/twistd.pid ]; then
+        kill `cat $API_SERVER_PATH/twistd.pid`
+    fi
     cd $API_SERVER_PATH
     twistd -y yunohost.tac -l "/var/log/yunohost.log" --pidfile twistd.pid
     log_end_msg $?
     ;;
   *)
     logger "API Server: Invalid usage"
-    echo "Usage: /etc/init.d/yunohost-api {start|stop}"
+    echo "Usage: /etc/init.d/yunohost-api {start|stop|restart}"
     exit 1
     ;;
 esac
