@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta1~megusta34) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 31 Oct 2013 11:12:00 +0100
+
 yunohost-cli (2.0-beta1~megusta33) test; urgency=low
 
   * Test build: Update from git
