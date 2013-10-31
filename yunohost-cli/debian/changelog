@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta1~megusta33) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 31 Oct 2013 10:58:47 +0100
+
 yunohost-cli (2.0-beta1~megusta32) test; urgency=low
 
   * Test build: Beautify API init script
