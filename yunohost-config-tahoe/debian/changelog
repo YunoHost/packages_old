@@ -1,3 +1,9 @@
+yunohost-config-tahoe (2.0-beta1~megusta10) test; urgency=low
+
+  * Test build: Prevent restart from failing
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 31 Oct 2013 14:55:29 +0100
+
 yunohost-config-tahoe (2.0-beta1~megusta9) test; urgency=low
 
   * Test build: Beautify Tahoe init script

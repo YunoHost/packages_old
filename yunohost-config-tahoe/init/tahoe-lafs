@@ -8,8 +8,6 @@
 # Short-Description: Start/stop YunoHost API server
 ### END INIT INFO
 
-set -e
-
 . /lib/lsb/init-functions
 
 logger "Tahoe: Start script executed"
@@ -31,7 +29,7 @@ case "$1" in
   restart)
     logger "Tahoe node: Restarting"
     log_daemon_msg "Restarting backup daemon" "Tahoe-LAFS"
-    tahoe stop $TAHOE_PATH > /dev/null
+    tahoe stop $TAHOE_PATH > /dev/null 2>&1
     tahoe start $TAHOE_PATH > /dev/null
     log_end_msg $?
     ;;
