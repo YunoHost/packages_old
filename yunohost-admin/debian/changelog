@@ -1,3 +1,9 @@
+yunohost-admin (2.0-beta1~megusta8) test; urgency=low
+
+  * Test build: Restart instead of start
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 31 Oct 2013 12:37:46 +0100
+
 yunohost-admin (2.0-beta1~megusta7) test; urgency=low
 
   * Test build: Update from git

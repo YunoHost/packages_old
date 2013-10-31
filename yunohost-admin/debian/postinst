@@ -1,3 +1,3 @@
 #!/bin/bash
 chown -R www-data: /usr/share/yunohost/admin
-service yunohost-api start
+service yunohost-api restart
