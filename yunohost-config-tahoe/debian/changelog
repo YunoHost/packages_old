@@ -1,3 +1,9 @@
+yunohost-config-tahoe (2.0-beta1~megusta11) test; urgency=low
+
+  * Test build: Add stat gate to tahoe conf
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 08 Nov 2013 20:13:21 +0100
+
 yunohost-config-tahoe (2.0-beta1~megusta10) test; urgency=low
 
   * Test build: Prevent restart from failing
