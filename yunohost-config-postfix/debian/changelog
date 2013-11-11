@@ -1,3 +1,9 @@
+yunohost-config-postfix (2.0-alpha1~megusta22) test; urgency=low
+
+  * Test build: update config
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 11 Nov 2013 11:24:48 +0100
+
 yunohost-config-postfix (2.0-alpha1~megusta21) test; urgency=low
 
   * Test build: update postins check dspam
