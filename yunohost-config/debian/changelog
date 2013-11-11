@@ -1,3 +1,9 @@
+yunohost-config (2.0-beta1~megusta6) test; urgency=low
+
+  * Test build: remove amavis
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 11 Nov 2013 12:37:02 +0100
+
 yunohost-config (2.0-beta1~megusta5) test; urgency=low
 
   * Test build: Update depends
