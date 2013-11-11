@@ -1,0 +1,18 @@
+#!/bin/bash
+
+HOSTNAME=$(hostname -f)
+
+TMP="/usr/share/yunohost/yunohost-config/dspam"
+
+function randpass() {
+  [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+    echo
+}
+
+#DSPAM
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep dspam /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+	cp $TMP/{default.prefs,dspam.conf} /etc/dspam
+	cp $TMP/extlookup.conf /etc/dspam/dspam.conf
+fi
