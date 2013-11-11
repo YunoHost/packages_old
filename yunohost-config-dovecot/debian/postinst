@@ -21,7 +21,7 @@ fi
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep dovecot /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
 	adduser --system --ingroup mail --uid 500 vmail
-	dpkg -l | grep dspam > /dev/null 2>&1
+	service dspam status > /dev/null 2>&1
 	if [ $? = 0 ];
 	then
 		cp $TMP/{dovecot.conf-dspam,dovecot-ldap.conf,dovecot.conf-dspam-ipv4} /etc/dovecot/
