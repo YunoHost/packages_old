@@ -1,3 +1,9 @@
+yunohost-config-amavis (2.0-alpha1~megusta11) test; urgency=low
+
+  * Test build: check dspam status
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 11 Nov 2013 13:58:39 +0100
+
 yunohost-config-amavis (2.0-alpha1~megusta10) test; urgency=low
 
   * Test build: update depends amavis

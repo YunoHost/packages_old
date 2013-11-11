@@ -9,7 +9,5 @@ Package: yunohost-config-amavis
 Architecture: all
 Homepage: http://www.yunohost.org
 Depends: amavisd-new, spamassassin, razor, pyzor, yunohost-config-slapd
-Conflicts: dspam, libdspam7-drv-hash, yunohost-config-dspam
-Replaces: dspam, libdspam7-drv-hash, yunohost-config-dspam
 Description: meta package to install environement for yunohost
  meta package to install environement for yunohost

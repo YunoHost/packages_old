@@ -12,6 +12,13 @@ function randpass() {
 }
 
 #Amavis
+service dspam status > /dev/null 2>&1
+if [ $? = 0 ];
+then
+	service dspam stop
+	sed -i 's/START\=yes/START=no/' /etc/default/dspam
+fi
+
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep amavis /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
 	cp $TMP/conf.d/* /etc/amavis/conf.d/
