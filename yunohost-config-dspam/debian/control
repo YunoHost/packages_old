@@ -9,7 +9,5 @@ Package: yunohost-config-dspam
 Architecture: all
 Homepage: http://www.yunohost.org
 Depends: dspam, libdspam7-drv-hash
-Replaces: yunohost-config-amavis, amavis, spamassassin
-Conflicts: yunohost-config-amavis, amavis, spamassassin
 Description: meta package to install environement for yunohost
  meta package to install environement for yunohost

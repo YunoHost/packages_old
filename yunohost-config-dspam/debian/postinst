@@ -11,6 +11,12 @@ function randpass() {
 }
 
 #DSPAM
+service amavis status
+if [ $? = 0 ];
+then
+	service amavis stop
+	update-rc.d amavis remove
+fi
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep dspam /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
 	cp $TMP/{default.prefs,dspam.conf} /etc/dspam
