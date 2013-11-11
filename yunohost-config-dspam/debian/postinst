@@ -14,7 +14,7 @@ function randpass() {
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep dspam /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
 	cp $TMP/{default.prefs,dspam.conf} /etc/dspam
-	cp $TMP/extlookup.conf /etc/dspam/dspam.conf
+	cp $TMP/extlookup.conf /etc/dspam/dspam.d/
 	sed -i 's/START\=no/START=yes/' /etc/default/dspam
 	service dspam restart
 fi
