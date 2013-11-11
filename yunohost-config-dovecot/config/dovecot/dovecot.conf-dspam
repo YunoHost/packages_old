@@ -48,7 +48,7 @@ protocol imap {
 protocol lda {
   auth_socket_path = /var/run/dovecot/auth-master
   mail_plugins = sieve
-  postmaster_address = postmaster@beud.noho.st
+  postmaster_address = postmaster@yunohost.org
 }
 
 protocol lmtp {
