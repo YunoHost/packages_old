@@ -4,7 +4,7 @@ set -e
 
 case "$1" in
 	remove|purge)
-	rm /etc/amavis/conf.d/{15-content_filter_mode,20-debian_defaults,50-user}
+	rm -Rf /etc/amavis/conf.d/*
 	rm /etc/default/spamassassin
 	rm /etc/spamassassin/local.cf
 	;;
