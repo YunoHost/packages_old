@@ -1,3 +1,9 @@
+yunohost (2.0-beta1~megusta4) test; urgency=low
+
+  * Test build: update yunohost.conf
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 11 Nov 2013 10:50:28 +0100
+
 yunohost (2.0-beta1~megusta3) test; urgency=low
 
   * Test build: update yunohost.conf
