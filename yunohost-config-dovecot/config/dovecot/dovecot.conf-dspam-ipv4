@@ -1,0 +1,80 @@
+# 2.1.7: /etc/dovecot/dovecot.conf
+# OS: Linux 3.2.0-3-686-pae i686 Debian wheezy/sid ext4
+listen = *
+auth_mechanisms = plain login
+login_greeting = Dovecot ready!!
+mail_gid = 8
+mail_home = /var/mail/%n
+mail_location = maildir:/var/mail/%n
+mail_uid = 500
+passdb {
+  args = /etc/dovecot/dovecot-ldap.conf
+  driver = ldap
+}
+protocols = imap sieve lmtp
+service auth {
+  unix_listener /var/spool/postfix/private/auth {
+    group = postfix
+    mode = 0660
+    user = postfix
+  }
+  unix_listener auth-master {
+    group = mail
+    mode = 0660
+    user = vmail
+  }
+}
+
+service lmtp {
+unix_listener lmtp {
+user = vmail
+}
+}
+
+protocol sieve {
+}
+
+ssl_ca = </etc/ssl/certs/ca-yunohost_crt.pem
+ssl_cert = </etc/ssl/certs/yunohost_crt.pem
+ssl_key = </etc/ssl/private/yunohost_key.pem
+userdb {
+  args = /etc/dovecot/dovecot-ldap.conf
+  driver = ldap
+}
+protocol imap {
+  imap_client_workarounds =
+  mail_plugins = $mail_plugins antispam autocreate
+}
+protocol lda {
+  auth_socket_path = /var/run/dovecot/auth-master
+  mail_plugins = sieve
+  postmaster_address = postmaster@beud.noho.st
+}
+
+protocol lmtp {
+mail_plugins = $mail_plugins sieve
+}
+
+plugin {
+antispam_backend = dspam
+antispam_dspam_binary = /usr/bin/dspam
+antispam_dspam_args = ---deliver;--user;%u
+antispam_spam = SPAM; Spam
+antispam_trash = Trash
+antisapm_unsure = Trash
+antispam_signature = X-DSPAM-Signature
+}
+
+plugin {
+sieve = /var/mail/sievescript/%n/.dovecot.sieve
+sieve_dir = /var/mail/sievescript/%n/scripts/
+sieve_before = /etc/dovecot/global_script/
+}
+
+plugin {
+  autocreate = Trash
+  autocreate2 = Spam
+  autosubscribe = Trash
+  autosubscribe2 = Spam
+}
+

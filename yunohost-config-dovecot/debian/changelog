@@ -1,3 +1,9 @@
+yunohost-config-dovecot (2.0-beta1~megusta4) test; urgency=low
+
+  * Test build: add check dspam
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 11 Nov 2013 11:45:37 +0100
+
 yunohost-config-dovecot (2.0-beta1~megusta3) test; urgency=low
 
   * Test build: add new depends for dspam

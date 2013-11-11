@@ -21,15 +21,30 @@ fi
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep dovecot /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
 	adduser --system --ingroup mail --uid 500 vmail
-	cp -r $TMP/* /etc/dovecot/
-	if [ ! -f /proc/net/if_inet6 ];
+	dpkg -l | grep dspam > /dev/null 2>&1
+	if [ $? = 0 ];
 	then
-		mv /etc/dovecot/dovecot-ipv4.conf /etc/dovecot/dovecot.conf
+		cp $TMP/{dovecot.conf-dspam,dovecot-ldap.conf,dovecot.conf-dspam-ipv4} /etc/dovecot/
+		cp $TMP/global_script/spam.sieve /etc/dovecot/global_script
+		sievec /etc/dovecot/global_script/spam.sieve
+		if [ ! -f /proc/net/if_inet6 ];
+	        then
+        	        mv /etc/dovecot/dovecot.conf-dpsam-ipv4 /etc/dovecot/dovecot.conf
+       		fi
+                chown -R vmail:mail /etc/dovecot/global_script/
+                chmod -R 770 /etc/dovecot/global_script/
+                sievec /etc/dovecot/global_script/
+                chmod +r /etc/dovecot/global_script/spam.svbin
+	else
+		cp $TMP/{dovecot.conf,dovecot-ldap.conf,dovecot-ipv4.conf} /etc/dovecot/
+		cp $TMP/global_script/dovecot.sieve /etc/dovecot/global_script
+		if [ ! -f /proc/net/if_inet6 ];
+		then
+			mv /etc/dovecot/dovecot-ipv4.conf /etc/dovecot/dovecot.conf
+		fi
+		chown -R vmail:mail /etc/dovecot/global_script/
+		chmod -R 770 /etc/dovecot/global_script/
+		sievec /etc/dovecot/global_script/
+		chmod +r /etc/dovecot/global_script/dovecot.svbin
 	fi
-	chown -R vmail:mail /etc/dovecot/global_script/
-	chmod -R 770 /etc/dovecot/global_script/
-	sievec /etc/dovecot/global_script/
-	chmod +r /etc/dovecot/global_script/dovecot.svbin
 fi
-
-
