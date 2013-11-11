@@ -11,10 +11,10 @@ function randpass() {
 }
 
 #DSPAM
-service amavis status
+service amavis status > /dev/null 2>&1
 if [ $? = 0 ];
 then
-	service amavis stop
+	service amavis stop > /dev/null 2>&1
 	update-rc.d amavis remove
 fi
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep dspam /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
@@ -22,5 +22,5 @@ then
 	cp $TMP/{default.prefs,dspam.conf} /etc/dspam
 	cp $TMP/extlookup.conf /etc/dspam/dspam.d/
 	sed -i 's/START\=no/START=yes/' /etc/default/dspam
-	service dspam restart
+	service dspam restart > /dev/null 2>&1
 fi
