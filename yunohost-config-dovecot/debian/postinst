@@ -47,4 +47,5 @@ then
 		sievec /etc/dovecot/global_script/
 		chmod +r /etc/dovecot/global_script/dovecot.svbin
 	fi
+	service dovecot reload > /dev/null 2>&1
 fi

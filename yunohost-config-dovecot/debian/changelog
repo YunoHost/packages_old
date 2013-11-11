@@ -1,3 +1,9 @@
+yunohost-config-dovecot (2.0-beta1~megusta7) test; urgency=low
+
+  * Test build: add reload
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 11 Nov 2013 16:18:17 +0100
+
 yunohost-config-dovecot (2.0-beta1~megusta6) test; urgency=low
 
   * Test build: check dspam status

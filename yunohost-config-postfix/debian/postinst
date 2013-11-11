@@ -22,7 +22,7 @@ IPADD=`/sbin/ifconfig | sed '/Bcast/!d' | awk '{print $2}'| awk '{print $2}' FS=
 #sed -i '/IPADD/'$IPADD'/g' $TMP/postfix/main.cf
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep postfix /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then 
-	dpkg -l | grep dspam > /dev/null 2>&1
+	service dspam status > /dev/null 2>&1
 	if [ $? = 0 ];
 	then
 		cp $TMP/{main.cf-dspam,master.cf,main.cf-dspam-ipv4} /etc/postfix/
@@ -38,5 +38,5 @@ then
                 	mv /etc/postfix/main.cf-ipv4 /etc/postfix/main.cf
 	        fi
 	fi
-
+	service postfix reload > /dev/null 2>&1
 fi
