@@ -1,3 +1,9 @@
+yunohost-config-amavis (2.0-alpha1~megusta10) test; urgency=low
+
+  * Test build: update depends amavis
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 11 Nov 2013 12:22:23 +0100
+
 yunohost-config-amavis (2.0-alpha1~megusta9) test; urgency=low
 
   * Test build: update depends amavis
