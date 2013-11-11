@@ -28,18 +28,17 @@ smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
 
-myhostname = yunohost.org
+myhostname = beud.noho.st
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-mydomain = yunohost.org
+mydomain = beud.noho.st
 mydestination = localhost
 relayhost = 
-mynetworks = 127.0.0.0/8
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 mailbox_command = procmail -a "$EXTENSION"
 mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
-inet_protocols = ipv4
 
 #### add yunohost ####
 message_size_limit = 10240000
@@ -54,9 +53,8 @@ virtual_minimum_uid = 100
 virtual_uid_maps = static:vmail 
 virtual_gid_maps = static:mail
 
-# Dovecot LDA 
-virtual_transport = dovecot 
-dovecot_destination_recipient_limit = 1
+# Dspam
+virtual_transport = lmtp:unix:dspam/dspam.sock 
 
 # Enable SASL authentication for the smtpd daemon 
 smtpd_sasl_auth_enable = yes 
@@ -67,10 +65,6 @@ broken_sasl_auth_clients = yes
 # Reject anonymous connections 
 smtpd_sasl_security_options = noanonymous 
 smtpd_sasl_local_domain =
-
-
-# Use AMaVis 
-content_filter = amavis:[127.0.0.1]:10024
 
 # Wait until the RCPT TO command before evaluating restrictions 
 smtpd_delay_reject = yes 
