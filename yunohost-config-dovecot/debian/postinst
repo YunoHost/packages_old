@@ -25,7 +25,11 @@ then
 	if [ $? = 0 ];
 	then
 		cp $TMP/{dovecot.conf-dspam,dovecot-ldap.conf,dovecot.conf-dspam-ipv4} /etc/dovecot/
-		cp $TMP/global_script/spam.sieve /etc/dovecot/global_script
+		if [ ! -d /etc/dovecot/global_script/ ];
+		then
+			mkdir /etc/dovecot/global_script/
+		fi
+		cp $TMP/global_script/spam.sieve /etc/dovecot/global_script/
 		sievec /etc/dovecot/global_script/spam.sieve
 		if [ ! -f /proc/net/if_inet6 ];
 	        then
