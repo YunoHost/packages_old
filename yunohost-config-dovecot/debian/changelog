@@ -1,3 +1,9 @@
+yunohost-config-dovecot (2.0-beta1~megusta8) test; urgency=low
+
+  * Test build: fix bug copy config file
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 19 Nov 2013 13:59:44 +0100
+
 yunohost-config-dovecot (2.0-beta1~megusta7) test; urgency=low
 
   * Test build: add reload

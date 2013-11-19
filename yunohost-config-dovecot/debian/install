@@ -1,1 +1,2 @@
 config/dovecot/* /usr/share/yunohost/yunohost-config/dovecot/
+config/dovecot/global_script/* /usr/share/yunohost/yunohost-config/dovecot/global_script/
