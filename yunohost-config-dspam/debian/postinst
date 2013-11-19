@@ -17,6 +17,13 @@ then
 	service amavis stop > /dev/null 2>&1
 	update-rc.d amavis remove
 fi
+
+if [ ! -d /var/spool/postfix/dspam ];
+then
+        mkdir /var/spool/postfix/dspam
+        chown dspam: /var/spool/postfix/dspam
+fi
+
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep dspam /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
 	cp $TMP/{default.prefs,dspam.conf} /etc/dspam
