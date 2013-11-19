@@ -1,3 +1,9 @@
+yunohost-config-postfix (2.0-alpha1~megusta27) test; urgency=low
+
+  * Test build: add depends dspam
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 19 Nov 2013 15:01:01 +0100
+
 yunohost-config-postfix (2.0-alpha1~megusta26) test; urgency=low
 
   * Test build: fix ldap config file
