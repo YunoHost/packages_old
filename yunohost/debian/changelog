@@ -1,3 +1,9 @@
+yunohost (2.0-beta1~megusta5) test; urgency=low
+
+  * Test build: add dspam custom config
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 19 Nov 2013 13:44:57 +0100
+
 yunohost (2.0-beta1~megusta4) test; urgency=low
 
   * Test build: update yunohost.conf
