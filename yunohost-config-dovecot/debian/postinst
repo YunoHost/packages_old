@@ -38,7 +38,7 @@ then
                 chown -R vmail:mail /etc/dovecot/global_script/
                 chmod -R 770 /etc/dovecot/global_script/
                 sievec /etc/dovecot/global_script/
-                chmod +r /etc/dovecot/global_script/spam.svbin
+                chmod +rw /etc/dovecot/global_script/spam.svbin
 	else
 		cp $TMP/{dovecot.conf,dovecot-ldap.conf,dovecot-ipv4.conf} /etc/dovecot/
 		cp $TMP/global_script/dovecot.sieve /etc/dovecot/global_script
@@ -49,7 +49,7 @@ then
 		chown -R vmail:mail /etc/dovecot/global_script/
 		chmod -R 770 /etc/dovecot/global_script/
 		sievec /etc/dovecot/global_script/
-		chmod +r /etc/dovecot/global_script/dovecot.svbin
+		chmod +rw /etc/dovecot/global_script/dovecot.svbin
 	fi
 	service dovecot reload > /dev/null 2>&1
 fi

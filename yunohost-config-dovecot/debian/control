@@ -8,6 +8,6 @@ Standards-Version: 3.9.1
 Package: yunohost-config-dovecot
 Architecture: all
 Homepage: http://www.yunohost.org
-Depends: dovecot-imapd, dovecot-sieve, yunohost-config-others, yunohost-config-slapd, dovecot-ldap, dovecot-managesieved, dovecot-lmtpd, dovecot-antispam
+Depends: dovecot-imapd, dovecot-sieve, yunohost-config-others, yunohost-config-slapd, dovecot-ldap, dovecot-managesieved, dovecot-lmtpd, dovecot-antispam, yunohost-config-dspam
 Description: meta package to install environement for yunohost
  meta package to install environement for yunohost
