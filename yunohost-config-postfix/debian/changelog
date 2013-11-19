@@ -1,3 +1,9 @@
+yunohost-config-postfix (2.0-alpha1~megusta25) test; urgency=low
+
+  * Test build: add ldap config file
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 19 Nov 2013 11:57:41 +0100
+
 yunohost-config-postfix (2.0-alpha1~megusta24) test; urgency=low
 
   * Test build: add reload
