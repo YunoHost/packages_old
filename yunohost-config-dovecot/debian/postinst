@@ -17,6 +17,11 @@ then
         find $TMP -type f -exec sed -i "s/yunohost.org/$DOMAIN/g" {} \;
 fi
 
+if [ -f /etc/dovecot/global_script ];
+then
+	rm /etc/dovecot/global_script
+fi
+
 #Dovecot
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep dovecot /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
