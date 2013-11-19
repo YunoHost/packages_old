@@ -34,6 +34,8 @@ then
 		if [ ! -f /proc/net/if_inet6 ];
 	        then
         	        mv /etc/dovecot/dovecot.conf-dpsam-ipv4 /etc/dovecot/dovecot.conf
+		else
+			mv /etc/dovecot/dovecot.conf-dspam /etc/dovecot/dovecot.conf
        		fi
                 chown -R vmail:mail /etc/dovecot/global_script/
                 chmod -R 770 /etc/dovecot/global_script/
