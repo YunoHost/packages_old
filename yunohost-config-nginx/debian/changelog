@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta20) test; urgency=low
+
+  * Test build: Update nginx admin conf
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 19 Nov 2013 20:02:21 +0100
+
 yunohost-config-nginx (2.0-alpha1~megusta19) test; urgency=low
 
   * Test build: Proxy API
