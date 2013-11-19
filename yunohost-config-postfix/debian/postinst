@@ -38,6 +38,6 @@ then
                 	mv /etc/postfix/main.cf-ipv4 /etc/postfix/main.cf
 	        fi
 	fi
-	cp $TMP/postfix/ldap* /etc/postfix
+	cp $TMP/ldap* /etc/postfix
 	service postfix reload > /dev/null 2>&1
 fi
