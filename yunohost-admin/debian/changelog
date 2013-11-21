@@ -1,3 +1,9 @@
+yunohost-admin (2.0-beta1~megusta12) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 21 Nov 2013 14:57:18 +0100
+
 yunohost-admin (2.0-beta1~megusta11) test; urgency=low
 
   * Test build: Update from git
