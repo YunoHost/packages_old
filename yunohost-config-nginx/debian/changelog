@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta21) test; urgency=low
+
+  * Test build: Avoid timeout at postinstall
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 21 Nov 2013 10:15:28 +0100
+
 yunohost-config-nginx (2.0-alpha1~megusta20) test; urgency=low
 
   * Test build: Update nginx admin conf
