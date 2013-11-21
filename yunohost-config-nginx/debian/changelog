@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-alpha1~megusta22) test; urgency=low
+
+  * Test build: Move api location
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 21 Nov 2013 13:51:03 +0100
+
 yunohost-config-nginx (2.0-alpha1~megusta21) test; urgency=low
 
   * Test build: Avoid timeout at postinstall
