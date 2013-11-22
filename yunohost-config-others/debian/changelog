@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta1~megusta15) test; urgency=low
+
+  * Test build: update boot_prompt
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 22 Nov 2013 15:48:12 +0100
+
 yunohost-config-others (2.0-beta1~megusta14) test; urgency=low
 
   * Test build: ssl path fix2
