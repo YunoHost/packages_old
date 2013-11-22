@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta1~megusta48) test; urgency=low
+
+  * Test build: Update postinst script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 22 Nov 2013 16:31:50 +0100
+
 yunohost-cli (2.0-beta1~megusta47) test; urgency=low
 
   * Test build: Update from git
