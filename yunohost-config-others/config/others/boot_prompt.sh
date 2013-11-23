@@ -113,7 +113,7 @@ then
         then
 		echo -e "\n mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm Yunohost v2"
 		echo -E " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm " 
-		echo -E " mmmQ                       Ymmmm " 
+		echo -E " mmmQ                       Ymmmm IP: ${ip}" 
 		echo -E " mmm#   .2A929     .12iQ7   :mmmm " 
 		echo -E " mmmp    ;mmmm#   :mmmmp.   ,mmmm " 
 		echo -E " mmm#     ,mmmQ5 .Ymmmp     :mmmm " 

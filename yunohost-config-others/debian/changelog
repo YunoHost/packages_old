@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta2~megusta2) megusta; urgency=low
+
+  * Production build: add ip boot prompt
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 16:23:11 +0100
+
 yunohost-config-others (2.0-beta2~megusta1) megusta; urgency=low
 
   * Production build: bump version
