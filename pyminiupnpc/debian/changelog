@@ -1,18 +1,11 @@
-pyminiupnpc (0.1~megusta3) megusta; urgency=low
+pyminiupnpc (0.1~megusta5) megusta; urgency=low
 
-  * Need gcc to build
+  * Production build: bump version
 
- -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 13 Jun 2013 10:12:36 +0200
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 15:31:39 +0100
 
-pyminiupnpc (0.1~megusta2) megusta; urgency=low
+pyminiupnpc (0.1~megusta4) megusta; urgency=low
 
-  * First build
+  * update beta2
 
- -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 10 Jun 2013 12:43:05 +0200
-
-pyminiupnpc (0.1~megusta1) megusta; urgency=low
-
-  * Init
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 10 Jun 2013 12:23:20 +0200
-
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 15:31:25 +0100
