@@ -1,0 +1,31 @@
+==========
+Developers
+==========
+
+Nicolas Hennion (aka) Nicolargo
+http://blog.nicolargo.com
+https://twitter.com/nicolargo
+contact@nicolargo.com
+
+Alessio  Sergi (aka) Al3hex
+https://twitter.com/al3hex
+
+Brandon Philips (aka) Philips
+http://ifup.org/
+
+Jon Renner (aka) Jrenner
+https://github.com/jrenner
+
+=========
+Packagers
+=========
+
+Geoffroy Youri Berret for the Debian package
+http://packages.debian.org/fr/sid/glances
+
+gasol.wu@gmail.com for the FreeBSD port
+
+Frederic Aoustin (https://github.com/fraoustin) and Nicolas Bourges (installer) for the Windows port
+
+Aljaž Srebrnič for the MacPorts package
+http://www.macports.org/ports.php?by=name&substr=glances

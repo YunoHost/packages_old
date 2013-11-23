@@ -1,0 +1,11 @@
+glances (1.7.3) megusta; urgency=low
+
+  * Production build: bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 15:36:00 +0100
+
+glances (1.7.2) test; urgency=low
+
+  * update version 1.7.2
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 15:33:48 +0100
