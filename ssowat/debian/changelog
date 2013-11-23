@@ -1,84 +1,11 @@
-ssowat (1.0~megusta13) test; urgency=low
+ssowat (1.0~megusta15) megusta; urgency=low
 
-  * Test build: Update from git
+  * Production build: bump version
 
- -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 13:18:51 +0100
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 15:28:55 +0100
 
-ssowat (1.0~megusta12) test; urgency=low
+ssowat (1.0~megusta14) test; urgency=low
 
-  * Test build: Update from git
+  * update beta2 
 
- -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 30 Oct 2013 20:38:11 +0100
-
-ssowat (1.0~megusta11) test; urgency=low
-
-  * Test build: Update from git
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 29 Oct 2013 16:37:07 +0100
-
-ssowat (1.0~megusta10) test; urgency=low
-
-  * Test build: Make package from git
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 29 Oct 2013 15:05:07 +0100
-
-ssowat (1.0~megusta9) test; urgency=low
-
-  * Test build: Update from git
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 26 Oct 2013 18:43:16 +0200
-
-ssowat (1.0~megusta8) test; urgency=low
-
-  * Test build: DO NOT reload ssowat conf on update
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 21 Oct 2013 22:31:16 +0200
-
-ssowat (1.0~megusta7) test; urgency=low
-
-  * Test build: DO NOT reload ssowat conf on update
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 21 Oct 2013 22:26:16 +0200
-
-ssowat (1.0~megusta6) test; urgency=low
-
-  * Test build: Reload ssowat conf on update
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 21 Oct 2013 22:17:44 +0200
-
-ssowat (1.0~megusta5) test; urgency=low
-
-  * Test build:
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 21 Oct 2013 21:38:10 +0200
-
-ssowat (1.0~megusta4) test; urgency=low
-
-  * Test build: Update SSOwat from git
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 17 Oct 2013 13:06:08 +0200
-
-ssowat (1.0~megusta3) test; urgency=low
-
-  * Test build: mv login.html to index.html
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 16 Oct 2013 18:53:03 +0200
-
-ssowat (1.0~megusta2) test; urgency=low
-
-  * Test build: mv login.html to index.html
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 16 Oct 2013 18:51:00 +0200
-
-ssowat (1.0~megusta1) test; urgency=low
-
-  * Test build: add ssowat
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 16 Oct 2013 18:34:46 +0200
-
-ssowat (1.0~megusta0) megusta; urgency=low
-
-  * Init
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 30 May 2013 16:27:13 +0200
-
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 15:27:21 +0100
