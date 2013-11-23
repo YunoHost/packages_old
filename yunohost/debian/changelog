@@ -1,3 +1,9 @@
+yunohost (2.0-beta2~megusta1) megusta; urgency=low
+
+  * Production build: bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 15:59:16 +0100
+
 yunohost (2.0-beta2~megusta0) test; urgency=low
 
   * update beta2 
