@@ -1,2 +1,0 @@
-config/apache2/* /usr/share/yunohost/yunohost-config/apache2
-config/suphp/* /usr/share/yunohost/yunohost-config/suphp
