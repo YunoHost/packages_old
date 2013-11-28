@@ -22,6 +22,11 @@ then
 	rm /etc/dovecot/global_script
 fi
 
+if [ ! -d /etc/dovecot/global_script/ ];
+then
+        mkdir /etc/dovecot/global_script/
+fi
+
 #Dovecot
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep dovecot /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
@@ -30,10 +35,6 @@ then
 	if [ $? = 0 ];
 	then
 		cp $TMP/{dovecot.conf-dspam,dovecot-ldap.conf,dovecot.conf-dspam-ipv4} /etc/dovecot/
-		if [ ! -d /etc/dovecot/global_script/ ];
-		then
-			mkdir /etc/dovecot/global_script/
-		fi
 		cp $TMP/global_script/spam.sieve /etc/dovecot/global_script/
 		sievec /etc/dovecot/global_script/spam.sieve
 		if [ ! -f /proc/net/if_inet6 ];
@@ -55,7 +56,7 @@ then
 		fi
 		chown -R vmail:mail /etc/dovecot/global_script/
 		chmod -R 770 /etc/dovecot/global_script/
-		sievec /etc/dovecot/global_script/
+		sievec /etc/dovecot/global_script/dovecot.svbin
 		chmod +rw /etc/dovecot/global_script/dovecot.svbin
 	fi
 	service dovecot reload > /dev/null 2>&1
