@@ -1,3 +1,9 @@
+pyminiupnpc (0.1~megusta7) megusta; urgency=low
+
+  * Production build: Update dependencies
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 28 Nov 2013 16:19:50 +0100
+
 pyminiupnpc (0.1~megusta6) megusta; urgency=low
 
   * Production build: fix compil
