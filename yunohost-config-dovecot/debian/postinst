@@ -48,6 +48,8 @@ then
                 sievec /etc/dovecot/global_script/
                 chmod +rw /etc/dovecot/global_script/spam.svbin
 	else
+		cp $TMP/sa-learn-pipe.sh /usr/bin/sa-learn-pipe.sh
+		chmod +x /usr/bin/sa-learn-pipe.sh
 		cp $TMP/{dovecot.conf,dovecot-ldap.conf,dovecot-ipv4.conf} /etc/dovecot/
 		cp $TMP/global_script/dovecot.sieve /etc/dovecot/global_script
 		if [ ! -f /proc/net/if_inet6 ];
