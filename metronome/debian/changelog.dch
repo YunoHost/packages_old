@@ -1,0 +1,23 @@
+metronome (2.9~megusta9) megusta; urgency=low
+
+  * Production build: Update metronome dependencies
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 28 Nov 2013 16:27:22 +0100
+
+metronome (2.9~megusta8) test; urgency=low
+
+  * Test build: Update metronome dependencies
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 28 Nov 2013 16:16:02 +0100
+
+metronome (2.9~megusta7) megusta; urgency=low
+
+  * Production build: bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 15:46:12 +0100
+
+metronome (2.9~megusta6) test; urgency=low
+
+  * update beta2
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 15:44:23 +0100
