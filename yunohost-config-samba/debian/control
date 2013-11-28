@@ -8,6 +8,6 @@ Standards-Version: 3.9.1
 Package: yunohost-config-samba
 Architecture: all
 Homepage: http://yunohost.org
-Depends: samba, smbldap-tools
+Depends: samba, smbldap-tools, samba-common-bin
 Description: meta package to install environement for yunohost
  meta package to install environement for yunohost
