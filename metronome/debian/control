@@ -7,7 +7,7 @@ Standards-Version: 3.9.1
 
 Package: metronome
 Architecture: all
-Depends: lua5.1, lua-expat | liblua5.1-expat0, lua-socket | liblua5.1-socket2, lua-filesystem | liblua5.1-filesystem0, liblua5.1-dev, libidn11-dev, libssl-dev, liblua5.1-event0, lua-zlib, lua-ldap
+Depends: lua5.1, lua-expat | liblua5.1-expat0, lua-socket | liblua5.1-socket2, lua-filesystem | liblua5.1-filesystem0, liblua5.1-dev, libidn11-dev, libssl-dev, liblua5.1-event0, lua-zlib, lua-ldap, lua-sec, build-essential
 Recommends: lua-sec | liblua5.1-sec0 | liblua5.1-sec1
 Suggests: lua-event | liblua5.1-event0 | liblua5.1-event-prosody0
 Provides: metronome-xmpp-server, metronome
