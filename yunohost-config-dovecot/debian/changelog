@@ -1,3 +1,9 @@
+yunohost-config-dovecot (2.0-beta2~megusta3) test; urgency=low
+
+  * Test build: fix compil script sieve2
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 28 Nov 2013 20:26:06 +0100
+
 yunohost-config-dovecot (2.0-beta2~megusta2) test; urgency=low
 
   * Test build: fix compil script sieve

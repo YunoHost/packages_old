@@ -56,7 +56,7 @@ then
 		fi
 		chown -R vmail:mail /etc/dovecot/global_script/
 		chmod -R 770 /etc/dovecot/global_script/
-		sievec /etc/dovecot/global_script/dovecot.svbin
+		sievec /etc/dovecot/global_script/dovecot.sieve
 		chmod +rw /etc/dovecot/global_script/dovecot.svbin
 	fi
 	service dovecot reload > /dev/null 2>&1
