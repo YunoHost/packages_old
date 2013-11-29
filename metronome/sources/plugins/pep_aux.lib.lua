@@ -133,19 +133,12 @@ local function mutually_sub(jid, hash, nodes)
 	end
 end
 
-local function pep_send(recipient, user, ignore)
+local function pep_send(recipient, user)
 	local rec_srv = services[jid_bare(recipient)];
 	local user_srv = services[user];
 	local nodes = user_srv.nodes;
 
-	if ignore then -- fairly hacky...
-		log("debug", "Ignoring notifications filtering for %s until we obtain 'em... if ever.", recipient);
-		for node, object in pairs(nodes) do
-			object.subscribers[recipient] = true;
-			pep_broadcast_last(user_srv, node, recipient);
-			object.subscribers[recipient] = nil;
-		end		
-	elseif not rec_srv then
+	if not rec_srv then
 		local rec_hash = user_srv.recipients[recipient];
 		for node, object in pairs(nodes) do
 			if hash_map[rec_hash] and hash_map[rec_hash][node] then
@@ -279,7 +272,8 @@ local function process_config_form(service, name, form, new)
 		elseif field.attr.var == "pubsub#max_items" then
 			node_config.max_items = tonumber(field:get_child_text("value")) or 20;
 		elseif field.attr.var == "pubsub#persist_items" then
-			node_config.persist_items = (field:get_child_text("value") == "0" and false) or (field:get_child_text("value") == "1" and true);
+			local persist = field:get_child_text("value");
+			node_config.persist_items = ((persist == 0 or persist == "false") and false) or ((persist == "1" or persist == "true") and true);
 		elseif field.attr.var == "pubsub#access_model" then
 			local value = field:get_child_text("value");
 			if value == "presence" or value == "private" or value == "open" then node_config.access_model = value; end
@@ -292,6 +286,7 @@ local function process_config_form(service, name, form, new)
 	if new then return true, node_config end
 
 	service:save_node(name);
+	service:save();
 	return true;
 end
 

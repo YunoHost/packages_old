@@ -11,6 +11,7 @@ local ripairs, tonumber, type, os_remove, os_time, select = ripairs, tonumber, t
 local pubsub = require "util.pubsub";
 local st = require "util.stanza";
 local jid_bare = require "util.jid".bare;
+local jid_join = require "util.jid".join;
 local jid_split = require "util.jid".split;
 local uuid_generate = require "util.uuid".generate;
 local calculate_hash = require "util.caps".calculate_hash;
@@ -63,9 +64,8 @@ local function idle_service_closer()
 end
 
 local function disco_info_query(user, from)
-	-- COMPAT from ~= stanza.attr.to because OneTeam can"t deal with missing from attribute
 	core_post_stanza(hosts[module.host], 
-		st.stanza("iq", {from=user, to=from, id="disco", type="get"})
+		st.stanza("iq", { from = user, to = from, id = "disco", type = "get" })
 			:query("http://jabber.org/protocol/disco#info")
 	);
 	module:log("debug", "Sending disco info query to: %s", from);
@@ -85,22 +85,13 @@ function handle_pubsub_iq(event)
 	local username, host = jid_split(user);
 	local time_now = os_time();
 	local user_service = services[user];
+	local is_new;
 	if not user_service and um_user_exists(username, host) then -- create service on demand.
-		-- check if the creating user is the owner or someone requesting its pep service,
-		-- required for certain crawling bots, e.g. Jappix Me
-		if hosts[host].sessions[username] and (full_jid and jid_bare(full_jid) == username) then
-			set_service(pubsub.new(pep_new(username)), user, true);
-
-			-- discover the creating resource immediatly.
-			module:fire_event("pep-get-client-filters", { user = user, to = full_jid });
-		else
-			set_service(pubsub.new(pep_new(username)), user, true);
-		end
+		user_service = set_service(pubsub.new(pep_new(username)), user, true);
+		is_new = true;
 	end
 
-	if not user_service then -- we should double check it's created,
-		return;            -- it does not if the user doesn't exist.
-	end
+	if not user_service then return; end
 
 	user_service.last_used = time_now;
 
@@ -130,10 +121,16 @@ function handle_pubsub_iq(event)
 
 	if handler then
 		if not config then 
-			return handler(user_service, origin, stanza, action); 
+			handler(user_service, origin, stanza, action); 
 		else 
-			return handler(user_service, origin, stanza, action, config); 
+			handler(user_service, origin, stanza, action, config); 
 		end
+		
+		if is_new and host == module.host and origin.presence then -- a "little" creative.
+			presence_handler({ origin = origin, stanza = origin.presence });
+		end
+		
+		return true;
 	else
 		return origin.send(pep_error_reply(stanza, "feature-not-implemented"));
 	end
@@ -380,7 +377,7 @@ module:hook("account-disco-items", function(event)
 	end
 end);
 
-module:hook("presence/bare", function(event)
+function presence_handler(event)
 	-- inbound presence to bare JID recieved           
 	local origin, stanza = event.origin, event.stanza;
 	local user = stanza.attr.to or (origin.username.."@"..origin.host);
@@ -414,10 +411,7 @@ module:hook("presence/bare", function(event)
 				
 			if not hash_map[hash] then
 				if current ~= false then
-					module:fire_event("pep-get-client-filters", { user = user, to = stanza.attr.from or origin.full_jid, recipients = recipients });
-				
-					-- ignore filters once either because they aren't supported or because we don't have 'em yet
-					pep_send(recipient, user, true);
+					module:fire_event("pep-get-client-filters", { user = user, to = stanza.attr.from or origin.full_jid });
 				end
 			else
 				recipients[recipient] = hash;
@@ -454,10 +448,12 @@ module:hook("presence/bare", function(event)
 			end
 		end
 	end
-end, 10);
+end
+
+module:hook("presence/bare", presence_handler, 10);
 
 module:hook("pep-get-client-filters", function(event)
-	local user, to, recipients = event.user, event.to, event.hash, event.recipients;
+	local user, to = event.user, event.to;
 	disco_info_query(user, to);
 end, 100);
 
@@ -514,13 +510,24 @@ module:hook("iq-result/bare/disco", function(event)
 					end
 				end
 			end
-			for node, object in pairs(nodes) do
-				pep_send(contact, user);
-			end
+			pep_send(contact, user);
 			return true; -- end cb processing.
 		end
 	end
 end, -1);
+
+module:hook("resource-unbind", function(event)
+	local session = event.session;
+	local user = jid_join(session.username, session.host);
+	local has_sessions = bare_sessions[user];
+	local service = services[user];
+
+	if not has_sessions and service then -- wipe recipients
+		service.recipients = {};
+		local nodes = service.nodes;
+		for _, node in pairs(nodes) do node.subscribers = {}; end
+	end
+end);
 
 module:hook_global("user-deleted", function(event)
 	local username, host = event.username, event.host;

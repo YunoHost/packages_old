@@ -1,3 +1,15 @@
+metronome (3.1.6~megusta2) test; urgency=low
+
+  * Test build: Update from mercurial
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 29 Nov 2013 18:25:28 +0100
+
+metronome (3.1.6~megusta1) megusta; urgency=low
+
+  * Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 29 Nov 2013 18:24:36 +0100
+
 metronome (2.9~megusta9) megusta; urgency=low
 
   * Production build: Update metronome dependencies

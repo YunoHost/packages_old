@@ -28,11 +28,10 @@ local xmlns_sasl = "urn:ietf:params:xml:ns:xmpp-sasl";
 local xmlns_bind = "urn:ietf:params:xml:ns:xmpp-bind";
 
 local function reload()
-	module:log("info", "server configuration is being reloaded, refreshing options.");
 	secure_auth_only = module:get_option_boolean("c2s_require_encryption", false) or module:get_option_boolean("require_encryption", false);
 	allow_unencrypted_plain_auth = module:get_option_boolean("allow_unencrypted_plain_auth", false);
 end
-module:hook ("config-reloaded", reload);
+module:hook_global("config-reloaded", reload);
 
 local function build_reply(status, ret, err_msg)
 	local reply = st.stanza(status, {xmlns = xmlns_sasl});
@@ -264,11 +263,16 @@ module:hook("stream-features", function(event)
 			end
 		end
 		if mechanisms[1] then features:add_child(mechanisms); end
-	else
+	end
+end, 99);
+
+module:hook("stream-features", function(event)
+	local origin, features = event.origin, event.features;
+	if origin.username then
 		features:tag("bind", bind_attr):tag("required"):up():up();
 		features:tag("session", xmpp_session_attr):tag("optional"):up():up();
 	end
-end);
+end, 96);
 
 module:hook("s2s-stream-features", function(event)
 	local origin, features = event.origin, event.features;
@@ -282,7 +286,7 @@ module:hook("s2s-stream-features", function(event)
 			:up():up();
 		end
 	end
-end);
+end, 99);
 
 module:hook("iq/self/urn:ietf:params:xml:ns:xmpp-bind:bind", function(event)
 	local origin, stanza = event.origin, event.stanza;

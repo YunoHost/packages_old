@@ -114,11 +114,7 @@ function load(filename, format)
 			f:close();
 			if ok then
 				config = new_config;
-				fire_event("config-reloaded", {
-					filename = filename,
-					format = format,
-					config = config
-				});
+				fire_event("config-reloaded", { filename = filename, format = format, config = config });
 			end
 			return ok, "parser", err;
 		end

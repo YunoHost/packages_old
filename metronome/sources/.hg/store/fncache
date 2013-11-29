@@ -249,3 +249,4 @@ data/util/address_selection.lua.i
 data/util/rfc6724.lua.i
 data/plugins/sasl_aux.lib.lua.i
 data/util/sasl/external.lua.i
+data/plugins/mod_stream_management.lua.i

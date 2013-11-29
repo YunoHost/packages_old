@@ -234,12 +234,19 @@ function stream_callbacks.streamopened(context, attr)
 	if not sid then
 		context.notopen = nil; -- Signals that we accept this opening tag
 		
-		-- TODO: Sanity checks here (rid, to, known host, etc.)
 		if not hosts[attr.to] then
 			log("debug", "BOSH client tried to connect to unknown host: %s", tostring(attr.to));
-			local close_reply = st.stanza("body", { xmlns = xmlns_bosh, type = "terminate",
-				["xmlns:stream"] = xmlns_streams, condition = "host-unknown" });
-			response:send(tostring(close_reply));
+			response:send(tostring(st.stanza("body", { xmlns = xmlns_bosh, type = "terminate",
+				["xmlns:stream"] = xmlns_streams, condition = "host-unknown" })));
+			return;
+		elseif hosts[attr.to].type == "component" then
+			log("debug", "BOSH client tried to connect to a component host: %s", tostring(attr.to));
+			local reply = st.stanza("body", { xmlns = xmlns_bosh, type = "terminate",
+				["xmlns:stream"] = xmlns_streams, condition = "remote-stream-error" })
+					:tag("stream:error")
+						:tag("not-allowed", stream_xmlns_attr):up()
+						:tag("text", stream_xmlns_attr):text("This entity doesn't offer BOSH client streams"):up():up();
+			response:send(tostring(reply));
 			return;
 		end
 		

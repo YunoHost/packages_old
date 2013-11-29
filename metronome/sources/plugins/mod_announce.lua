@@ -7,26 +7,17 @@
 -- As per the sublicensing clause, this file is also MIT/X11 Licensed.
 -- ** Copyright (c) 2009-2013, Kim Alvefur, Florian Zeitz, Matthew Wild, Waqas Hussain
 
-local st, jid = require "util.stanza", require "util.jid";
+local st = require "util.stanza";
 
 function send_to_online(message, host)
-	local sessions;
-	if host then
-		sessions = { [host] = hosts[host] };
-	else
-		sessions = hosts;
-	end
-
 	local c = 0;
-	for hostname, host_session in pairs(sessions) do
-		if host_session.sessions then
-			message.attr.from = hostname;
-			for username in pairs(host_session.sessions) do
-				c = c + 1;
-				message.attr.to = username.."@"..hostname;
-				module:send(message);
-			end
-		end
+	local host_sessions = hosts[host].sessions;
+	message.attr.from = host;
+	
+	for node in pairs(host_sessions) do
+		c = c + 1;
+		message.attr.to = node .. "@" .. host;
+		module:send(message);
 	end
 
 	return c;
@@ -50,6 +41,10 @@ function announce_handler(self, data, state)
 		end
 
 		local fields = announce_layout:data(data.form);
+		
+		if fields.announcement == "" then
+			return { status = "completed", error = { message = "Please supply a message to broadcast" } };
+		end
 
 		module:log("info", "Sending server announcement to all online users");
 		local message = st.message({type = "headline"}, fields.announcement):up()
@@ -69,4 +64,3 @@ end
 local adhoc_new = module:require "adhoc".new;
 local announce_desc = adhoc_new("Send Announcement to Online Users", "http://jabber.org/protocol/admin#announce", announce_handler, "admin");
 module:provides("adhoc", announce_desc);
-

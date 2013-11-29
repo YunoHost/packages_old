@@ -70,6 +70,8 @@ function moduleapi.http_url(module, app_name, default_path)
 end
 
 function module.add_host(module)
+	module:depends("favicon");
+
 	local host = module.host;
 	local apps = {};
 	module.environment.apps = apps;
