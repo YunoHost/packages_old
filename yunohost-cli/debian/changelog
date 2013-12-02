@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta2~megusta9) megusta; urgency=low
+
+  * Production build: moulinette
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 02 Dec 2013 11:06:14 +0100
+
 yunohost-cli (2.0-beta2~megusta8) megusta; urgency=low
 
   * Production build: moulinette
