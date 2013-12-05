@@ -127,3 +127,9 @@ if [ ! -f /etc/yunohost/firewall.yml ];
 then
 	cp $TMP/others/firewall.yml /etc/yunohost/
 fi
+
+# Service list
+if [ ! -f /etc/yunohost/services.yml ];
+then
+	cp $TMP/others/services.yml /etc/yunohost/
+fi
