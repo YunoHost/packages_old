@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta2~megusta5) test; urgency=low
+
+  * Test build: Remove firewall.yml and service.yml
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 07 Dec 2013 11:30:07 +0100
+
 yunohost-config-others (2.0-beta2~megusta4) test; urgency=low
 
   * Test build: Update services.yml
