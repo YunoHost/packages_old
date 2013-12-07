@@ -1,4 +1,18 @@
 #!/bin/bash
 
+TMP=/usr/share/pyshared/yunohost-cli
+
+#Firewall
+if [ ! -f /etc/yunohost/firewall.yml ];
+then
+	cp $TMP/firewall.yml /etc/yunohost/
+fi
+
+# Service list
+if [ ! -f /etc/yunohost/services.yml ];
+then
+	cp $TMP/services.yml /etc/yunohost/
+fi
+
 update-rc.d yunohost-api defaults
 service yunohost-api restart

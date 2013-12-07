@@ -1,3 +1,10 @@
+yunohost-cli (2.0-beta2~megusta17) test; urgency=low
+
+  * Test build: Update from git + copy firewall.yml and service.yml from
+    yunohost-cli package
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 07 Dec 2013 11:22:08 +0100
+
 yunohost-cli (2.0-beta2~megusta16) test; urgency=low
 
   * Test build: Update from git
