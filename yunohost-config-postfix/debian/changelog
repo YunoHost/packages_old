@@ -1,3 +1,9 @@
+yunohost-config-postfix (2.0-beta2~megusta4) megusta; urgency=low
+
+  * Production build: prduction build
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 11 Dec 2013 15:44:10 +0100
+
 yunohost-config-postfix (2.0-beta2~megusta3) test; urgency=low
 
   * Test build: add depends postgrey
