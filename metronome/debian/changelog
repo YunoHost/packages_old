@@ -1,3 +1,9 @@
+metronome (3.2~megusta3) test; urgency=low
+
+  * Test build: Change vcard.lib.lua path
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 12 Dec 2013 14:05:28 +0100
+
 metronome (3.2~megusta2) test; urgency=low
 
   * Test build: 3.2
