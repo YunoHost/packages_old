@@ -17,6 +17,7 @@ local st = require "util.stanza";
 local sha256_hash = require "util.hashes".sha256;
 local nameprep = require "util.encodings".stringprep.nameprep;
 
+local xmlns_db = "urn:xmpp:features:dialback";
 local xmlns_stream = "http://etherx.jabber.org/streams";
 
 local dialback_requests = setmetatable({}, { __mode = "v" });
@@ -97,7 +98,6 @@ module:hook("stanza/jabber:server:dialback:result", function(event)
 		module:fire_event("route/remote", {
 			from_host = to, to_host = from;
 			stanza = st.stanza("db:verify", { from = to, to = from, id = origin.streamid }):text(stanza[1]);
-			using_dialback = true;
 		});
 		return true;
 	end
@@ -155,18 +155,26 @@ module:hook("stanza/jabber:server:dialback:result", function(event)
 end);
 
 module:hook_stanza("urn:ietf:params:xml:ns:xmpp-sasl", "failure", function (origin, stanza)
-	if origin.external_auth == "failed" then
+	if origin.external_auth == "failed" and origin.can_do_dialback then
 		module:log("debug", "SASL EXTERNAL failed, falling back to dialback");
 		initiate_dialback(origin);
+		return true;
+	else
+		module:log("debug", "SASL EXTERNAL failed and no dialback available, closing stream(s)");
+		origin:close();
 		return true;
 	end
 end, 100);
 
 module:hook_stanza(xmlns_stream, "features", function (origin, stanza)
 	if not origin.external_auth or origin.external_auth == "failed" then
-		module:log("debug", "Initiating dialback...");
-		initiate_dialback(origin);
-		return true;
+		local db = origin.stream_declared_ns and origin.stream_declared_ns["db"];
+		if db == "jabber:server:dialback" or stanza:get_child("dialback", xmlns_db) then
+			module:log("debug", "Initiating dialback...");
+			origin.can_do_dialback = true;
+			initiate_dialback(origin);
+			return true;
+		end
 	end
 end, 100);
 
@@ -181,8 +189,8 @@ module:hook("s2s-stream-features", function (data)
 	data.features:tag("dialback", { xmlns = "urn:xmpp:features:dialback" }):up();
 end, 98);
 
-function module.unload()
-	if not s2s_strict_mode then
+function module.unload(reload)
+	if not reload and not s2s_strict_mode then
 		module:log("warn", "In interoperability mode mod_s2s directly depends on mod_dialback for its local instances.");
 		module:log("warn", "Perhaps it will be unloaded as well for this host. (To prevent this set s2s_strict_mode = true in the config)");
 	end

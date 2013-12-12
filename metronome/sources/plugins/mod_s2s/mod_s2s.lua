@@ -44,6 +44,8 @@ local sessions = module:shared("sessions");
 local log = module._log;
 local last_inactive_clean = now();
 
+local xmlns_stream = "http://etherx.jabber.org/streams";
+
 --- Handle stanzas to remote domains
 
 local function time_and_clean(_session, now)
@@ -139,7 +141,7 @@ local function session_open_stream(session, from, to)
 	local attr = {
 		xmlns = "jabber:server", 
 		["xmlns:db"] = db and "jabber:server:dialback" or nil,
-		["xmlns:stream"] = "http://etherx.jabber.org/streams",
+		["xmlns:stream"] = xmlns_stream,
 		id = session.streamid,
 		from = from, to = to,
 		version = session.version and (session.version > 0 and "1.0" or nil), 
@@ -158,7 +160,6 @@ function route_to_new_session(event)
 	-- Store in buffer
 	host_session.bounce_sendq = bounce_sendq;
 	host_session.open_stream = session_open_stream;
-	host_session.using_dialback = event.using_dialback;
 
 	host_session.sendq = { {tostring(stanza), stanza.attr.type ~= "error" and stanza.attr.type ~= "result" and st.reply(stanza)} };
 	log("debug", "stanza [%s] queued until connection complete", tostring(stanza.name));
@@ -172,10 +173,6 @@ function route_to_new_session(event)
 end
 
 function module.add_host(module)
-	if module:get_option_boolean("disallow_s2s", false) then
-		module:log("warn", "The 'disallow_s2s' config option is deprecated.");
-		return nil, "This host has disallow_s2s set";
-	end
 	if not s2s_strict_mode then
 		module:depends("dialback");
 	else
@@ -184,6 +181,14 @@ function module.add_host(module)
 			load_module(module.host, "dialback") 
 		end
 	end
+	module:hook_stanza(xmlns_stream, "features", function(origin, stanza)
+		if origin.type == "s2sout_unauthed" then
+			module:log("warn", "Remote server doesn't offer any mean of (known) authentication, closing stream(s)");
+			origin:close();
+		end
+		return true;
+	end, -10)
+	module:depends("sasl_s2s");
 	module:hook("route/remote", route_to_existing_session, 200);
 	module:hook("route/remote", route_to_new_session, 100);
 end
@@ -233,7 +238,7 @@ end
 
 --- XMPP stream event handlers
 
-local stream_callbacks = { default_ns = "jabber:server", handlestanza =  core_process_stanza };
+local stream_callbacks = { default_ns = "jabber:server", handlestanza = core_process_stanza };
 
 local xmlns_xmpp_streams = "urn:ietf:params:xml:ns:xmpp-streams";
 
@@ -324,6 +329,7 @@ function stream_callbacks.streamopened(session, attr)
 		-- If we are just using the connection for verifying dialback keys, we won't try and auth it
 		if not attr.id then error("stream response did not give us a streamid!!!"); end
 		session.streamid = attr.id;
+		session.stream_attributes = attr;
 
 		if session.secure and not session.cert_chain_status then check_cert_status(session); end
 
@@ -396,7 +402,7 @@ local listener = {};
 
 --- Session methods
 local stream_xmlns_attr = {xmlns = "urn:ietf:params:xml:ns:xmpp-streams"};
-local default_stream_attr = { ["xmlns:stream"] = "http://etherx.jabber.org/streams", xmlns = stream_callbacks.default_ns, version = "1.0", id = "" };
+local default_stream_attr = { ["xmlns:stream"] = xmlns_stream, xmlns = stream_callbacks.default_ns, version = "1.0", id = "" };
 local function session_close(session, reason, remote_reason)
 	local log = session.log or log;
 	if session.conn then
@@ -491,9 +497,11 @@ local function initialize_session(session)
 			return; -- Ok, we're connected
 		end
 		-- Not connected, need to close session and clean up
-		(session.log or log)("debug", "Destroying incomplete session %s->%s due to inactivity",
-		session.from_host or "(unknown)", session.to_host or "(unknown)");
-		session:close("connection-timeout");
+		if session.type ~= "s2s_destroyed" then
+			(session.log or log)("debug", "Destroying incomplete session %s->%s due to inactivity",
+			session.from_host or "(unknown)", session.to_host or "(unknown)");
+			session:close("connection-timeout");
+		end
 	end);
 end
 

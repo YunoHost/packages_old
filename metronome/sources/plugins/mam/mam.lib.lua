@@ -10,11 +10,11 @@ local module_host = module.host;
 local dt = require "util.datetime".datetime;
 local jid_bare = require "util.jid".bare;
 local jid_join = require "util.jid".join;
-local jid_split = require "util.jid".split;
+local jid_section = require "util.jid".section;
 local st = require "util.stanza";
 local uuid = require "util.uuid".generate;
 local storagemanager = storagemanager;
-local load_roster = rostermanager.load_roster;
+local load_roster = require "util.rostermanager".load_roster;
 local ipairs, now, pairs, ripairs, select, t_remove, tostring = ipairs, os.time, pairs, ripairs, select, table.remove, tostring;
       
 local xmlns = "urn:xmpp:mam:0";
@@ -42,7 +42,7 @@ end
 local function save_stores()
 	to_save = now();
 	for bare, store in pairs(session_stores) do
-		local user = jid_split(bare);
+		local user = jid_section(bare, "node");
 		storage:set(user, store);
 	end	
 end
@@ -332,10 +332,10 @@ local function process_message(event, outbound)
 	
 	if outbound then
 		bare_session = bare_sessions[bare_from];
-		user = jid_split(from);
+		user = jid_section(from, "node");
 	else
 		bare_session = bare_sessions[bare_to];
-		user = jid_split(to);
+		user = jid_section(to, "node");
 	end
 	
 	local archive = bare_session and bare_session.archiving;

@@ -19,6 +19,7 @@ local hosts = metronome.hosts;
 local my_host = module:get_host();
 local strchar = string.char;
 local strformat = string.format;
+local section_jid = require "util.jid".section;
 local split_jid = require "util.jid".split;
 local config_get = require "core.configmanager".get;
 local urldecode = require "net.http".urldecode;
@@ -82,7 +83,7 @@ local function generate_room_list()
 	local rooms = "";
 	local html_rooms = html.rooms;
 	for jid, room in pairs(muc_rooms) do
-		local node = split_jid(jid);
+		local node = section_jid(jid, "node");
 		if not room._data.hidden and room._data.logging and node then
 			rooms = rooms .. html_rooms.bit:gsub("###ROOM###", node):gsub("###COMPONENT###", my_host);
 		end
@@ -239,16 +240,16 @@ local function generate_day_room_content(bare_room_jid)
 	do
 		local found = 0;
 		for jid, room in pairs(muc_rooms) do
-			local node = split_jid(jid)
+			local node = section_jid(jid, "node");
 			if not room._data.hidden and room._data.logging and node then
 				if found == 0 then
-					previous_room = node
+					previous_room = node;
 				elseif found == 1 then
-					next_room = node
-					found = -1
+					next_room = node;
+					found = -1;
 				end
 				if jid == bare_room_jid then
-					found = 1
+					found = 1;
 				end
 
 				rooms = rooms .. html_days.rooms.bit:gsub("###ROOM###", node);
@@ -262,9 +263,9 @@ local function generate_day_room_content(bare_room_jid)
 	end
 	if attributes and room then
 		local already_done_years = {};
-		topic = room._data.subject or "(no subject)"
+		topic = room._data.subject or "(no subject)";
 		if topic:len() > 135 then
-			topic = topic:sub(1, topic:find(" ", 120)) .. " ..."
+			topic = topic:sub(1, topic:find(" ", 120)) .. " ...";
 		end
 		local folders = {};
 		for folder in lfs.dir(path) do table.insert(folders, folder); end
@@ -293,24 +294,18 @@ local function generate_day_room_content(bare_room_jid)
 	return tmp:gsub("###JID###", bare_room_jid), "Chatroom logs for "..bare_room_jid;
 end
 
-local function parse_message(body, title, time, nick)
+local function parse_message(body, title, time, nick, day_t, day_m, day_mm, day_title)
 	local ret = "";
-	local html_day = html.day;
+	time = day_t:gsub("###TIME###", time):gsub("###UTC###", time);
+	nick = html_escape(nick:match("/(.+)$"));
 
 	if nick and body then
 		body = html_escape(body);
-		local me = body:find("^/me");
-		local template = "";
-		if not me then
-			template = html_day.message;
-		else
-			template = html_day.messageMe;
-			body = body:gsub("^/me ", "");
-		end
-		ret = template:gsub("###TIME_STUFF###", time):gsub("###NICK###", nick):gsub("###MSG###", body);
+		if body:find("^/me") then body = body:gsub("^/me ", ""); day_m = nil; end
+		ret = (day_m or day_mm):gsub("###TIME_STUFF###", time):gsub("###NICK###", nick):gsub("###MSG###", body);
 	elseif nick and title then
 		title = html_escape(title);
-		ret = html_day.titleChange:gsub("###TIME_STUFF###", time):gsub("###NICK###", nick):gsub("###TITLE###", title);
+		ret = day_title:gsub("###TIME_STUFF###", time):gsub("###NICK###", nick):gsub("###TITLE###", title);
 	end
 	return ret;
 end
@@ -448,25 +443,18 @@ local function parse_day(bare_room_jid, room_subject, bare_day)
 		year = year + 2000;
 	end
 
-	temptime.day = tonumber(day)
-	temptime.month = tonumber(month)
-	temptime.year = tonumber(year)
-	calendar = create_month(temptime.month, temptime.year, {callback=day_callback, path=path, room=node, webpath="../"}) or ""
+	temptime.day = tonumber(day);
+	temptime.month = tonumber(month);
+	temptime.year = tonumber(year);
+	calendar = create_month(temptime.month, temptime.year, {callback=day_callback, path=path, room=node, webpath="../"}) or "";
 
 	if bare_day then
+		local day_t, day_m, day_mm, day_title = html_day.time, html_day.message, html_day.messageMe, html_day.titleChange;
 		local data = data_load(node, host, datastore .. "/" .. bare_day:match("^20(.*)"):gsub("-", ""));
 		if data then
 			for i, entry in ipairs(data) do
-				local timeStuff = html_day.time:gsub("###TIME###", entry.time):gsub("###UTC###", entry.time);
-				local nick;
-				local tmp;
-
-				nick = html_escape(entry.from:match("/(.+)$"));
-				tmp = parse_message(entry.body, entry.subject, timeStuff, nick);
-				if tmp then
-					ret = ret .. tmp
-					tmp = nil;
-				end
+				local tmp = parse_message(entry.body, entry.subject, entry.time, entry.from, day_t, day_m, day_mm, day_title);
+				if tmp then ret = ret .. tmp; end
 			end
 		end
 		if ret ~= "" then
