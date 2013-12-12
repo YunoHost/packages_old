@@ -40,7 +40,10 @@ then
 	fi
 	cp $TMP/ldap* /etc/postfix
 	cp $TMP/postgrey /etc/default/
-	kill $(cat /var/run/postgrey.pid)
+	if [ -f /var/run/postgrey.pid];
+	then
+		kill $(cat /var/run/postgrey.pid)
+	fi	
 	service postgrey restart > /dev/null 2>&1
 	service postfix reload > /dev/null 2>&1
 fi
