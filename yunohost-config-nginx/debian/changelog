@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-beta2~megusta6) test; urgency=low
+
+  * Test build: Test for Raspi
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 12 Dec 2013 19:55:04 +0100
+
 yunohost-config-nginx (2.0-beta2~megusta5) test; urgency=low
 
   * Test build: Test over for Raspi
