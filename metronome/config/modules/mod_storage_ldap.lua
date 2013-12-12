@@ -15,7 +15,7 @@
 
 local setmetatable = setmetatable;
 local ldap         = module:require 'ldap';
-local vcardlib     = module:require 'ldap/vcard';
+local vcardlib     = module:require 'vcard';
 local st           = require 'util.stanza';
 local gettime      = require 'socket'.gettime;
 
