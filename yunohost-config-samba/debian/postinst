@@ -6,11 +6,16 @@ TMP=/usr/share/yunohost/yunohost-config
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep samba /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
         cp $TMP/samba/* /etc/samba/
-        cp $TMP/smbldap-tools/* /etc/smbldap-tools/
+        cp $TMP/smbldap-tools/smbldap.conf /etc/smbldap-tools/smbldap.conf
 	mkdir -p /home/yunohost.samba/{share,public,profiles,netlogon}
         chmod 770 /home/yunohost.samba/share /home/yunohost.samba/public
         chmod 777 /home/yunohost.samba/profiles
         chmod 600 /etc/smbldap-tools/smbldap_bind.conf
+fi
+
+if [ ! -f /etc/smbldap-tools/smbldap_bind.conf ];
+then
+        cp $TMP/smbldap-tools/smbldap_bind.conf /etc/smbldap-tools/smbldap_bind.conf
 fi
 
 service slapd restart
