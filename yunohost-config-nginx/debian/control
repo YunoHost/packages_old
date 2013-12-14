@@ -7,7 +7,7 @@ Standards-Version: 3.9.1
 
 Package: yunohost-config-nginx
 Architecture: all
-Depends: php5-fpm, php5-ldap, php5-mysql, php5-gd, php5-curl, php5-mcrypt, php5-intl, php-gettext, yunohost-config-others, ssowat, openresty (>=1.4.1) | nginx-extras (>=1.4.1)
+Depends: php5-fpm, php5-ldap, php5-mysql, php5-gd, php5-curl, php5-mcrypt, php5-intl, php-gettext, yunohost-config-others, openresty (>=1.4.1) | nginx-extras (>=1.4.1)
 Replaces: apache2.2-common
 Conflicts: apache2.2-common
 Homepage: http://www.yunohost.org
