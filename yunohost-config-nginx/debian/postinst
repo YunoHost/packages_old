@@ -14,5 +14,10 @@ then
 	rm /etc/nginx/sites-enabled/default
 fi
 
+dpkg -l | grep openresty
+if [[ $? -eq 0 ]]; then
+    cp $TMP/openresty.conf /etc/nginx/conf.d/
+fi
+
 service nginx restart > /dev/null 2>&1
 exit 0
