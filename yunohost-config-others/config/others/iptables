@@ -19,12 +19,12 @@ start)
         touch /var/run/iptables
     fi
 
-    yunohost firewall checkupnp > /dev/null 2>&1
+    yunohost firewall checkupnp --no-ldap > /dev/null 2>&1
     if [ $? = 0 ];
-	then yunohost firewall installupnp
+	then yunohost firewall installupnp --no-ldap
     fi    
 
-    yunohost firewall reload > /dev/null 2>&1
+    yunohost firewall reload --no-ldap > /dev/null 2>&1
 
     ;;
 
@@ -73,7 +73,7 @@ status)
     echo "**********"
     echo "** UPNP **"
     echo "**********"
-    yunohost firewall checkupnp > /dev/null 2>&1
+    yunohost firewall checkupnp --no-ldap > /dev/null 2>&1
     if [ $? = 0 ];
     then
 	echo "UPNP Enable"
