@@ -28,7 +28,7 @@ if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep dspam /etc/yunohost/yunohost
 then
 	PATHLIBHASH="$(dpkg -L libdspam7-drv-hash | grep libhash_drv.so$ -m1)"
 	cp $TMP/{default.prefs,dspam.conf} /etc/dspam
-	sed -i "s@PATHLIBHASH@$PATHLIBHASH" /etc/dspam/dspam.conf
+	sed -i "s@PATHLIBHASH@$PATHLIBHASH@" /etc/dspam/dspam.conf
 	cp $TMP/extlookup.conf /etc/dspam/dspam.d/
 	sed -i 's/START\=no/START=yes/' /etc/default/dspam
 	service dspam restart > /dev/null 2>&1

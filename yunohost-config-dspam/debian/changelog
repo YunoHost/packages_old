@@ -1,3 +1,9 @@
+yunohost-config-dspam (2.0-beta2~megusta3) test; urgency=low
+
+  * Test build: sed PATH to libhash
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 18 Dec 2013 10:57:02 +0100
+
 yunohost-config-dspam (2.0-beta2~megusta2) test; urgency=low
 
   * Test build: sed PATH to libhash
