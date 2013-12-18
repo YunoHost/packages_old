@@ -1,3 +1,9 @@
+yunohost-config-postfix (2.0-beta2~megusta8) test; urgency=low
+
+  * Test build: remove old rbl
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 18 Dec 2013 13:36:47 +0100
+
 yunohost-config-postfix (2.0-beta2~megusta7) megusta; urgency=low
 
   * Production build: fix postgrey
