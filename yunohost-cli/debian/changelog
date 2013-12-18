@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta2~megusta24) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 18 Dec 2013 17:42:53 +0100
+
 yunohost-cli (2.0-beta2~megusta23) test; urgency=low
 
   * Test build: Add DNSUtils to CLI dependencies
