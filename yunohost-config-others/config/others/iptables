@@ -41,7 +41,7 @@ stop|force-stop)
         /etc/init.d/fail2ban stop
     fi
 
-    yunohost firewall stop
+    yunohost firewall stop --no-ldap
  
     # start of fail2ban
     if [ -x /etc/init.d/fail2ban ]; then
