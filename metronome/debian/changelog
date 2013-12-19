@@ -1,3 +1,9 @@
+metronome (3.2~megusta5) megusta; urgency=low
+
+  * Production build: let's go to beta3
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 19 Dec 2013 17:14:15 +0100
+
 metronome (3.2~megusta4) test; urgency=low
 
   * Test build: Change vcard.lib.lua path
