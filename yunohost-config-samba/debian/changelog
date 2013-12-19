@@ -1,3 +1,9 @@
+yunohost-config-samba (2.0-beta2~megusta5) megusta; urgency=low
+
+  * Production build: let's go to beta3
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 19 Dec 2013 17:44:29 +0100
+
 yunohost-config-samba (2.0-beta2~megusta4) test; urgency=low
 
   * Test build: Fix SID fail
