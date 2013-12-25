@@ -1,3 +1,4 @@
 #!/bin/bash
+ln -s /etc/ssl/certs/ca-yunohost_crt.pem /usr/share/yunohost/admin/ca.crt
 chown -R www-data: /usr/share/yunohost/admin
 service yunohost-api restart
