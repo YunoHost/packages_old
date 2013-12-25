@@ -11,13 +11,6 @@ function randpass() {
 }
 
 #DSPAM
-service amavis status > /dev/null 2>&1
-if [ $? = 0 ];
-then
-	service amavis stop > /dev/null 2>&1
-	update-rc.d amavis remove
-fi
-
 if [ ! -d /var/spool/postfix/dspam ];
 then
         mkdir /var/spool/postfix/dspam
@@ -30,6 +23,11 @@ then
 	cp $TMP/{default.prefs,dspam.conf} /etc/dspam
 	sed -i "s@PATHLIBHASH@$PATHLIBHASH@" /etc/dspam/dspam.conf
 	cp $TMP/extlookup.conf /etc/dspam/dspam.d/
-	sed -i 's/START\=no/START=yes/' /etc/default/dspam
+fi
+
+dpkg -l | grep yunohost-config-amavis > /dev/null 2>&1
+if [[ ! $? -eq 0 ]];
+then
+	sed -i 's/START=no/START=yes/' /etc/default/dspam
 	service dspam restart > /dev/null 2>&1
 fi
