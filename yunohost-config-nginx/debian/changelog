@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-beta2~megusta12) megusta; urgency=low
+
+  * Production build: Allow mysqlnd
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 29 Dec 2013 16:18:33 +0100
+
 yunohost-config-nginx (2.0-beta2~megusta11) megusta; urgency=low
 
   * Production build: let's go to beta3
