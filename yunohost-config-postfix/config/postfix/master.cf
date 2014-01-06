@@ -109,7 +109,7 @@ mailman   unix  -       n       n       -       -       pipe
 
 # Dovecot LDA 
 dovecot    unix  -       n       n       -       -       pipe 
-    flags=DRhu user=vmail:mail argv=/usr/lib/dovecot/deliver -d $recipient
+    flags=DRhu user=vmail:mail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop} -m ${extension}
 # ==========================================================================
 # service type  private unpriv  chroot  wakeup  maxproc command + args
 #               (yes)   (yes)   (yes)   (never) (100)
