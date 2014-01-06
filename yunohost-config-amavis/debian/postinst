@@ -12,11 +12,11 @@ function randpass() {
 }
 
 #Amavis
-service dspam status > /dev/null 2>&1
-if [ $? = 0 ];
+if [ $(grep START /etc/default/dspam | cut -d= -f2) = "yes" ];
 then
 	service dspam stop
 	sed -i 's/START\=yes/START=no/' /etc/default/dspam
+	chmod -x /etc/cron.daily/dspam
 fi
 
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep amavis /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
