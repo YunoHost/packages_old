@@ -28,7 +28,11 @@ then
 	cp $SRC/spamassassin/local.cf /etc/spamassassin/
 fi
 
-if [ ! -d /var/lib/amavis/.razor/ ];
+
+IPV4=$(wget -q -O- -4 http://ip.yunohost.org)
+
+
+if [ ! -d /var/lib/amavis/.razor/ ] && [ $IPV4 != "" ];
 then
 	su - amavis -c "razor-admin -d --create"
 	su - amavis -c "razor-admin -register"

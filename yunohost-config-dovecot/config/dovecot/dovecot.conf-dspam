@@ -58,11 +58,12 @@ mail_plugins = $mail_plugins sieve
 plugin {
 antispam_backend = dspam
 antispam_dspam_binary = /usr/bin/dspam
-antispam_dspam_args = ---deliver;--user;%u
-antispam_spam = SPAM; Junk
+antispam_dspam_args = --deliver;--user;%u
+antispam_spam = SPAM;Junk
 antispam_trash = Trash
 antisapm_unsure = Trash
 antispam_signature = X-DSPAM-Signature
+antispam_signature_missing = move
 }
 
 plugin {
