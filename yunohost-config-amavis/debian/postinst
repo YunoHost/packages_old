@@ -11,14 +11,6 @@ function randpass() {
     echo
 }
 
-#Amavis
-if [ $(grep START /etc/default/dspam | cut -d= -f2) = "yes" ];
-then
-	service dspam stop
-	sed -i 's/START\=yes/START=no/' /etc/default/dspam
-	chmod -x /etc/cron.daily/dspam
-fi
-
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep amavis /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
 	cp $TMP/conf.d/* /etc/amavis/conf.d/
