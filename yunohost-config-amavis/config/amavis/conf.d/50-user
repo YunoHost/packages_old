@@ -8,6 +8,10 @@ use strict;
 # the directives you can use in this file
 #
 
+$myhostname = "yunohost.org";
+
+$mydomain = "yunohost.org";
+
 # Enable LDAP support 
 $enable_ldap  = 1;
 
