@@ -1,3 +1,9 @@
+yunohost-config-amavis (2.0-beta2~megusta6) test; urgency=low
+
+  * Test build: add config files
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 24 Feb 2014 13:55:33 +0100
+
 yunohost-config-amavis (2.0-beta2~megusta5) test; urgency=low
 
   * Test build: remove dspam
