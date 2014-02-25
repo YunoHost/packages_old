@@ -1,3 +1,9 @@
+yunohost-config-dovecot (2.0-beta2~megusta10) test; urgency=low
+
+  * Test build: new conf autolearn
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 25 Feb 2014 20:00:58 +0100
+
 yunohost-config-dovecot (2.0-beta2~megusta9) test; urgency=low
 
   * Test build: remove dspam
