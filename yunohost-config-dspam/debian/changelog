@@ -1,3 +1,9 @@
+yunohost-config-dspam (2.0-beta2~megusta7) test; urgency=low
+
+  * Test build: fix remove config files
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 26 Feb 2014 09:43:52 +0100
+
 yunohost-config-dspam (2.0-beta2~megusta6) megusta; urgency=low
 
   * Production build: Don't mess with amavis installations
