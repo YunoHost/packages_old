@@ -1,3 +1,9 @@
+ssowat (1.0~megusta26) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 04 Mar 2014 11:53:48 +0100
+
 ssowat (1.0~megusta25) test; urgency=low
 
   * Test build: Update from git
