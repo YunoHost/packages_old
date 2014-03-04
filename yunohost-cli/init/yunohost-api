@@ -27,6 +27,7 @@ case "$1" in
     log_daemon_msg "Stopping YunoHost" "API"
     if [ -f $API_SERVER_PATH/twistd.pid ]; then
         kill `cat $API_SERVER_PATH/twistd.pid`
+	rm $API_SERVER_PATH/twistd.pid
     fi
     log_end_msg $?
     ;;
@@ -35,6 +36,7 @@ case "$1" in
     log_daemon_msg "Restarting YunoHost" "API"
     if [ -f $API_SERVER_PATH/twistd.pid ]; then
         kill `cat $API_SERVER_PATH/twistd.pid`
+	rm $API_SERVER_PATH/twistd.pid
     fi
     cd $API_SERVER_PATH
     twistd -y yunohost.tac -l "/var/log/yunohost.log" --pidfile twistd.pid
