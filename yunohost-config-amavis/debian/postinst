@@ -14,7 +14,6 @@ function randpass() {
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep amavis /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
 	cp $TMP/conf.d/* /etc/amavis/conf.d/
-	adduser clamav amavis
 	cp $SRC/spamassassin/spamassassin /etc/default/
 	sa-update
 	cp $SRC/spamassassin/local.cf /etc/spamassassin/
