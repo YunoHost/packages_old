@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta2~megusta31) test; urgency=low
+
+  * Test build: fix pid file
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 04 Mar 2014 11:44:01 +0100
+
 yunohost-cli (2.0-beta2~megusta30) test; urgency=low
 
   * Test build: Update from git
