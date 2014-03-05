@@ -8,9 +8,7 @@
 -- ** Copyright (c) 2009-2011, Kim Alvefur, Matthew Wild, Nick Thomas, Paul Aurich, Waqas Hussain
 
 local st = require "util.stanza";
-local sm_bind_resource = require "core.sessionmanager".bind_resource;
 local sm_make_authenticated = require "core.sessionmanager".make_authenticated;
-local s2s_make_authenticated = require "core.s2smanager".make_authenticated;
 local base64 = require "util.encodings".base64;
 
 local usermanager_get_sasl_handler = require "core.usermanager".get_sasl_handler;
@@ -23,7 +21,6 @@ local blacklisted_mechanisms = module:get_option_set("blacklist_sasl_mechanisms"
 local log = module._log;
 
 local xmlns_sasl = "urn:ietf:params:xml:ns:xmpp-sasl";
-local xmlns_bind = "urn:ietf:params:xml:ns:xmpp-bind";
 
 local function reload()
 	secure_auth_only = module:get_option_boolean("c2s_require_encryption", false) or module:get_option_boolean("require_encryption", false);
@@ -123,8 +120,6 @@ module:hook("stanza/urn:ietf:params:xml:ns:xmpp-sasl:abort", function(event)
 end);
 
 local mechanisms_attr = { xmlns = "urn:ietf:params:xml:ns:xmpp-sasl" };
-local bind_attr = { xmlns = "urn:ietf:params:xml:ns:xmpp-bind" };
-local xmpp_session_attr = { xmlns = "urn:ietf:params:xml:ns:xmpp-session" };
 module:hook("stream-features", function(event)
 	local origin, features = event.origin, event.features;
 	if not origin.username then
@@ -142,40 +137,3 @@ module:hook("stream-features", function(event)
 		if mechanisms[1] then features:add_child(mechanisms); end
 	end
 end, 99);
-
-module:hook("stream-features", function(event)
-	local origin, features = event.origin, event.features;
-	if origin.username then
-		features:tag("bind", bind_attr):tag("required"):up():up();
-		features:tag("session", xmpp_session_attr):tag("optional"):up():up();
-	end
-end, 96);
-
-module:hook("iq/self/urn:ietf:params:xml:ns:xmpp-bind:bind", function(event)
-	local origin, stanza = event.origin, event.stanza;
-	local resource;
-	if stanza.attr.type == "set" then
-		local bind = stanza.tags[1];
-		resource = bind:child_with_name("resource");
-		resource = resource and #resource.tags == 0 and resource[1] or nil;
-	end
-	local success, err_type, err, err_msg = sm_bind_resource(origin, resource);
-	if success then
-		origin.send(st.reply(stanza)
-			:tag("bind", { xmlns = xmlns_bind })
-			:tag("jid"):text(origin.full_jid));
-		origin.log("debug", "Resource bound: %s", origin.full_jid);
-	else
-		origin.send(st.error_reply(stanza, err_type, err, err_msg));
-		origin.log("debug", "Resource bind failed: %s", err_msg or err);
-	end
-	return true;
-end);
-
-local function handle_legacy_session(event)
-	event.origin.send(st.reply(event.stanza));
-	return true;
-end
-
-module:hook("iq/self/urn:ietf:params:xml:ns:xmpp-session:session", handle_legacy_session);
-module:hook("iq/host/urn:ietf:params:xml:ns:xmpp-session:session", handle_legacy_session);

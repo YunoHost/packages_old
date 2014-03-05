@@ -40,7 +40,6 @@ local read_version = read_version;
 local commands = module:shared("commands")
 local def_env = module:shared("env");
 local default_env_mt = { __index = def_env };
-local core_post_stanza = metronome.core_post_stanza;
 
 local strict_host_checks = module:get_option_boolean("admin_telnet_strict_host_checks", true)
 
@@ -216,6 +215,7 @@ function commands.help(session, data)
 	elseif section == "dns" then
 		print [[dns:reload() - Reload system resolvers configuration data]]
 		print [[dns:purge() - Purge the internal dns cache]]
+		print [[dns:set(serverlist) - Sets an arbitrary list of resolvers (argument passed can either be a string or list)]]
 	elseif section == "c2s" then
 		print [[c2s:show(jid) - Show all client sessions with the specified JID (or all if no JID given)]]
 		print [[c2s:show_insecure() - Show all unencrypted client connections]]
@@ -444,6 +444,17 @@ function def_env.dns:purge()
 	return true, "Internal dns cache has been purged";
 end
 
+function def_env.dns:set(arg)
+	if type(arg) ~= "string" and type(arg) ~= "table" then
+		return false, "Passed argument needs to either be a string or list"
+	elseif type(arg) == "table" and #arg == 0 then
+		return false, "Passed table is not a valid list"
+	end
+	dns._resolver:setnameservers(arg);
+
+	return true, "DNS resolvers list changed";
+end
+
 def_env.config = {};
 
 function def_env.config:load(filename, format)
@@ -565,11 +576,14 @@ local function session_flags(session, line)
 	if session.compressed then
 		line[#line+1] = "(compressed)";
 	end
-	if session.smacks then
+	if session.sm then
 		line[#line+1] = "(sm)";
 	end
+	if session.bidirectional or session.incoming_bidi then
+		line[#line+1] = "(bidi)";
+	end
 	if session.conn and session.conn:ip():match(":") then
-		line[#line+1] = "(IPv6)";
+		line[#line+1] = "(ipv6)";
 	end
 	return table.concat(line, " ");
 end
@@ -984,7 +998,7 @@ def_env.xmpp = {};
 
 function def_env.xmpp:ping(localhost, remotehost)
 	if hosts[localhost] then
-		core_post_stanza(hosts[localhost],
+		module:fire_global_event("route/post", hosts[localhost],
 			st.iq{ from=localhost, to=remotehost, type="get", id="ping" }
 				:tag("ping", {xmlns = "urn:xmpp:ping"}));
 		return true, "Sent ping";

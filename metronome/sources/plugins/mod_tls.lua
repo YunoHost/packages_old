@@ -14,6 +14,7 @@ local st = require "util.stanza";
 local secure_auth_only = module:get_option_boolean("c2s_require_encryption", false) or module:get_option_boolean("require_encryption", false);
 local secure_s2s_only = module:get_option_boolean("s2s_require_encryption", false);
 local allow_s2s_tls = module:get_option_boolean("s2s_allow_encryption", true);
+if secure_s2s_only then allow_s2s_tls = true; end
 
 local xmlns_starttls = 'urn:ietf:params:xml:ns:xmpp-tls';
 local starttls_attr = { xmlns = xmlns_starttls };
@@ -74,7 +75,6 @@ end, 101);
 
 -- For s2sout connections, start TLS if we can
 module:hook_stanza("http://etherx.jabber.org/streams", "features", function (session, stanza)
-	module:log("debug", "Received features element");
 	if can_do_tls(session) and stanza:child_with_ns(xmlns_starttls) then
 		module:log("debug", "%s is offering TLS, taking up the offer...", session.to_host);
 		session.sends2s("<starttls xmlns='"..xmlns_starttls.."'/>");
@@ -110,6 +110,7 @@ local function reload()
 	secure_auth_only = module:get_option_boolean("c2s_require_encryption", false) or module:get_option_boolean("require_encryption", false);
 	secure_s2s_only = module:get_option_boolean("s2s_require_encryption", false);
 	allow_s2s_tls = module:get_option_boolean("s2s_allow_encryption", true);
+	if secure_s2s_only then allow_s2s_tls = true; end
 	module.load();
 end
 module:hook_global("config-reloaded", reload);

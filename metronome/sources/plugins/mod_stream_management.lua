@@ -19,7 +19,7 @@ local dt = require "util.datetime".datetime;
 local destroy = sessionmanager.destroy_session;
 local uuid = require "util.uuid".generate;
 
-local process_stanza = metronome.core_process_stanza;
+local fire_event = metronome.events.fire_event;
 
 local xmlns_sm = "urn:xmpp:sm:2"; -- COMPAT: move down to :2 as most clients don't seem to support the latest NS
 local xmlns_e = "urn:ietf:params:xml:ns:xmpp-stanzas";
@@ -122,7 +122,7 @@ local function wrap(session, _r) -- SM session wrapper
 			if reply.attr.to ~= session.full_jid then
 				reply.attr.type = "error";
 				reply:tag("error", attr):tag("recipient-unavaible", { xmlns = xmlns_e });
-				process_stanza(session, reply);
+				fire_event("route/process", session, reply);
 			end
 		end
 		_q, session.sm_queue = {}, {};
@@ -142,10 +142,8 @@ end);
 
 module:hook("s2s-stream-features", function(event)
 	local session = event.origin;
-	if verify(event.origin) then 
-		event.features:tag("sm", { xmlns = xmlns_sm }):tag("optional"):up():up(); 
-	end
-end);
+	event.features:tag("sm", { xmlns = xmlns_sm }):tag("optional"):up():up(); 
+end, 97);
 
 module:hook_stanza("http://etherx.jabber.org/streams", "features", function(session, stanza)
 	local session_type = session.type;
@@ -174,13 +172,13 @@ module:hook_stanza(xmlns_sm, "enable", function(session, stanza)
 		return true;
 	end
 	
-	session.log("debug", "Attempting to enable Stream Management...");
+	local c2s = session.type == "c2s" and true;
+	session.log("debug", "Attempting to enable %s...", (c2s and "Stream Management") or "Stanza Acknowledgement");
 	session.sm = true;
 	wrap(session);
 	
 	local token;
 	local resume = stanza.attr.resume;
-	local c2s = session.type == "c2s" and true;
 	if (resume == "1" or resume == "true") and c2s then
 		token = uuid();
 		handled_sessions[token], session.token = session, token;
@@ -283,9 +281,7 @@ module:hook("pre-resource-unbind", function(event)
 			session.halted, session.detached = _now, true;
 			add_timer(timeout, function()
 				local current = full_sessions[session.full_jid];
-				if session.destroyed then
-					session.log("debug", "SM timeout was reached but the session is already gone");
-				elseif current and (current.token == token and session.halted == _now) then
+				if not session.destroyed and current and (current.token == token and session.halted == _now) then
 					session.log("debug", "%s session has been halted too long, destroying", session.full_jid);
 					handled_sessions[token] = nil;
 					session.token = nil;

@@ -29,6 +29,7 @@ local parent_host = module:get_option_boolean("muc_whitelist_parent_peers") == t
 
 local rooms = metronome.hosts[module.host].modules.muc.rooms;
 local hosts = metronome.hosts;
+local _parent;
 
 -- Handlers
 
@@ -41,9 +42,11 @@ local function handle_stanza(event)
 
 	local domain = jid_section(stanza.attr.from, "host");
 	if exclusion_list and exclusion_list:contains(domain) then
+		module:log("debug", "Skipping stanza from excluded host %s...", domain);
 		return;
 	end
-	if parent_host and hosts[parent_host].events.fire_event("peer-is-subscribed", domain) then
+	if _parent and _parent.events.fire_event("peer-is-subscribed", domain) then
+		module:log("debug", "Skipping stanza from server peer %s...", domain);
 		return;
 	end
 
@@ -171,3 +174,13 @@ module:hook("message/bare", handle_stanza, 100);
 module:hook("message/full", handle_stanza, 100);
 module:hook("presence/bare", handle_stanza, 100);
 module:hook("presence/full", handle_stanza, 100);
+
+if parent_host then
+	_parent = hosts[parent_host];
+	module:hook_global("host-activated", function(host)
+		if host == parent_host then _parent = hosts[host]; end
+	end);
+	module:hook_global("host-deactivated", function(host)
+		if host == parent_host then _parent = nil; end
+	end);
+end

@@ -1,3 +1,15 @@
+metronome (3.4~megusta2) test; urgency=low
+
+  * Test build: Metronome 3.4.3
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 05 Mar 2014 16:44:32 +0100
+
+metronome (3.4~megusta1) megusta; urgency=low
+
+  * Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 05 Mar 2014 16:44:04 +0100
+
 metronome (3.2~megusta5) megusta; urgency=low
 
   * Production build: let's go to beta3

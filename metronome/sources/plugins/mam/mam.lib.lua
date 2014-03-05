@@ -17,7 +17,7 @@ local storagemanager = storagemanager;
 local load_roster = require "util.rostermanager".load_roster;
 local ipairs, now, pairs, ripairs, select, t_remove, tostring = ipairs, os.time, pairs, ripairs, select, table.remove, tostring;
       
-local xmlns = "urn:xmpp:mam:0";
+local xmlns = "urn:xmpp:mam:tmp";
 local delay_xmlns = "urn:xmpp:delay";
 local e2e_xmlns = "http://www.xmpp.org/extensions/xep-0200.html#ns";
 local forward_xmlns = "urn:xmpp:forward:0";
@@ -43,7 +43,10 @@ local function save_stores()
 	to_save = now();
 	for bare, store in pairs(session_stores) do
 		local user = jid_section(bare, "node");
-		storage:set(user, store);
+		if store.changed then
+			store.changed = nil;
+			storage:set(user, store);
+		end
 	end	
 end
 
@@ -64,6 +67,7 @@ local function log_entry(session_archive, to, bare_to, from, bare_from, id, body
 	
 	if #logs > stores_cap then t_remove(logs, 1); end
 	logs[#logs + 1] = entry;
+	session_archive.changed = true;
 
 	if now() - to_save > store_time then save_stores(); end
 	return uid;
@@ -345,7 +349,7 @@ local function process_message(event, outbound)
 		if not offline_overcap then archive = storage:get(user); end
 	end
 
-	if archive and add_to_store(archive, user, (outbound and bare_to) or bare_from) then
+	if archive and add_to_store(archive, user, outbound and bare_to or bare_from) then
 		local replace = message:get_child("replace", "urn:xmpp:message-correct:0");
 		local id;
 		if replace then

@@ -15,7 +15,6 @@ local sm = require "core.sessionmanager";
 local sm_destroy_session = sm.destroy_session;
 local new_uuid = require "util.uuid".generate;
 local fire_event = metronome.events.fire_event;
-local core_process_stanza = metronome.core_process_stanza;
 local st = require "util.stanza";
 local logger = require "util.logger";
 local log = logger.init("mod_bosh");
@@ -27,8 +26,7 @@ local xmlns_streams = "http://etherx.jabber.org/streams";
 local xmlns_xmpp_streams = "urn:ietf:params:xml:ns:xmpp-streams";
 local xmlns_bosh = "http://jabber.org/protocol/httpbind"; -- (hard-coded into a literal in session.send)
 
-local stream_callbacks = {
-	stream_ns = xmlns_bosh, stream_tag = "body", default_ns = "jabber:client" };
+local stream_callbacks = { stream_ns = xmlns_bosh, stream_tag = "body", default_ns = "jabber:client" };
 
 local BOSH_DEFAULT_HOLD = module:get_option_number("bosh_default_hold", 1);
 local BOSH_DEFAULT_INACTIVITY = module:get_option_number("bosh_max_inactivity", 60);
@@ -89,7 +87,7 @@ local function jsonp_encode(callback, data)
 	return data;		
 end
 
-function on_destroy_request(request)
+local function on_destroy_request(request)
 	log("debug", "Request destroyed: %s", tostring(request));
 	waiting_requests[request] = nil;
 	local session = sessions[request.context.sid];
@@ -110,7 +108,7 @@ function on_destroy_request(request)
 	end
 end
 
-function handle_OPTIONS(event)
+local function handle_OPTIONS(event)
 	local request = event.request;
 	if force_secure and not request.secure then return nil; end
 
@@ -119,7 +117,7 @@ function handle_OPTIONS(event)
 	return { headers = headers, body = "" };
 end
 
-function handle_POST(event)
+local function handle_POST(event)
 	local request, response, custom_headers = event.request, event.response, event.custom_headers;
 	if force_secure and not request.secure then
 		log("debug", "Discarding unsecure request %s: %s\n----------", tostring(request), tostring(no_raw_req_logging and "<filtered>" or request.body));
@@ -187,7 +185,7 @@ end
 
 local function bosh_reset_stream(session) session.notopen = true; end
 
-local stream_xmlns_attr = { xmlns = "urn:ietf:params:xml:ns:xmpp-streams" };
+local stream_xmlns_attr = { xmlns = xmlns_xmpp_streams };
 
 local function bosh_close_stream(session, reason)
 	(session.log or log)("info", "BOSH client disconnected");
@@ -254,11 +252,11 @@ function stream_callbacks.streamopened(context, attr)
 		local session = {
 			type = "c2s_unauthed", conn = {}, sid = sid, rid = tonumber(attr.rid)-1, host = attr.to,
 			bosh_version = attr.ver, bosh_wait = math_min(attr.wait, BOSH_MAX_WAIT), streamid = sid,
-			bosh_hold = BOSH_DEFAULT_HOLD, bosh_max_inactive = BOSH_DEFAULT_INACTIVITY,
-			requests = { }, send_buffer = {}, reset_stream = bosh_reset_stream,
-			close = bosh_close_stream, dispatch_stanza = core_process_stanza, notopen = true,
-			log = logger.init("bosh"..sid), secure = consider_bosh_secure or request.secure,
-			ip = get_ip_from_request(request), headers = custom_headers;
+			bosh_hold = BOSH_DEFAULT_HOLD, bosh_max_inactive = BOSH_DEFAULT_INACTIVITY, requests = {},
+			send_buffer = {}, reset_stream = bosh_reset_stream, close = bosh_close_stream,
+			dispatch_stanza = stream_callbacks.handlestanza, notopen = true, log = logger.init("bosh"..sid),
+			secure = consider_bosh_secure or request.secure, ip = get_ip_from_request(request),
+			headers = custom_headers;
 		};
 		sessions[sid] = session;
 
@@ -269,6 +267,7 @@ function stream_callbacks.streamopened(context, attr)
 
 		local creating_session = true;
 
+		local attach = context.attach;
 		local r = session.requests;
 		function session.send(s)
 			if s.attr and not s.attr.xmlns then
@@ -301,7 +300,13 @@ function stream_callbacks.streamopened(context, attr)
 					body_attr["xmpp:version"] = "1.0";
 					creating_session = nil;
 				end
-				oldest_request:send(st.stanza("body", body_attr):top_tag()..t_concat(session.send_buffer).."</body>");
+				if not attach then
+					oldest_request:send(st.stanza("body", body_attr):top_tag()..t_concat(session.send_buffer).."</body>");
+				else
+					attach = nil;
+					t_remove(r, 1);
+					oldest_request = nil;
+				end
 				session.send_buffer = {};
 			end
 			return true;
@@ -356,12 +361,16 @@ function stream_callbacks.handlestanza(context, stanza)
 	if context.ignore then return; end
 	log("debug", "BOSH stanza received: %s\n", stanza:top_tag());
 	local session = sessions[context.sid];
-	if session then
-		if stanza.attr.xmlns == xmlns_bosh then
+	if session or context.dead then
+		if stanza.attr.xmlns == xmlns_bosh then -- Clients not qualifying stanzas should be whipped..
 			stanza.attr.xmlns = nil;
+			if stanza.name == "message" then
+				local body = stanza:child_with_name("body");
+				if body then body.attr.xmlns = nil; end
+			end
 		end
-		stanza = session.filter("stanzas/in", stanza);
-		if stanza then core_process_stanza(session, stanza); end
+		stanza = (session or context).filter("stanzas/in", stanza);
+		if stanza then fire_event("route/process", (session or context), stanza); end
 	end
 end
 
@@ -394,7 +403,7 @@ function stream_callbacks.error(context, error)
 end
 
 local dead_sessions = {};
-function on_timer()
+local function on_timer()
 	local now = os_time() + 3;
 	for request, reply_before in pairs(waiting_requests) do
 		if reply_before <= now then
@@ -420,6 +429,7 @@ function on_timer()
 	for i=1,n_dead_sessions do
 		local session = dead_sessions[i];
 		dead_sessions[i] = nil;
+		session.dead = true;
 		sm_destroy_session(session, "BOSH client silent for over "..session.bosh_max_inactive.." seconds");
 	end
 	return 1;
@@ -480,3 +490,8 @@ function module.add_host(module)
 		};
 	});
 end
+
+-- Export a few functions in the environment
+module.environment.utils = { 
+	stream_callbacks = stream_callbacks, get = handle_GET, options = handle_OPTIONS, post = handle_POST
+};

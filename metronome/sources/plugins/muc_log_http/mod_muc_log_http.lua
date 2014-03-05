@@ -3,6 +3,8 @@
 -- This file is part of the Metronome XMPP server and is released under the
 -- ISC License, please see the LICENSE file in this source package for more
 -- information about copyright and licensing.
+--
+-- Additional Contributors: John Regan
 
 -- Ported from prosody's http muc log module (into prosody modules).
 
@@ -17,66 +19,42 @@ module:depends("http");
 local metronome = metronome;
 local hosts = metronome.hosts;
 local my_host = module:get_host();
-local strchar = string.char;
 local strformat = string.format;
 local section_jid = require "util.jid".section;
 local split_jid = require "util.jid".split;
 local config_get = require "core.configmanager".get;
 local urldecode = require "net.http".urldecode;
+local html_escape = require "util.auxiliary".html_escape;
 local http_event = require "net.http.server".fire_server_event;
-local data_load, data_getpath = datamanager.load, datamanager.getpath;
+local data_load, data_getpath, data_stores, data_store_exists = 
+	datamanager.load, datamanager.getpath, datamanager.stores, datamanager.store_exists;
 local datastore = "muc_log";
 local url_base = "muc_log";
 local config = nil;
-local table, tostring, tonumber = table, tostring, tonumber;
+local tostring, tonumber = tostring, tonumber;
+local t_insert, t_sort = table.insert, table.sort;
 local os_date, os_time = os.date, os.time;
 local str_format = string.format;
 local io_open = io.open;
-local themes_parent = (module.path and module.path:gsub("[/\\][^/\\]*$", "")  or (metronome.paths.plugins or "./plugins") .. "/muc_log_http") .. "/themes";
+local open_pipe = io.popen;
+
+local module_path = (module.path and module.path:gsub("[/\\][^/\\]*$", "") or (metronome.paths.plugins or "./plugins") .. "/muc_log_http");
+local themes_parent = module_path .. "/themes";
+local metronome_paths = metronome.paths;
 
 local lfs = require "lfs";
 local html = {};
-local theme;
+local theme, theme_path;
 
 local muc_rooms = hosts[my_host].muc.rooms;
 
--- Helper Functions
-
-local p_encode = datamanager.path_encode;
-local function store_exists(node, host, today)
-	if lfs.attributes(data_getpath(node, host, datastore .. "/" .. today), "mode") then return true; else return false; end
-end
-
 -- Module Definitions
-
-local function html_escape(t)
-	if t then
-		t = t:gsub("<", "&lt;");
-		t = t:gsub(">", "&gt;");
-		t = t:gsub("(http://[%a%d@%.:/&%?=%-_#%%~]+)", function(h)
-			h = urlunescape(h)
-			return "<a href='" .. h .. "'>" .. h .. "</a>";
-		end);
-		t = t:gsub("\n", "<br />");
-		t = t:gsub("%%", "%%%%");
-	else
-		t = "";
-	end
-	return t;
-end
 
 function create_doc(body, title)
 	if not body then return "" end
 	body = body:gsub("%%", "%%%%");
 	return html.doc:gsub("###BODY_STUFF###", body)
 		:gsub("<title>muc_log</title>", "<title>"..(title and html_escape(title) or "Chatroom logs").."</title>");
-end
-
-function urlunescape (url)
-	url = url:gsub("+", " ")
-	url = url:gsub("%%(%x%x)", function(h) return strchar(tonumber(h,16)) end)
-	url = url:gsub("\r\n", "\n")
-	return url
 end
 
 local function generate_room_list()
@@ -136,7 +114,7 @@ local function create_month(month, year, callback)
 		if i < days + 1 then
 			local tmp = tostring(i);
 			if callback and callback.callback then
-				tmp = callback.callback(callback.path, i, month, year, callback.room, callback.webpath);
+				tmp = callback.callback(callback.path, i, month, year, callback.host, callback.room, callback.webpath);
 			end
 			if tmp == nil then
 				tmp = tostring(i);
@@ -201,16 +179,14 @@ local function create_year(year, callback)
 	return "";
 end
 
-local function day_callback(path, day, month, year, room, webpath)
+local function day_callback(path, day, month, year, host, room, webpath)
 	local webpath = webpath or ""
 	local year = year;
 	if year > 2000 then
 		year = year - 2000;
 	end
 	local bare_day = str_format("20%.02d-%.02d-%.02d", year, month, day);
-	room = p_encode(room);
-	local attributes, err = lfs.attributes(path.."/"..str_format("%.02d%.02d%.02d", year, month, day).."/"..room..".dat");
-	if attributes ~= nil and attributes.mode == "file" then
+	if(data_store_exists(room, host, datastore .. "/" .. str_format("%.02d%.02d%.02d", year, month, day))) then
 		local s = html.days.bit;
 		s = s:gsub("###BARE_DAY###", webpath .. bare_day);
 		s = s:gsub("###DAY###", day);
@@ -236,7 +212,6 @@ local function generate_day_room_content(bare_room_jid)
 	local html_days = html.days;
 
 	path = path:gsub("/[^/]*$", "");
-	attributes = lfs.attributes(path);
 	do
 		local found = 0;
 		for jid, room in pairs(muc_rooms) do
@@ -261,23 +236,26 @@ local function generate_day_room_content(bare_room_jid)
 			room = nil;
 		end
 	end
-	if attributes and room then
+	if room then
 		local already_done_years = {};
 		topic = room._data.subject or "(no subject)";
+		if topic:find("%%") then topic = topic:gsub("%%", "%%%%") end
 		if topic:len() > 135 then
 			topic = topic:sub(1, topic:find(" ", 120)) .. " ...";
 		end
-		local folders = {};
-		for folder in lfs.dir(path) do table.insert(folders, folder); end
-		table.sort(folders);
-		for _, folder in ipairs(folders) do
-			local year, month, day = folder:match("^(%d%d)(%d%d)(%d%d)");
+
+		local stores = {};
+		for store in data_stores(node, host, "keyval", datastore) do t_insert(stores, store); end
+		t_sort(stores);
+		
+		for _, store in ipairs(stores) do
+			local year, month, day = store:match("^"..datastore.."/(%d%d)(%d%d)(%d%d)");
 			if year then
 				to = tostring(os_date("%B %Y", os_time({ day=tonumber(day), month=tonumber(month), year=2000+tonumber(year) })));
 				if since == "" then since = to; end
 				if not already_done_years[year] then
 					module:log("debug", "creating overview for: %s", to);
-					days = create_year(year, {callback=day_callback, path=path, room=node}) .. days;
+					days = create_year(year, {callback=day_callback, path=path, host=host, room=node}) .. days;
 					already_done_years[year] = true;
 				end
 			end
@@ -292,22 +270,6 @@ local function generate_day_room_content(bare_room_jid)
 	tmp = tmp:gsub("###SINCE###", since);
 	tmp = tmp:gsub("###TO###", to);
 	return tmp:gsub("###JID###", bare_room_jid), "Chatroom logs for "..bare_room_jid;
-end
-
-local function parse_message(body, title, time, nick, day_t, day_m, day_mm, day_title)
-	local ret = "";
-	time = day_t:gsub("###TIME###", time):gsub("###UTC###", time);
-	nick = html_escape(nick:match("/(.+)$"));
-
-	if nick and body then
-		body = html_escape(body);
-		if body:find("^/me") then body = body:gsub("^/me ", ""); day_m = nil; end
-		ret = (day_m or day_mm):gsub("###TIME_STUFF###", time):gsub("###NICK###", nick):gsub("###MSG###", body);
-	elseif nick and title then
-		title = html_escape(title);
-		ret = day_title:gsub("###TIME_STUFF###", time):gsub("###NICK###", nick):gsub("###TITLE###", title);
-	end
-	return ret;
 end
 
 local function increment_day(bare_day)
@@ -356,7 +318,7 @@ local function find_next_day(bare_room_jid, bare_day)
 	local max_trys = 7;
 
 	module:log("debug", day);
-	while(not store_exists(node, host, day)) do
+	while(not data_store_exists(node, host, datastore .. "/" .. day)) do
 		max_trys = max_trys - 1;
 		if max_trys == 0 then
 			break;
@@ -413,7 +375,7 @@ local function find_previous_day(bare_room_jid, bare_day)
 	local day = decrement_day(bare_day);
 	local max_trys = 7;
 	module:log("debug", day);
-	while(not store_exists(node, host, day)) do
+	while(not data_store_exists(node, host, datastore .. "/" .. day)) do
 		max_trys = max_trys - 1;
 		if max_trys == 0 then
 			break;
@@ -428,35 +390,33 @@ local function find_previous_day(bare_room_jid, bare_day)
 end
 
 local function parse_day(bare_room_jid, room_subject, bare_day)
-	local ret = "";
-	local node, host = split_jid(bare_room_jid);
-	local year, month, day = bare_day:match("^20(%d%d)-(%d%d)-(%d%d)$");
-	local previous_day = find_previous_day(bare_room_jid, bare_day);
-	local next_day = find_next_day(bare_room_jid, bare_day);
-	local temptime = {day=0, month=0, year=0};
-	local path = data_getpath(node, host, datastore);
-	path = path:gsub("/[^/]*$", "");
-	local calendar = "";
-	local html_day = html.day;
-
-	if tonumber(year) <= 99 then
-		year = year + 2000;
-	end
-
-	temptime.day = tonumber(day);
-	temptime.month = tonumber(month);
-	temptime.year = tonumber(year);
-	calendar = create_month(temptime.month, temptime.year, {callback=day_callback, path=path, room=node, webpath="../"}) or "";
-
 	if bare_day then
-		local day_t, day_m, day_mm, day_title = html_day.time, html_day.message, html_day.messageMe, html_day.titleChange;
-		local data = data_load(node, host, datastore .. "/" .. bare_day:match("^20(.*)"):gsub("-", ""));
-		if data then
-			for i, entry in ipairs(data) do
-				local tmp = parse_message(entry.body, entry.subject, entry.time, entry.from, day_t, day_m, day_mm, day_title);
-				if tmp then ret = ret .. tmp; end
-			end
+		local ret = "";
+		local node, host = split_jid(bare_room_jid);
+		local year, month, day = bare_day:match("^20(%d%d)-(%d%d)-(%d%d)$");
+		local _year = year;
+		local previous_day = find_previous_day(bare_room_jid, bare_day);
+		local next_day = find_next_day(bare_room_jid, bare_day);
+		local temptime = {day=0, month=0, year=0};
+		local path = data_getpath(node, host, datastore);
+		path = path:gsub("/[^/]*$", "");
+		local calendar = "";
+		local html_day = html.day;
+
+		if tonumber(year) <= 99 then
+			year = year + 2000;
 		end
+
+		temptime.day = tonumber(day);
+		temptime.month = tonumber(month);
+		temptime.year = tonumber(year);
+		calendar = create_month(temptime.month, temptime.year, {callback=day_callback, path=path, host=host, room=node, webpath="../"}) or "";
+		
+		local get_page = open_pipe(
+			module_path.."/generate_log '"..metronome_paths.source.."' "..metronome_paths.data.." "..theme_path.." "..bare_room_jid.." ".._year..month..day
+		);
+		
+		ret = get_page:read("*a"); get_page:close(); get_page = nil;
 		if ret ~= "" then
 			if next_day then
 				next_day = html_day.dayLink:gsub("###DAY###", next_day):gsub("###TEXT###", "&gt;")
@@ -464,11 +424,13 @@ local function parse_day(bare_room_jid, room_subject, bare_day)
 			if previous_day then
 				previous_day = html_day.dayLink:gsub("###DAY###", previous_day):gsub("###TEXT###", "&lt;");
 			end
+			local subject = room_subject:gsub("%%", "%%%%");
+			subject = subject:gsub("\n", "<br />");
 			ret = ret:gsub("%%", "%%%%");
 			tmp = html_day.body:gsub("###DAY_STUFF###", ret):gsub("###JID###", bare_room_jid);
 			tmp = tmp:gsub("###CALENDAR###", calendar);
 			tmp = tmp:gsub("###DATE###", tostring(os_date("%A, %B %d, %Y", os_time(temptime))));
-			tmp = tmp:gsub("###TITLE_STUFF###", html_day.title:gsub("###TITLE###", room_subject));
+			tmp = tmp:gsub("###TITLE_STUFF###", subject);
 			tmp = tmp:gsub("###NEXT_LINK###", next_day or "");
 			tmp = tmp:gsub("###PREVIOUS_LINK###", previous_day or "");
 
@@ -483,7 +445,14 @@ function handle_request(event)
 	local request = event.request;
 	local room;
 
-	local node, day, more = request.url.path:match("^/"..url_base.."/+([^/]*)/*([^/]*)/*(.*)$");
+	local request_path = request.url.path;
+	if not request_path:match(".*/$") then
+		response.status_code = 301;
+		response.headers = { ["Location"] = request_path .. "/" };
+		return response:send();
+	end
+	
+	local node, day, more = request_path:match("^/"..url_base.."/+([^/]*)/*([^/]*)/*(.*)$");
 	if more ~= "" then
 		response.status_code = 404;
 		return response:send(handle_error(response.status_code, "Unknown URL."));
@@ -508,7 +477,6 @@ function handle_request(event)
 		return response:send(handle_error(response.status_code, "There're no logs for this room."));
 	end
 
-
 	if not node then -- room list for component
 		return response:send(create_doc(generate_room_list())); 
 	elseif not day then -- room's listing
@@ -521,7 +489,7 @@ function handle_request(event)
 				return response:send(handle_error(response.status_code, "No entries for that year."));
 			end
 			response.status_code = 301;
-			response.headers = { ["Location"] = request.url.path:match("^/"..url_base.."/+[^/]*").."/20"..y.."-"..m.."-"..d.."/" };
+			response.headers = { ["Location"] = request_path:match("^/"..url_base.."/+[^/]*").."/20"..y.."-"..m.."-"..d.."/" };
 			return response:send();
 		end
 
@@ -566,7 +534,7 @@ function module.load()
 	if config.url_base and type(config.url_base) == "string" then url_base = config.url_base; end
 
 	theme = config.theme or "metronome";
-	local theme_path = themes_parent .. "/" .. tostring(theme);
+	theme_path = themes_parent .. "/" .. tostring(theme);
 	local attributes, err = lfs.attributes(theme_path);
 	if attributes == nil or attributes.mode ~= "directory" then
 		module:log("error", "Theme folder of theme \"".. tostring(theme) .. "\" isn't existing. expected Path: " .. theme_path);

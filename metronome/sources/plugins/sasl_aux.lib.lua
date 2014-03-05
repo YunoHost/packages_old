@@ -10,7 +10,7 @@ local user_exists = require "core.usermanager".user_exists;
 local jid_compare = require "util.jid".compare;
 local jid_split = require "util.jid".prepped_split;
 local log = require "util.logger".init("sasl");
-local get_time, ipairs, t_concat = os.time, ipairs, table.concat;
+local get_time, ipairs, t_concat, unpack = os.time, ipairs, table.concat, unpack;
 
 -- Util functions
 
@@ -42,23 +42,31 @@ local function external_backend(sasl, session, authid)
 		return nil, "Unable to perform external certificate authentications at this time";
 	end
 
-	local _log = session.log or log;
+	local verified = module:fire_event("certificate-verification", sasl, session, authid, socket);
+	if verified then -- certificate was verified pre-emptively by a plugin
+		local state, err = unpack(verified);
+		if not state then
+			return false, err;
+		else
+			return state;
+		end
+	end
+
 	local chain, errors = socket:getpeerverification();
 	if not chain then
-		_log("warn", "Invalid client certificate chain detected");
+		local _log = session.log or log;
+		_log("debug", "Invalid client certificate chain detected");
 		for i, error in ipairs(errors) do _log("debug", "%d: %s", i, t_concat(error, ", ")); end
 		return false, "Invalid client certificate chain";
 	end
 
 	local cert = socket:getpeercertificate();
 	if not cert then
-		_log("warn", "Client attempted SASL External without a certificate");
 		return false, "No certificate found";
 	end
 	if not cert:validat(get_time()) then
-		_log("warn", "Client attempted SASL External with an expired certificate");
 		return false, "Supplied certificate is expired";
-	end	
+	end
 
 	local data = extract_data(cert);
 	for _, address in ipairs(data) do
@@ -68,7 +76,7 @@ local function external_backend(sasl, session, authid)
 		end
 	end
 	
-	return false, "Couldn't find a valid address which could be associated with an xmpp account";
+	return false, "Couldn't find a valid address which could be associated with a xmpp account";
 end
 
-return { external_backend = external_backend };
+return { extract_data = extract_data, external_backend = external_backend };

@@ -19,10 +19,12 @@ local jid_section = require "util.jid".section;
 local jid_split = require "util.jid".split;
 local ipairs, tonumber, tostring = ipairs, tonumber, tostring;
 
-local xmlns = "urn:xmpp:mam:0";
+local xmlns = "urn:xmpp:mam:tmp";
+local purge_xmlns = "http://metronome.im/protocol/mam-purge";
 local rsm_xmlns = "http://jabber.org/protocol/rsm";
 
 module:add_feature(xmlns);
+module:add_feature(purge_xmlns);
 
 local forbid_purge = module:get_option_boolean("mam_forbid_purge", false);
 local max_results = module:get_option_number("mam_max_retrievable_results", 50);
@@ -61,7 +63,10 @@ local function save_session_store(event)
 	local user, host = event.session.username, event.session.host;
 	local bare_jid = jid_join(user, host);
 	local user_archive = session_stores[bare_jid];
-	storage:set(user, user_archive);
+	if user_archive.changed then
+		user_archive.changed = nil;
+		storage:set(user, user_archive);
+	end
 end
 
 local function process_inbound_messages(event)
@@ -95,7 +100,7 @@ local function purge_handler(event)
 	local bare_session = bare_sessions[bare_jid];
 	local archive = bare_session.archiving;
 	
-	if mam_forbid_purge then
+	if forbid_purge then
 		return origin.send(st.error_reply(stanza, "cancel", "not-allowed", "Purging message archives is not allowed"));
 	end
 	
@@ -205,7 +210,7 @@ module:hook("message/full", process_inbound_messages, 30);
 module:hook("pre-message/full", process_outbound_messages, 30);
 
 module:hook("iq/self/"..xmlns..":prefs", prefs_handler);
-module:hook("iq-set/self/"..xmlns..":purge", purge_handler);
+module:hook("iq-set/self/"..purge_xmlns..":purge", purge_handler);
 module:hook("iq-get/self/"..xmlns..":query", query_handler);
 
 module:hook_global("server-stopping", save_stores);

@@ -4,6 +4,8 @@
 -- ISC License, please see the LICENSE file in this source package for more
 -- information about copyright and licensing.
 --
+-- Additional Contributors: John Regan
+--
 -- As per the sublicensing clause, this file is also MIT/X11 Licensed.
 -- ** Copyright (c) 2008-2013, Kim Alvefur, Marco Cirillo, Matthew Wild, Waqas Hussain
 
@@ -133,7 +135,7 @@ function getpath(username, host, datastore, ext, create)
 	else
 		if create then 
 			mkdir(mkdir(data_path).."/"..host);
-			recursive_ds_create(host, datastore);
+			if datastore:find("/") then recursive_ds_create(host, datastore); end
 		end
 		return format("%s/%s/%s.%s", data_path, host, datastore, ext);
 	end
@@ -301,13 +303,18 @@ function list_load(username, host, datastore)
 end
 
 local type_map = { keyval = "dat", list = "list" }
-function stores(username, host, type)
+function stores(username, host, type, pattern)
 	if not host then
 		return nil, "bad argument #2 to 'stores' (string expected, got nothing)";
 	end
 
 	type = type_map[type or "keyval"];
-	local store_dir = format("%s/%s/", data_path, encode(host));
+	local store_dir;
+	if pattern then
+		store_dir = format("%s/%s/%s", data_path, encode(host), pattern);
+	else
+		store_dir = format("%s/%s/", data_path, encode(host));
+	end
 
 	local mode, err = lfs.attributes(store_dir, "mode");
 	if not mode then
@@ -319,17 +326,17 @@ function stores(username, host, type)
 			if not node:match("^%.") then
 				if username == true then
 					if lfs.attributes(store_dir..node, "mode") == "directory" then
-						return decode(node);
+						return (pattern and pattern .. "/" .. decode(node)) or decode(node);
 					end
 				elseif username then
-					local store = decode(node);
+					local store = (pattern and pattern .. "/" .. decode(node)) or decode(node);
 					if lfs.attributes(getpath(username, host, store, type), "mode") then
 						return store;
 					end
 				elseif lfs.attributes(node, "mode") == "file" then
 					local file, ext = node:match("^(.*)%.([dalist]+)$");
 					if ext == type then
-						return decode(file);
+						return (pattern and pattern .. "/" .. decode(file)) or decode(file);
 					end
 				end
 			end
@@ -337,12 +344,32 @@ function stores(username, host, type)
 	end, state;
 end
 
+function store_exists(username, host, datastore, type)
+	if not username or not host or not datastore then
+		return nil, "syntax error store_exists requires to supply at least 3 arguments (username, host, datastore)";
+	end
+
+	type = type_map[type or "keyval"];
+
+	if username == true then
+		if lfs.attributes(format("%s/%s/%s", data_path, encode(host) ,datastore), "mode") == "directory" then
+			return true;
+		end
+		return false;
+	elseif username then
+		if lfs.attributes(getpath(username, host, datastore, type), "mode") then
+			return true;
+		end
+		return false;
+	end
+end
+
 local function do_remove(path)
 	local ok, err = os_remove(path);
 	if not ok and lfs.attributes(path, "mode") then
 		return ok, err;
 	end
-	return true
+	return true;
 end
 
 function purge(username, host)

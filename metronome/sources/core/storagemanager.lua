@@ -4,6 +4,8 @@
 -- ISC License, please see the LICENSE file in this source package for more
 -- information about copyright and licensing.
 --
+-- Additional Contributors: John Regan
+--
 -- As per the sublicensing clause, this file is also MIT/X11 Licensed.
 -- ** Copyright (c) 2008-2013, Kim Alvefur, Matthew Wild, Waqas Hussain
 
@@ -129,8 +131,11 @@ end
 function datamanager.store(username, host, datastore, data)
 	return open(host, datastore):set(username, data);
 end
-function datamanager.stores(username, host, type)
-	return get_driver(host):stores(username, type);
+function datamanager.stores(username, host, type, pattern)
+	return get_driver(host):stores(username, type, pattern);
+end
+function datamanager.store_exists(username, host, datastore, type)
+	return get_driver(host):store_exists(username, datastore, type);
 end
 function datamanager.purge(username, host)
 	return purge(username, host);

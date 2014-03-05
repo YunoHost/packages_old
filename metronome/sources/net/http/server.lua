@@ -236,11 +236,14 @@ function _M.send_response(response, body)
 	response.finished = true;
 	response.conn._http_open_response = nil;
 	
+	local keep_alive = response.keep_alive;
 	local status_line = "HTTP/"..response.request.httpversion.." "..(response.status or codes[response.status_code]);
 	local headers = response.headers;
 	body = body or response.body or "";
 	headers.content_length = #body;
-	headers.connection = response.keep_alive and "Keep-Alive" or "close";
+	if not headers.connection then
+		headers.connection = keep_alive and "Keep-Alive" or "close";
+	end
 
 	local output = { status_line };
 	for k, v in pairs(headers) do
@@ -254,7 +257,7 @@ function _M.send_response(response, body)
 		response:on_destroy();
 		response.on_destroy = nil;
 	end
-	if headers.connection == "Keep-Alive" then
+	if keep_alive then
 		response:finish_cb();
 	else
 		response.conn:close();

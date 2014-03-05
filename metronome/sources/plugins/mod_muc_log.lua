@@ -3,6 +3,8 @@
 -- This file is part of the Metronome XMPP server and is released under the
 -- ISC License, please see the LICENSE file in this source package for more
 -- information about copyright and licensing.
+--
+-- Additional Contributors: John Regan
 
 -- Imported from prosody-modules, mod_muc_log
 
@@ -59,8 +61,8 @@ function log_if_needed(e)
 		local bare = jid_bare(to_room);
 		if muc.rooms[bare] then
 			local room = muc.rooms[bare];
-			local today = os.date("%y%m%d");
-			local now = os.date("%X");
+			local today = os.date("!%y%m%d");
+			local now = os.date("!%X");
 			local muc_from = nil;
 			
 			if room._data.hidden then -- do not log any data of private rooms

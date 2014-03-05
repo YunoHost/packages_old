@@ -6,6 +6,8 @@
 
 -- Implements XEP-267: Server Buddies.
 
+module:depends("adhoc");
+
 local st = require "util.stanza";
 local dataforms = require "util.dataforms";
 local datamanager = require "util.datamanager";
@@ -22,8 +24,8 @@ local pending = {};
 local subscribed = {};
 
 local s_xmlns = "http://jabber.org/protocol/admin#server-buddy";
-local p_xmlns = "http://lightwitch.org/metronome/admin#server-buddy-pending";
-local r_xmlns = "http://lightwitch.org/metronome/admin#server-buddy-remove";
+local p_xmlns = "http://metronome.im/protocol/admin#server-buddy-pending";
+local r_xmlns = "http://metronome.im/protocol/admin#server-buddy-remove";
 
 local st_subscribe = st.presence({ from = my_host, type = "subscribe" });
 local st_unsubscribe = st.presence({ from = my_host, type = "unsubscribe" });

@@ -4,6 +4,8 @@
 -- ISC License, please see the LICENSE file in this source package for more
 -- information about copyright and licensing.
 --
+-- Additional Contributors: John Regan
+--
 -- As per the sublicensing clause, this file is also MIT/X11 Licensed.
 -- ** Copyright (c) 2010-2013, Kim Alvefur, Matthew Wild, Waqas Hussain
 
@@ -290,12 +292,20 @@ function driver:open(store, typ)
 	return nil, "unsupported-store";
 end
 
-function driver:stores(username)
-	local sql = "SELECT DISTINCT `store` FROM `metronome` WHERE `host`=? AND `user`"..(username == true and "!=?" or "=?");
+function driver:stores(username, type, pattern)
+	local sql = "SELECT DISTINCT `store` FROM `metronome` WHERE `host`=? AND `user`"..(username == true and "!=?" or "=?").." AND `store` LIKE ?";
+
 	if username == true or not username then
 		username = "";
 	end
-	local stmt, err = dosql(sql, host, username);
+
+	if pattern then
+		pattern = pattern.."/%";
+	else
+		pattern = "%";
+	end
+
+	local stmt, err = dosql(sql, host, username, pattern);
 	if not stmt then
 		return rollback(nil, err);
 	end
@@ -304,6 +314,25 @@ function driver:stores(username)
 		local row = next();
 		return row and row[1];
 	end);
+end
+
+function driver:store_exists(username, datastore, type)
+	local sql = "SELECT DISTINCT `store` FROM `metronome` WHERE `host`=? and `user`"..(username == true and "!=?" or "=?").." AND `store`=?";
+
+	if username == true or not username then username = ""; end
+
+	local stmt, err = dosql(sql, host, username, datastore);
+	if not stmt then
+		return rollback(nil, err);
+	end
+	local count = 0;
+	for row in stmt:rows() do
+		count = count + 1;
+	end
+	if count > 0 then 
+		return true;
+	end
+	return false;
 end
 
 function driver:purge(username)

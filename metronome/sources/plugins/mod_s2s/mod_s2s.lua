@@ -11,7 +11,6 @@ module:set_global();
 
 local metronome = metronome;
 local hosts = metronome.hosts;
-local core_process_stanza = metronome.core_process_stanza;
 
 local tostring, type, now = tostring, type, os.time;
 local t_insert = table.insert;
@@ -36,6 +35,7 @@ local s2sout = module:require("s2sout");
 local connect_timeout = module:get_option_number("s2s_timeout", 90);
 local stream_close_timeout = module:get_option_number("s2s_close_timeout", 5);
 local s2s_strict_mode = module:get_option_boolean("s2s_strict_mode", false);
+local require_encryption = module:get_option_boolean("s2s_require_encryption", false);
 local max_inactivity = module:get_option_number("s2s_max_inactivity", 1800);
 local check_inactivity = module:get_option_number("s2s_check_inactivity", 900);
 
@@ -43,6 +43,7 @@ local sessions = module:shared("sessions");
 
 local log = module._log;
 local last_inactive_clean = now();
+local fire_event = metronome.events.fire_event;
 
 local xmlns_stream = "http://etherx.jabber.org/streams";
 
@@ -87,7 +88,7 @@ local function bounce_sendq(session, reason)
 				reply:tag("text", {xmlns = "urn:ietf:params:xml:ns:xmpp-stanzas"})
 					:text("Server-to-server connection failed: "..reason):up();
 			end
-			core_process_stanza(dummy, reply);
+			fire_event("route/process", dummy, reply);
 		end
 		sendq[i] = nil;
 	end
@@ -96,13 +97,14 @@ end
 
 -- Handles stanzas to existing s2s sessions
 function route_to_existing_session(event)
-	local from_host, to_host, stanza = event.from_host, event.to_host, event.stanza;
+	local from_host, to_host, multiplexed_from, stanza = event.from_host, event.to_host, event.multiplexed_from, event.stanza;
 	if not hosts[from_host] then
 		log("warn", "Attempt to send stanza from %s - a host we don't serve", from_host);
 		return false;
 	end
 	local host = hosts[from_host].s2sout[to_host];
 	if host then
+		if multiplexed_from then host.multiplexed_from = multiplexed_from; end
 		time_and_clean(host, now());
 		-- We have a connection to this host already
 		if host.type == "s2sout_unauthed" and (stanza.name ~= "db:verify" or not host.dialback_key) then
@@ -146,20 +148,21 @@ local function session_open_stream(session, from, to)
 		from = from, to = to,
 		version = session.version and (session.version > 0 and "1.0" or nil), 
 	};
-
+	
 	session.sends2s("<?xml version='1.0'?>");
 	session.sends2s(st.stanza("stream:stream", attr):top_tag());
 end
 
 -- Create a new outgoing session for a stanza
 function route_to_new_session(event)
-	local from_host, to_host, stanza = event.from_host, event.to_host, event.stanza;
+	local from_host, to_host, multiplexed_from, stanza = event.from_host, event.to_host, event.multiplexed_from, event.stanza;
 	log("debug", "opening a new outgoing connection for this stanza");
 	local host_session = s2s_new_outgoing(from_host, to_host);
 
 	-- Store in buffer
 	host_session.bounce_sendq = bounce_sendq;
 	host_session.open_stream = session_open_stream;
+	if multiplexed_from then host_session.multiplexed_from = multiplexed_from; end
 
 	host_session.sendq = { {tostring(stanza), stanza.attr.type ~= "error" and stanza.attr.type ~= "result" and st.reply(stanza)} };
 	log("debug", "stanza [%s] queued until connection complete", tostring(stanza.name));
@@ -173,24 +176,31 @@ function route_to_new_session(event)
 end
 
 function module.add_host(module)
+	local modules_disabled = module:get_option_set("modules_disabled", {});
 	if not s2s_strict_mode then
 		module:depends("dialback");
 	else
-		local modules_disabled = module:get_option_set("modules_disabled", {});
 		if not is_module_loaded(module.host, "dialback") and not modules_disabled:contains("dialback") then
-			load_module(module.host, "dialback") 
+			load_module(module.host, "dialback");
 		end
 	end
+	if not is_module_loaded(module.host, "sasl_s2s") and not modules_disabled:contains("sasl_s2s") then
+		load_module(module.host, "sasl_s2s");
+	end
 	module:hook_stanza(xmlns_stream, "features", function(origin, stanza)
-		if origin.type == "s2sout_unauthed" then
+		if origin.type == "s2sout_unauthed" and not origin.can_do_dialback then
 			module:log("warn", "Remote server doesn't offer any mean of (known) authentication, closing stream(s)");
-			origin:close();
+			origin:close({ condition = "unsupported-feature", text = "Unable to authenticate at this time" }, "couldn't authenticate with the remote server");
 		end
 		return true;
-	end, -10)
-	module:depends("sasl_s2s");
+	end, -100)
 	module:hook("route/remote", route_to_existing_session, 200);
 	module:hook("route/remote", route_to_new_session, 100);
+	module:hook("s2sout-destroyed", function(event)
+		local session = event.session;
+		local multiplexed_from = session.multiplexed_from;
+		if multiplexed_from and not multiplexed_from.destroyed then multiplexed_from.hosts[session.to_host] = nil; end
+	end, 100);
 end
 
 --- Helper to check that a session peer's certificate is valid
@@ -238,7 +248,7 @@ end
 
 --- XMPP stream event handlers
 
-local stream_callbacks = { default_ns = "jabber:server", handlestanza = core_process_stanza };
+local stream_callbacks = { default_ns = "jabber:server" };
 
 local xmlns_xmpp_streams = "urn:ietf:params:xml:ns:xmpp-streams";
 
@@ -304,10 +314,11 @@ function stream_callbacks.streamopened(session, attr)
 			end
 		end
 
+		if module:fire_event("s2s-filter", session, from, to) then return; end
 		if session.secure and not session.cert_chain_status then check_cert_status(session); end
 
 		if (not to or not from) and s2s_strict_mode then
-			session:close({ condition = "improper-addressing" });
+			session:close({ condition = "improper-addressing", text = "No to or from attributes on stream header" });
 			return;
 		end
 		session.open_stream = session_open_stream;
@@ -324,12 +335,17 @@ function stream_callbacks.streamopened(session, attr)
 			
 			log("debug", "Sending stream features: %s", tostring(features));
 			send(features);
+		elseif session.version < 1.0 and require_encryption then
+			session:close(
+				{ condition = "unsupported-version", text = "To connect to this server xmpp streams of version 1 or above are required" }, 
+				"error communicating with the remote server"
+			);
+			return;
 		end
 	elseif session.direction == "outgoing" then
 		-- If we are just using the connection for verifying dialback keys, we won't try and auth it
 		if not attr.id then error("stream response did not give us a streamid!!!"); end
 		session.streamid = attr.id;
-		session.stream_attributes = attr;
 
 		if session.secure and not session.cert_chain_status then check_cert_status(session); end
 
@@ -346,7 +362,13 @@ function stream_callbacks.streamopened(session, attr)
 	
 		-- If server is pre-1.0, don't wait for features, just do dialback
 		if session.version < 1.0 then
-			if not session.legacy_dialback then -- FIXME: This could not be correct...
+			if require_encryption then
+				-- pre-1.0 servers won't support tls perhaps they should be excluded
+				session:close("unsupported-version", "error communicating with the remote server");
+				return;
+			end
+		
+			if not session.legacy_dialback then
 				hosts[session.from_host].events.fire_event("s2s-authenticate-legacy", { origin = session });
 			else
 				s2s_mark_connected(session);
@@ -394,7 +416,7 @@ function stream_callbacks.handlestanza(session, stanza)
 	end
 	stanza = session.filter("stanzas/in", stanza);
 	if stanza then
-		return xpcall(function () return core_process_stanza(session, stanza) end, handleerr);
+		return xpcall(function () return fire_event("route/process", session, stanza) end, handleerr);
 	end
 end
 

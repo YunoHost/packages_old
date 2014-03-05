@@ -10,18 +10,19 @@
 local log = module._log;
 
 local require = require;
-local pairs, ipairs = pairs, ipairs;
+local pairs, ipairs, next = pairs, ipairs, next;
 local t_concat, t_insert = table.concat, table.insert;
 local s_find = string.find;
 local tonumber = tonumber;
 
-local core_post_stanza = metronome.core_post_stanza;
 local st = require "util.stanza";
 local jid_bare = require "util.jid".bare;
 local jid_section = require "util.jid".section;
 local jid_split = require "util.jid".split;
 local hosts = hosts;
 local NULL = {};
+
+local fire_event = metronome.events.fire_event;
 
 local rostermanager = require "util.rostermanager";
 local sessionmanager = require "core.sessionmanager";
@@ -72,7 +73,7 @@ local function broadcast_to_interested_contacts(roster, origin, stanza)
 		if pre_process(jid) ~= false and
 		   jid ~= owner and (item.subscription == "both" or item.subscription == "from") then
 			stanza.attr.to = jid;
-			core_post_stanza(origin, stanza, true);
+			fire_event("route/post", origin, stanza, true);
 		end
 	end
 end
@@ -83,7 +84,7 @@ local function probe_interested_contacts(roster, origin, probe)
 		if pre_process(jid) ~= false and
 		   jid ~= owner and (item.subscription == "both" or item.subscription == "to") then
 			probe.attr.to = jid;
-			core_post_stanza(origin, probe, true);
+			fire_event("route/post", origin, probe, true);
 		end
 	end
 end
@@ -92,7 +93,7 @@ local function resend_outgoing_subscriptions(roster, origin, request)
 	for jid, item in pairs(roster) do -- resend outgoing subscription requests
 		if item.ask then
 			request.attr.to = jid;
-			core_post_stanza(origin, request, true);
+			fire_event("route/post", origin, request, true);
 		end
 	end	
 end
@@ -125,7 +126,7 @@ function handle_normal_presence(origin, stanza)
 	for _, res in pairs(user and user.sessions or NULL) do -- broadcast to all resources
 		if res ~= origin and res.presence then -- to resource
 			stanza.attr.to = res.full_jid;
-			core_post_stanza(origin, stanza, true);
+			fire_event("route/post", origin, stanza, true);
 		end
 	end
 	if roster then
@@ -141,7 +142,7 @@ function handle_normal_presence(origin, stanza)
 		for _, res in pairs(user and user.sessions or NULL) do -- broadcast from all available resources
 			if res ~= origin and res.presence then
 				res.presence.attr.to = origin.full_jid;
-				core_post_stanza(res, res.presence, true);
+				fire_event("route/post", res, res.presence, true);
 				res.presence.attr.to = nil;
 			end
 		end
@@ -173,7 +174,7 @@ function handle_normal_presence(origin, stanza)
 		if origin.directed then
 			for jid in pairs(origin.directed) do
 				stanza.attr.to = jid;
-				core_post_stanza(origin, stanza, true);
+				fire_event("route/post", origin, stanza, true);
 			end
 			origin.directed = nil;
 		end
@@ -198,7 +199,7 @@ function send_presence_of_available_resources(user, host, jid, recipient_session
 				if pres then
 					if stanza then pres = stanza; pres.attr.from = session.full_jid; end
 					pres.attr.to = jid;
-					core_post_stanza(session, pres, true);
+					fire_event("route/post", session, pres, true);
 					pres.attr.to = nil;
 					count = count + 1;
 				end
@@ -224,14 +225,14 @@ function handle_outbound_presence_subscriptions_and_probes(origin, stanza, from_
 		if rostermanager.set_contact_pending_out(node, host, to_bare) then
 			rostermanager.roster_push(node, host, to_bare);
 		end -- else file error
-		core_post_stanza(origin, stanza);
+		fire_event("route/post", origin, stanza);
 	elseif stanza.attr.type == "unsubscribe" then
 		-- 1. route stanza
 		-- 2. roster push (subscription = none or from)
 		if rostermanager.unsubscribe(node, host, to_bare) then
 			rostermanager.roster_push(node, host, to_bare); -- FIXME do roster push when roster has in fact not changed?
 		end -- else file error
-		core_post_stanza(origin, stanza);
+		fire_event("route/post", origin, stanza);
 	elseif stanza.attr.type == "subscribed" then
 		-- 1. route stanza
 		-- 2. roster_push ()
@@ -239,7 +240,7 @@ function handle_outbound_presence_subscriptions_and_probes(origin, stanza, from_
 		if rostermanager.subscribed(node, host, to_bare) then
 			rostermanager.roster_push(node, host, to_bare);
 		end
-		core_post_stanza(origin, stanza);
+		fire_event("route/post", origin, stanza);
 		send_presence_of_available_resources(node, host, to_bare, origin);
 	elseif stanza.attr.type == "unsubscribed" then
 		-- 1. send unavailable
@@ -250,7 +251,7 @@ function handle_outbound_presence_subscriptions_and_probes(origin, stanza, from_
 			if subscribed then
 				rostermanager.roster_push(node, host, to_bare);
 			end
-			core_post_stanza(origin, stanza);
+			fire_event("route/post", origin, stanza);
 			if subscribed then
 				send_presence_of_available_resources(node, host, to_bare, origin, st.presence({ type = "unavailable" }));
 			end
@@ -271,20 +272,20 @@ function handle_inbound_presence_subscriptions_and_probes(origin, stanza, from_b
 		local result, err = rostermanager.is_contact_subscribed(node, host, from_bare);
 		if result then
 			if 0 == send_presence_of_available_resources(node, host, st_from, origin) then
-				core_post_stanza(hosts[host], st.presence({from=to_bare, to=st_from, type="unavailable"}), true); -- TODO send last activity
+				fire_event("route/post", hosts[host], st.presence({from=to_bare, to=st_from, type="unavailable"}), true); -- TODO send last activity
 			end
 		elseif not err then
-			core_post_stanza(hosts[host], st.presence({from=to_bare, to=from_bare, type="unsubscribed"}), true);
+			fire_event("route/post", hosts[host], st.presence({from=to_bare, to=from_bare, type="unsubscribed"}), true);
 		end
 	elseif stanza.attr.type == "subscribe" then
 		if rostermanager.is_contact_subscribed(node, host, from_bare) then
-			core_post_stanza(hosts[host], st.presence({from=to_bare, to=from_bare, type="subscribed"}), true); -- already subscribed
+			fire_event("route/post", hosts[host], st.presence({from=to_bare, to=from_bare, type="subscribed"}), true); -- already subscribed
 			-- Sending presence is not clearly stated in the RFC, but it seems appropriate
 			if 0 == send_presence_of_available_resources(node, host, from_bare, origin) then
-				core_post_stanza(hosts[host], st.presence({from=to_bare, to=from_bare, type="unavailable"}), true); -- TODO send last activity
+				fire_event("route/post", hosts[host], st.presence({from=to_bare, to=from_bare, type="unavailable"}), true); -- TODO send last activity
 			end
 		else
-			core_post_stanza(hosts[host], st.presence({from=to_bare, to=from_bare, type="unavailable"}), true); -- acknowledging receipt
+			fire_event("route/post", hosts[host], st.presence({from=to_bare, to=from_bare, type="unavailable"}), true); -- acknowledging receipt
 			if not rostermanager.is_contact_pending_in(node, host, from_bare) then
 				if rostermanager.set_contact_pending_in(node, host, from_bare) then
 					sessionmanager.send_to_available_resources(node, host, stanza);
@@ -347,13 +348,24 @@ local function outbound_presence_handler(data)
 		end
 
 		local to_bare = jid_bare(to);
+		local to_resource = jid_section(to, "resource");
 		local roster = origin.roster;
 		if (roster and check_directed_presence(roster, to_bare)) or not roster then -- directed presence
 			origin.directed = origin.directed or {};
+			origin.joined_mucs = origin.joined_mucs or {};
 			if t then -- removing from directed presence list on sending an error or unavailable
-				origin.directed[to] = nil; -- FIXME does it make more sense to add to_bare rather than to?
+				origin.directed[to] = nil;
+				if origin.joined_mucs[to_bare] and to_resource then
+					local joined_muc = origin.joined_mucs[to_bare];
+					joined_muc[to_resource] = nil;
+					if not next(joined_muc) then origin.joined_mucs[to_bare] = nil; end
+				end
 			else
-				origin.directed[to] = true; -- FIXME does it make more sense to add to_bare rather than to?
+				origin.directed[to] = true;
+				if stanza:get_child("x", "http://jabber.org/protocol/muc") then
+					origin.joined_mucs[to_bare] = origin.joined_mucs[to_bare] or {};
+					origin.joined_mucs[to_bare][to_resource] = true;
+				end
 			end
 		end
 	end -- TODO maybe handle normal presence here, instead of letting it pass to incoming handlers?
@@ -426,10 +438,10 @@ module:hook("presence/host", function(data)
 	local from_bare = jid_bare(stanza.attr.from);
 	local t = stanza.attr.type;
 	if t == "probe" then
-		core_post_stanza(hosts[module.host], st.presence({ from = module.host, to = from_bare, id = stanza.attr.id }));
+		fire_event("route/post", hosts[module.host], st.presence({ from = module.host, to = from_bare, id = stanza.attr.id }));
 	elseif t == "subscribe" then
-		core_post_stanza(hosts[module.host], st.presence({ from = module.host, to = from_bare, id = stanza.attr.id, type = "subscribed" }));
-		core_post_stanza(hosts[module.host], st.presence({ from = module.host, to = from_bare, id = stanza.attr.id }));
+		fire_event("route/post", hosts[module.host], st.presence({ from = module.host, to = from_bare, id = stanza.attr.id, type = "subscribed" }));
+		fire_event("route/post", hosts[module.host], st.presence({ from = module.host, to = from_bare, id = stanza.attr.id }));
 	end
 	return true;
 end);
@@ -450,7 +462,7 @@ module:hook("resource-unbind", function(event)
 		end
 		for jid in pairs(session.directed) do
 			pres.attr.to = jid;
-			core_post_stanza(session, pres, true);
+			fire_event("route/post", session, pres, true);
 		end
 		session.directed = nil;
 	end
@@ -460,7 +472,7 @@ module:hook_global("server-stopping", function()
 	local full_sessions = full_sessions;
 	local module_host = module.host;
 	module:log("debug", "%s -- broadcasting unavailable presences to local and remote entities...", module_host);
-	local unavailable = st.presence({ type = "unavailable" }):tag("status"):text("Disconnected: Server is shutting down."):up();
+	local unavailable = st.presence({ type = "unavailable" }):tag("status"):text("Disconnected: Server is shutting down"):up();
 
 	for jid, session in pairs(full_sessions) do
 		if session.host == module_host then
@@ -471,7 +483,7 @@ module:hook_global("server-stopping", function()
 				for to_jid in pairs(directed) do
 					unavailable.attr.from = session.full_jid;
 					unavailable.attr.to = to_jid;
-					core_post_stanza(session, unavailable, true);
+					fire_event("route/post", session, unavailable, true);
 					directed[to_jid] = nil;
 				end
 			end
