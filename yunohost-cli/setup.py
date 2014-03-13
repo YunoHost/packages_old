@@ -27,12 +27,13 @@ if __name__ == '__main__':
         maintainer_email='beudbeud@yunohost.org',
         url='http://yunohost.org',
         license='GPL',
-        scripts = ['src/yunohost-cli/bash/yunohost'],
+        scripts = [('src/yunohost-cli/bash/yunohost','src/yunohost-cli/bash/checkupdate')],
 	packages=['yunohost-cli'],
 	package_dir={'yunohost-cli': 'src/yunohost-cli'},
 	package_data={'yunohost-cli': ['*.py', '*.yml', '*.tac']},
         data_files = [('share/yunohost-cli/doc',['src/yunohost-cli/LICENSE', 'src/yunohost-cli/README.md']),
 		('share/pyshared/yunohost-cli',['src/yunohost-cli/yunohost']),
+		('/usr/share/yunohost/',['src/yunohost-cli/config/upgrade']),
 		('/etc/bash_completion.d/',['src/yunohost-cli/bash/yunohost_cli'])],
 	)
 

@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta2~megusta32) test; urgency=low
+
+  * Test build: Add safe update
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 13 Mar 2014 20:44:34 +0100
+
 yunohost-cli (2.0-beta2~megusta31) test; urgency=low
 
   * Test build: fix pid file
