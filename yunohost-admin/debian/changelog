@@ -1,5 +1,5 @@
-yunohost-admin (2.0-beta2~megusta11) test; urgency=low
+yunohost-config (2.0-beta4~megusta0) megusta; urgency=low
 
-  * Test build: Update from git
+  * Production build: update beta4
 
- -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 17 Mar 2014 17:09:32 +0100
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 17 Mar 2014 17:20:26 +0100
