@@ -1,5 +1,5 @@
-glances (1.7.2) test; urgency=low
+glances (1.7.4) megusta; urgency=low
 
-  * update version 1.7.2
+  * Production build: dump version
 
- -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 15:33:48 +0100
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 17 Mar 2014 17:33:51 +0100
