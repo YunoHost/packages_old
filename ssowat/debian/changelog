@@ -1,5 +1,6 @@
-ssowat (1.0~megusta26) test; urgency=low
+ssowat (1.0~megusta26) megusta; urgency=low
 
   * Test build: Update from git
+  * Production build: dump version
 
- -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 04 Mar 2014 11:53:48 +0100
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 17 Mar 2014 17:36:50 +0100
