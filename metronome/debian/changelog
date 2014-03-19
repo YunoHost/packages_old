@@ -1,6 +1,6 @@
-metronome (3.4~megusta2) test; urgency=low
+metronome (3.4~megusta2) megusta; urgency=low
 
-  * Test build: Metronome 3.4.3
+  * Production build: Metronome 3.4.3
 
  -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 05 Mar 2014 16:44:32 +0100
 
