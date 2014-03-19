@@ -1,35 +1,5 @@
-yunohost-predepends (2.0-beta2~megusta5) test; urgency=low
+yunohost-predepends (2.0-beta4~megusta0) megusta; urgency=low
 
-  * Test build: remove amavis config
+  * Production build: update beta4
 
- -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 24 Feb 2014 13:58:42 +0100
-
-yunohost-predepends (2.0-beta2~megusta4) test; urgency=low
-
-  * Test build: fix amavis hostname
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 12 Feb 2014 10:49:22 +0100
-
-yunohost-predepends (2.0-beta2~megusta3) test; urgency=low
-
-  * Test build: fix amavis hostname
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 11 Feb 2014 19:20:24 +0100
-
-yunohost-predepends (2.0-beta2~megusta2) test; urgency=low
-
-  * Test build: fix amavis hostname
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 11 Feb 2014 19:19:24 +0100
-
-yunohost-predepends (2.0-beta2~megusta1) megusta; urgency=low
-
-  * Production build: bump version
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 15:48:02 +0100
-
-yunohost-predepends (2.0-beta2~megusta0) megusta; urgency=low
-
-  * update beta2 
-
- -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 23 Nov 2013 15:47:38 +0100
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 17 Mar 2014 17:16:54 +0100
