@@ -117,8 +117,8 @@ cp $TMP/others/issue.net /etc/issue.net
 #fi
 
 #Unattended-upgrades
-if grep -Fq "Unattended-Upgrade" /etc/apt/apt.conf.d/02periodic
-then
-	cp $TMP/unattended/* /etc/apt/apt.conf.d/
-fi
+#if grep -Fq "Unattended-Upgrade" /etc/apt/apt.conf.d/02periodic
+#then
+#	cp $TMP/unattended/* /etc/apt/apt.conf.d/
+#fi
 
