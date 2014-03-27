@@ -19,6 +19,7 @@ then
 	cp $SRC/spamassassin/local.cf /etc/spamassassin/
 fi
 
+chown -R debian-spamd:debian-spamd /var/lib/spamassassin/
 
 IPV4=$(wget -q -O- -4 http://ip.yunohost.org)
 
