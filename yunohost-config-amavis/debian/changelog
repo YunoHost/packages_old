@@ -1,3 +1,9 @@
+yunohost-config-amavis (2.0-beta4~megusta2) test; urgency=low
+
+  * Test build: chown spamassassin folder
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 27 Mar 2014 14:12:55 +0100
+
 yunohost-config-amavis (2.0-beta4~megusta1) test; urgency=low
 
   * Test build: chown spamassassin folder
