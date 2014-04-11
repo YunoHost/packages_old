@@ -1,3 +1,10 @@
+yunohost-config-nginx (2.0-beta4~megusta2) test; urgency=low
+
+  * Test build: [fix] Modify ynhadmin and ynhapi path for existing
+    virtualhosts
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 11 Apr 2014 12:41:18 +0200
+
 yunohost-config-nginx (2.0-beta4~megusta1) test; urgency=low
 
   * Test build: Change API & admin path
