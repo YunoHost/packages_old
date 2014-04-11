@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta4~megusta2) test; urgency=low
+
+  * Test build: [fix] ynhsso path
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 11 Apr 2014 12:47:51 +0200
+
 yunohost-cli (2.0-beta4~megusta1) megusta; urgency=low
 
   * update git 
