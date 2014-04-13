@@ -14,7 +14,7 @@ function randpass() {
 
 
 #Mysql
-APPCHK=$(ps aux | grep mysqld | grep -vc "grep")
+APPCHK=$(/bin/ps aux | grep mysqld | grep -vc "grep")
 chmod u-x /usr/bin/mysql
 
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep mysql /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
