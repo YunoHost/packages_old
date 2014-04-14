@@ -1,3 +1,9 @@
+yunohost-config-postfix (2.0-beta4~megusta1) test; urgency=low
+
+  * Test build: [fix] Mail forwarding configuration
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 14 Apr 2014 14:39:49 +0200
+
 yunohost-config-postfix (2.0-beta4~megusta0) megusta; urgency=low
 
   * Production build: update beta4
