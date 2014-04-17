@@ -1,3 +1,9 @@
+ssowat (1.0~megusta32) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 17 Apr 2014 12:25:16 +0200
+
 ssowat (1.0~megusta31) test; urgency=low
 
   * Test build: [enh] Automaticaly renew session
