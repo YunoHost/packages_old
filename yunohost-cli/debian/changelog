@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta4~megusta7) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 20 Apr 2014 13:29:49 +0200
+
 yunohost-cli (2.0-beta4~megusta6) test; urgency=low
 
   * Test build: [enh] Add app_makedefault() function
