@@ -32,7 +32,7 @@ then
 	cp $TMP/postgrey /etc/default/
 	if [ -f /var/run/postgrey.pid ];
 	then
-		kill $(cat /var/run/postgrey.pid)
+		kill $(cat /var/run/postgrey.pid) > /dev/null 2>&1
 	fi	
 	service postgrey restart > /dev/null 2>&1
 	service postfix reload > /dev/null 2>&1
