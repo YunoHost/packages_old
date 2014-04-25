@@ -3,6 +3,7 @@
 # Allow users to access /media directory
 if [ ! -d /etc/skel/media ];
 then
+        mkdir -p /media
 	ln -s /media /etc/skel/
 fi
 
