@@ -1,11 +1,11 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          yunohost-api
+# Provides:          udiskie
 # Required-Start:    $local_fs $remote_fs $network $syslog
 # Required-Stop:     $local_fs $remote_fs $network $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start/stop YunoHost API server
+# Short-Description: Start/stop Udiskie Daemon
 ### END INIT INFO
 
 DAEMON=/usr/local/bin/udiskie
@@ -21,7 +21,7 @@ case "$1" in
   start)
     logger "Udiskie Daemon: Starting"
     echo -n "Starting disk daemon: "
-    start-stop-daemon --start --quiet --pidfile /var/run/udiskie.pid \
+    start-stop-daemon --start --quiet --background --pidfile /var/run/udiskie.pid --make-pidfile \
         --exec $DAEMON -- $DAEMON_OPTS || true
     echo "udiskie."
     ;;
@@ -38,7 +38,7 @@ case "$1" in
     start-stop-daemon --stop --quiet --pidfile /var/run/udiskie.pid \
         --exec $DAEMON || true
     sleep 1
-    start-stop-daemon --start --quiet --pidfile /var/run/udiskie.pid \
+    start-stop-daemon --start --quiet --background --pidfile /var/run/udiskie.pid --make-pidfile \
         --exec $DAEMON -- $DAEMON_OPTS || true
     echo "udiskie."
     ;;
