@@ -8,7 +8,7 @@ XS-Python-Version: current
 
 Package: yunohost-cli
 Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}, python-ldap, python-psutil, python-yaml, python-netifaces, bind9, glances, python-pip, rubygems, pyminiupnpc, python-requests, python-twisted, python-twisted-web, dnsutils
+Depends: ${misc:Depends}, ${python:Depends}, python-ldap, python-psutil, python-yaml, python-netifaces, bind9, glances, python-pip, rubygems, pyminiupnpc, python-requests, python-twisted, python-twisted-web, dnsutils, python-udiskie
 XB-Python-Version: ${python:Versions}
 Provides: ${python:Provides}
 Description: Yunohost CLI
