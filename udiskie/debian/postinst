@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Allow users to access /media directory
-if [ ! -f /etc/skel/media ];
+if [ ! -d /etc/skel/media ];
 then
 	ln -s /media /etc/skel/
 fi
