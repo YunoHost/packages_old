@@ -1,0 +1,15 @@
+Source: python-udiskie
+Maintainer: Adrien Beudin <beudbeud@yunohost.org>
+Section: python
+Priority: optional
+Build-Depends: debhelper (>= 7), python-support (>= 0.8.4)
+Standards-Version: 3.8.4
+XS-Python-Version: current
+
+Package: python-udiskie
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}, python-gobject, python-dbus, udisks
+XB-Python-Version: ${python:Versions}
+Provides: ${python:Provides}
+Description: Automatic disk mounter
+
