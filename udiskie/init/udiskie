@@ -20,27 +20,26 @@ logger "Udiskie: Start script executed"
 case "$1" in
   start)
     logger "Udiskie Daemon: Starting"
-    echo -n "Starting disk daemon: "
+    log_daemon_msg "Starting disk daemon: udiskie"
     start-stop-daemon --start --quiet --background --pidfile /var/run/udiskie.pid --make-pidfile \
-        --exec $DAEMON -- $DAEMON_OPTS || true
-    echo "udiskie."
+        --exec $DAEMON -- $DAEMON_OPTS
+    log_end_msg $?
     ;;
   stop)
     logger "Udiskie Daemon: Stopping"
-    echo -n "Stopping disk daemon: "
-    start-stop-daemon --stop --quiet --pidfile /var/run/udiskie.pid \
-        --exec $DAEMON || true
-    echo "udiskie."
+    log_daemon_msg "Stopping disk daemon: udiskie"
+    kill `cat /var/run/udiskie.pid > /dev/null 2>&1` > /dev/null 2>&1
+    rm /var/run/udiskie.pid > /dev/null 2>&1
+    log_end_msg $?
     ;;
   restart)
     logger "Udiskie Daemon: Restarting"
-    echo -n "Restarting disk daemon: "
-    start-stop-daemon --stop --quiet --pidfile /var/run/udiskie.pid \
-        --exec $DAEMON || true
-    sleep 1
+    log_daemon_msg "Restarting disk daemon: udiskie"
+    kill `cat /var/run/udiskie.pid > /dev/null 2>&1` > /dev/null 2>&1
+    rm -f /var/run/udiskie.pid > /dev/null 2>&1
     start-stop-daemon --start --quiet --background --pidfile /var/run/udiskie.pid --make-pidfile \
-        --exec $DAEMON -- $DAEMON_OPTS || true
-    echo "udiskie."
+        --exec $DAEMON -- $DAEMON_OPTS
+    log_end_msg $?
     ;;
   *)
     logger "Udiskie Daemon: Invalid usage"
