@@ -1,3 +1,9 @@
+yunohost-config-postfix (2.0-beta4~megusta3) megusta; urgency=low
+
+  * Production build: [bump] beta5 ?
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 27 Apr 2014 19:28:03 +0200
+
 yunohost-config-postfix (2.0-beta4~megusta2) test; urgency=low
 
   * Test build: [fix] Postgrey kill fail
