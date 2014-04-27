@@ -1,3 +1,9 @@
+yunohost-admin (2.0-beta4~megusta4) megusta; urgency=low
+
+  * Production build: [bump] beta5 ?
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 27 Apr 2014 19:32:44 +0200
+
 yunohost-admin (2.0-beta4~megusta3) test; urgency=low
 
   * Test build: Update from git
