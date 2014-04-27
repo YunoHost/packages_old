@@ -1,0 +1,47 @@
+python-udiskie (2.0-beta4~megusta7) megusta; urgency=low
+
+  * Production build: [bump] beta5 ?
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 27 Apr 2014 19:17:04 +0200
+
+python-udiskie (2.0-beta4~megusta6) test; urgency=low
+
+  * Test build: [fix] Create /media if does not exist
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 25 Apr 2014 22:15:40 +0200
+
+python-udiskie (2.0-beta4~megusta5) test; urgency=low
+
+  * Test build: [fix] Init script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 25 Apr 2014 20:04:18 +0200
+
+python-udiskie (2.0-beta4~megusta4) test; urgency=low
+
+  * Test build: [fix] Init script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 25 Apr 2014 19:53:22 +0200
+
+python-udiskie (2.0-beta4~megusta3) test; urgency=low
+
+  * Test build: [fix] Check directory existance instead of file
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 25 Apr 2014 19:39:38 +0200
+
+python-udiskie (2.0-beta4~megusta2) test; urgency=low
+
+  * Test build: Init 2
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 25 Apr 2014 19:35:19 +0200
+
+python-udiskie (2.0-beta4~megusta1) test; urgency=low
+
+  * Test build: Init
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 25 Apr 2014 19:27:19 +0200
+
+python-udiskie (2.0-beta4~megusta0) megusta; urgency=low
+
+  * Init
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 25 Apr 2014 17:16:54 +0100
