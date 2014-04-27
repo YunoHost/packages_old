@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta4~megusta12) megusta; urgency=low
+
+  * Production build: [bump] beta5 ?
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 27 Apr 2014 19:35:04 +0200
+
 yunohost-cli (2.0-beta4~megusta11) test; urgency=low
 
   * Test build: [enh] Add python-udiskie to dependencies
