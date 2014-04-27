@@ -28,10 +28,11 @@ then
                	mv /etc/postfix/main.cf-ipv4 /etc/postfix/main.cf
 	fi
 	cp $TMP/ldap* /etc/postfix
+	cp $TMP/sender_canonical /etc/postfix
 	cp $TMP/postgrey /etc/default/
 	if [ -f /var/run/postgrey.pid ];
 	then
-		kill $(cat /var/run/postgrey.pid)
+		kill $(cat /var/run/postgrey.pid) > /dev/null 2>&1
 	fi	
 	service postgrey restart > /dev/null 2>&1
 	service postfix reload > /dev/null 2>&1

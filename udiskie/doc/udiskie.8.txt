@@ -1,0 +1,189 @@
+/////
+vim:set ts=4 sw=4 syntax=asciidoc noet:
+/////
+udiskie(8)
+==========
+
+
+Name
+----
+udiskie - automatic disk mounting service using udisks
+
+
+Synopsis
+--------
+'udiskie' [-hvq12CPstTFN]
+
+'udiskie-mount' [-hvq12CPr] (-a | DEVICE...)
+
+'udiskie-umount' [-hvq12Ced] (-a | PATH...)
+
+
+Description
+-----------
+*udiskie* uses udisks to automatically mount removable media, such as CDs and flash drives. It will mount the media in a new directory under '/media', using the device name if available. It is lightweight and runs as a daemon.
+
+
+Options
+-------
+*-h, \--help*::
+	Show help message and exit.
+
+*-v, \--verbose*::
+	Verbose output. Can't be used together with the *-q* option.
+
+*-q, \--quiet*::
+	Quiet output. Can't be used together with the *-v* option.
+
+*-1, \--use-udisks1*::
+	Use UDisks1 as DBus backend (default)
+
+*-2, \--use-udisks2*::
+	Use UDisks2 as DBus backend (experimental)
+
+*-C FILE, \--config=FILE*::
+    Alternate filter configuration.
+
+*-P PROMPT, \--password-prompt=PROMPT*::
+	Password prompt to use for unlocking. Default is \'+zenity+'. This must be an executable that receives as its first argument the device path and should print the password to its stdout in UTF-8 encoding. This option is deprecated and will probably be replaced by a python commands file.
+
+*-r, \--recursive*::
+	Recursively mount cleartext partitions after unlocking a LUKS device. This will happen by default when running the udiskie daemon.
+
+*-s, \--suppress*::
+	Suppress pop-up notifications.
+
+*-t, \--tray*::
+	Show tray icon. Can't be used together with the *-T* option.
+
+*-T, \--auto-tray*::
+	Show tray icon that automatically hides when there is no action available. Can't be used together with the *-t* option.
+
+*-N, \--no-automount*::
+	Disable automounting new devices.
+
+*-F PROGRAM, \--file-manager=PROGRAM*::
+	Set program to open mounted directories. Default is \'+xdg-open+'. Pass an empty string to disable this feature. This option is deprecated and will probably be replaced by a python commands file.
+
+*-a, \--all*::
+	Mount or unmount all external devices.
+
+*-e, \--eject*::
+	Eject media from the drive, e.g CDROM.
+
+*-d, \--detach*::
+	Detach drive by e.g. powering down its physical port.
+
+
+Dependencies
+------------
+
+*udisks1* or *udisks2*::
+	backend service required for all operation modes.
+
+*dbus-python*::
+	required for all operation modes.
+
+*PyGObject*::
+	to run the automount/notification daemon (provides the main loop)
+
+*notify-python* or *notify2*::
+	for mount notifications
+
+*zenity*::
+	to unlock LUKS devices
+
+*PyGTK*::
+	to show the system tray icon
+
+
+Example Usage[[EU]]
+-------------------
+Start *udiskie* in '~/.xinitrc':
+
+	udiskie &
+
+Unmount media and power down USB device:
+
+	udiskie-umount --detach /media/Sticky
+
+Mount all media:
+
+	udiskie-mount -a
+
+Mount '/dev/sdb1':
+
+	udiskie-mount /dev/sdb1
+
+
+Configuration
+-------------
+*udiskie* uses filters to apply additional mount options. On startup *udiskie* reads the filters in `$XDG_CONFIG_HOME/udiskie/filters.conf` (or the file specified with *-C*). Filters can match the filesystem type or the device UUID. The option \'+\_\_ignore__+' instructs udiskie not to automount and display the matched device. The configuration file can also be used to specify defaults for some of the command line parameters.
+
+Example Configuration File
+--------------------------
+----------------------------------------------------------------------
+[mount_options]
+fstype.vfat=sync
+uuid.9d53-13ba=noexec,nodev
+uuid.abcd-ef01=__ignore__
+
+[program_options]
+# Allowed values are '1' and '2'
+udisks_version=2
+# 'zenity', 'systemd-ask-password' or user program:
+password_prompt=zenity
+# valid values are: 'AutoTray', 'TrayIcon'
+tray=AutoTray
+# Leave empty to set to ``False``:
+automount=
+# Use '1' for ``True``:
+suppress_notify=1
+# Default program:
+file_manager=xdg-open
+
+[notifications]
+# Default timeout in seconds:
+timeout=1.5
+# Overwrite timeout for 'device_mounted' notification:
+device_mounted=5
+# Leave empty to disable:
+device_unmounted=
+device_added=
+device_removed=
+# Use the libnotify default timeout:
+device_unlocked=-1
+device_locked=-1
+job_failed=-1
+----------------------------------------------------------------------
+
+See Also
+--------
+linkman:udisks[1]
+
+http://dbus.freedesktop.org/releases/dbus-python
+
+http://ftp.gnome.org/pub/gnome/sources/pygobject/
+
+http://www.galago-project.org/files/releases/source/notify-python
+
+https://pypi.python.org/pypi/notify2
+
+http://freecode.com/projects/zenity
+
+http://www.pygtk.org
+
+
+Authors
+-------
+Byron Clark <byron@theclarkfamily.name>
+
+
+Contact
+-------
+You can use the github issues to report any issues you encounter, ask general questions or suggest new features. There is also a public mailing list on sourceforge if you prefer email:
+
+https://github.com/coldfix/udiskie/issues
+
+https://lists.sourceforge.net/lists/listinfo/udiskie-users
+

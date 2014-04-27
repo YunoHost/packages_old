@@ -1,3 +1,63 @@
+yunohost-cli (2.0-beta4~megusta11) test; urgency=low
+
+  * Test build: [enh] Add python-udiskie to dependencies
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 25 Apr 2014 23:43:21 +0200
+
+yunohost-cli (2.0-beta4~megusta10) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 22 Apr 2014 18:04:49 +0200
+
+yunohost-cli (2.0-beta4~megusta9) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 20 Apr 2014 16:33:37 +0200
+
+yunohost-cli (2.0-beta4~megusta8) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 20 Apr 2014 13:56:08 +0200
+
+yunohost-cli (2.0-beta4~megusta7) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 20 Apr 2014 13:29:49 +0200
+
+yunohost-cli (2.0-beta4~megusta6) test; urgency=low
+
+  * Test build: [enh] Add app_makedefault() function
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 14 Apr 2014 12:09:17 +0200
+
+yunohost-cli (2.0-beta4~megusta5) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 13 Apr 2014 13:00:04 +0200
+
+yunohost-cli (2.0-beta4~megusta4) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 11 Apr 2014 14:52:29 +0200
+
+yunohost-cli (2.0-beta4~megusta3) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 11 Apr 2014 14:30:35 +0200
+
+yunohost-cli (2.0-beta4~megusta2) test; urgency=low
+
+  * Test build: [fix] ynhsso path
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 11 Apr 2014 12:47:51 +0200
+
 yunohost-cli (2.0-beta4~megusta1) megusta; urgency=low
 
   * update git 

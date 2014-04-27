@@ -84,10 +84,10 @@ Subsystem sftp internal-sftp
 # PAM authentication, then enable this but set PasswordAuthentication
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
-AllowUsers admin
 
 Match User sftpusers
         ForceCommand internal-sftp
+        ChrootDirectory /home/%u
         AllowTcpForwarding no
         GatewayPorts no
         X11Forwarding no

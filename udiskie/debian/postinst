@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Allow users to access /media directory
+if [ ! -d /etc/skel/media ];
+then
+        mkdir -p /media
+	ln -s /media /etc/skel/
+fi
+
+update-rc.d udiskie defaults
+service udiskie restart
