@@ -1,3 +1,9 @@
+yunohost-config-mysql (2.0-beta4~megusta2) megusta; urgency=low
+
+  * Production build: [bump] beta5 ?
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 27 Apr 2014 19:21:23 +0200
+
 yunohost-config-mysql (2.0-beta4~megusta1) test; urgency=low
 
   * Test build: [fix] ps command path
