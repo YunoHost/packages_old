@@ -1,3 +1,10 @@
+yunohost-config-nginx (2.0-beta4~megusta5) test; urgency=low
+
+  * Test build: [enh] Keep the initial certificate for the default admin
+    vhost
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 02 May 2014 13:17:06 +0200
+
 yunohost-config-nginx (2.0-beta4~megusta4) megusta; urgency=low
 
   * Production build: [bump] beta5 ?
