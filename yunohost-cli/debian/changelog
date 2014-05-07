@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta4~megusta15) test; urgency=low
+
+  * Test build: [fix] woops
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 07 May 2014 07:59:48 +0200
+
 yunohost-cli (2.0-beta4~megusta14) test; urgency=low
 
   * Test build: [fix] Reload SSOwat configuration if obsolete (need to

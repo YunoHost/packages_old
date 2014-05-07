@@ -21,7 +21,7 @@ service yunohost-api restart
 if [ -f /etc/ssowat/conf.json ];
 then
     grep -q "ynhadmin" /etc/ssowat/conf.json
-    if [[ $? -eq 1 ]]
+    if [[ $? -eq 0 ]]
     then
         yunohost tools ssowatconf
     fi
