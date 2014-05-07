@@ -1,3 +1,10 @@
+yunohost-cli (2.0-beta4~megusta14) test; urgency=low
+
+  * Test build: [fix] Reload SSOwat configuration if obsolete (need to
+    be in command-line for now)
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 07 May 2014 07:52:24 +0200
+
 yunohost-cli (2.0-beta4~megusta13) test; urgency=low
 
   * Test build: [enh] pre-install moulinette dependencies

@@ -16,3 +16,13 @@ fi
 
 update-rc.d yunohost-api defaults
 service yunohost-api restart
+
+# Reload SSOwat conf if obsolete
+if [ -f /etc/ssowat/conf.json ];
+then
+    grep -q "ynhadmin" /etc/ssowat/conf.json
+    if [[ $? -eq 1 ]]
+    then
+        yunohost tools ssowatconf
+    fi
+fi
