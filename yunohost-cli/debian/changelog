@@ -1,3 +1,9 @@
+yunohost-cli (2.0-beta4~megusta16) test; urgency=low
+
+  * Test build: [fix] woops
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 07 May 2014 08:01:45 +0200
+
 yunohost-cli (2.0-beta4~megusta15) test; urgency=low
 
   * Test build: [fix] woops
