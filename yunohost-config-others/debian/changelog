@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta4~megusta2) test; urgency=low
+
+  * Test build: [enh] radvd + network interface
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 10 May 2014 13:26:27 +0200
+
 yunohost-config-others (2.0-beta4~megusta1) megusta; urgency=low
 
   * Production build: [bump] beta5 ?
