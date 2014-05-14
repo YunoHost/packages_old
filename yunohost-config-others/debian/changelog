@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta4~megusta3) test; urgency=low
+
+  * Test build: [enh] Generate ULA
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 14 May 2014 16:42:59 +0200
+
 yunohost-config-others (2.0-beta4~megusta2) test; urgency=low
 
   * Test build: [enh] radvd + network interface

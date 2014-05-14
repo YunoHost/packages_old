@@ -122,6 +122,15 @@ cp $TMP/others/issue.net /etc/issue.net
 #	cp $TMP/unattended/* /etc/apt/apt.conf.d/
 #fi
 
+# IPv6
+if [ ! -f /etc/yunohost/ula ];
+then
+     array=( 1 2 3 4 5 6 7 8 9 0 a b c d e f )
+     a=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+     b=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+     echo "fd42:$a:$b::" > /etc/yunohost/ula
+fi
+
 # Interface
 if [ ! -f /etc/yunohost/interface ];
 then
@@ -137,9 +146,10 @@ fi
 
 # RADVD
 cp $TMP/others/radvd.conf /etc/
-if [ -f /etc/yunohost/ipv6 ];
+if [ -f /etc/yunohost/ula ];
 then
     sed -i "s@IFACE@$(cat /etc/yunohost/interface)@g" /etc/radvd.conf
-    sed -i "s@PFIX@$(cat /etc/yunohost/ipv6)/64@g" /etc/radvd.conf
+    sed -i "s@PFIX@$(cat /etc/yunohost/ula)/64@g" /etc/radvd.conf
     service radvd restart
+    update-rc.d radvd defaults
 fi
