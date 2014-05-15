@@ -131,6 +131,12 @@ then
      echo "fd42:$a:$b::" > /etc/yunohost/ula
 fi
 
+if [ ! -f /etc/sysctl.d/ipv6_forwarding.conf ];
+then
+    echo "net.ipv6.conf.all.forwarding = 1" > /etc/sysctl.d/ipv6_forwarding.conf
+    sysctl -p /etc/sysctl.d/ipv6_forwarding.conf
+fi
+
 # Interface
 if [ ! -f /etc/yunohost/interface ];
 then

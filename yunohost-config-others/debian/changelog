@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta4~megusta5) megusta; urgency=low
+
+  * Production build: [enh] IPv6 forwarding
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 15 May 2014 13:46:20 +0200
+
 yunohost-config-others (2.0-beta4~megusta4) megusta; urgency=low
 
   * Production build: RADVD & IPv6
