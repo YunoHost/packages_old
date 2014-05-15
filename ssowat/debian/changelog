@@ -1,3 +1,9 @@
+ssowat (1.0~megusta41) megusta; urgency=low
+
+  * Production build: [enh] Favicons
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 15 May 2014 13:16:03 +0200
+
 ssowat (1.0~megusta40) megusta; urgency=low
 
   * Production build: [enh] Brand new style
