@@ -29,7 +29,7 @@ case "$1" in
     logger "YunoHost API: Stopping"
     log_daemon_msg "Stopping API: YunoHost"
     kill `cat /var/run/yunohost-api.pid > /dev/null 2>&1` > /dev/null 2>&1
-    rm /var/run/udiskie.pid > /dev/null 2>&1
+    rm /var/run/yunohost-api.pid > /dev/null 2>&1
     log_end_msg $?
     ;;
   restart)
@@ -49,7 +49,7 @@ case "$1" in
     ;;
   *)
     logger "YunoHost API: Invalid usage"
-    echo "Usage: /etc/init.d/yunohost-api {start|stop|restart}" >&2
+    echo "Usage: /etc/init.d/yunohost-api {start|stop|restart|status}" >&2
     exit 1
     ;;
 esac
