@@ -5,44 +5,51 @@
 # Required-Stop:     $local_fs $remote_fs $network $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start/stop YunoHost API server
+# Short-Description: Start/stop YunoHost API
 ### END INIT INFO
+
+DAEMON=/usr/bin/yunohost-api
+DAEMON_OPTS=""
+
+test -x $DAEMON || exit 0
 
 . /lib/lsb/init-functions
 
-logger "API: Start script executed"
-API_SERVER_PATH="/usr/share/pyshared/yunohost-cli"
-export PYTHONPATH="$API_SERVER_PATH:$PYTHONPATH"
+logger "YunoHost API: Start script executed"
 
 case "$1" in
   start)
-    logger "API Server: Starting"
-    log_daemon_msg "Starting YunoHost" "API"
-    /usr/bin/yunohost-api
+    logger "YunoHost API: Starting"
+    log_daemon_msg "Starting API: YunoHost"
+    start-stop-daemon --start --quiet --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
+        --exec $DAEMON -- $DAEMON_OPTS
     log_end_msg $?
     ;;
   stop)
-    logger "API Server: Stopping"
-    log_daemon_msg "Stopping YunoHost" "API"
-    if [ -f $API_SERVER_PATH/twistd.pid ]; then
-        kill `cat $API_SERVER_PATH/twistd.pid`
-	rm $API_SERVER_PATH/twistd.pid
-    fi
+    logger "YunoHost API: Stopping"
+    log_daemon_msg "Stopping API: YunoHost"
+    kill `cat /var/run/yunohost-api.pid > /dev/null 2>&1` > /dev/null 2>&1
+    rm /var/run/udiskie.pid > /dev/null 2>&1
     log_end_msg $?
     ;;
   restart)
-    logger "API Server: Restarting"
-    log_daemon_msg "Restarting YunoHost" "API"
-    if [ -f $API_SERVER_PATH/twistd.pid ]; then
-        kill `cat $API_SERVER_PATH/twistd.pid`
-    fi
-    cd $API_SERVER_PATH
-    twistd -y yunohost.tac -l "/var/log/yunohost.log" --pidfile twistd.pid
+    logger "YunoHost API: Restarting"
+    log_daemon_msg "Restarting API: YunoHost"
+    kill `cat /var/run/yunohost-api.pid > /dev/null 2>&1` > /dev/null 2>&1
+    rm -f /var/run/yunohost-api.pid > /dev/null 2>&1
+    start-stop-daemon --start --quiet --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
+        --exec $DAEMON -- $DAEMON_OPTS
+    log_end_msg $?
+    ;;
+  status)
+    logger "YunoHost API: Running"
+    log_daemon_msg "YunoHost API: Running"
+    cat /var/run/yunohost-api.pid > /dev/null 2>&1
     log_end_msg $?
     ;;
   *)
-    logger "API Server: Invalid usage"
-    echo "Usage: /etc/init.d/yunohost-api {start|stop|restart}"
+    logger "YunoHost API: Invalid usage"
+    echo "Usage: /etc/init.d/yunohost-api {start|stop|restart}" >&2
     exit 1
     ;;
 esac
