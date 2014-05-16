@@ -9,6 +9,6 @@ Package: yunohost-config
 Architecture: all
 Homepage: http://www.yunohost.org
 Pre-Depends: yunohost-predepends
-Depends: htop, vim, console-setup, acpi-support-base, gzip, bzip2, unzip, unrar|unrar-free, zoo, arj, libiconv-hook1, fail2ban, rsync, git-core, gettext, curl, bind9, yunohost-config-postfix, yunohost-config-dovecot, metronome, yunohost-config-others, yunohost-config-mysql, yunohost-config-slapd, ssowat, yunohost-config-tahoe, yunohost-admin, yunohost-apps, moulinette-yunohost, haste, yunohost-config-amavis, ntp
+Depends: htop, vim, console-setup, acpi-support-base, gzip, bzip2, unzip, unrar|unrar-free, zoo, arj, libiconv-hook1, fail2ban, rsync, git-core, gettext, curl, bind9, yunohost-config-postfix, yunohost-config-dovecot, metronome, yunohost-config-others, yunohost-config-mysql, yunohost-config-slapd, ssowat, yunohost-config-tahoe, yunohost-admin, yunohost-apps, moulinette, moulinette-yunohost, haste, yunohost-config-amavis, ntp
 Description: meta package to install environement for yunohost
  meta package to install environement for yunohost
