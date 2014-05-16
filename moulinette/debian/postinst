@@ -1,0 +1,4 @@
+#!/bin/bash
+
+update-rc.d yunohost-api defaults
+service yunohost-api restart

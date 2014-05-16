@@ -1,0 +1,12 @@
+moulinette (2.0-beta4~megusta2) test; urgency=low
+
+  * Test build: Add moulinette package
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 16 May 2014 16:10:12 +0200
+
+moulinette (2.0-beta4~megusta1) test; urgency=low
+
+  * Init
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 07 May 2014 08:01:45 +0200
+
