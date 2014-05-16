@@ -1,5 +1,5 @@
 src/data/* /usr/share/yunohost/yunohost-config/moulinette/
 src/bin/* /usr/bin/
-src/actionmap/* /usr/share/moulinette/actionmap/
+src/actionsmap/* /usr/share/moulinette/actionsmap/
 src/locales/* /usr/lib/moulinette/yunohost/locales/
 src/*.py /usr/lib/moulinette/yunohost/
