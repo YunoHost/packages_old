@@ -1,4 +1,10 @@
-moulinette-yunohost (1.0~megusta2) test; urgency=low
+moulinette-yunohost (2.0~megusta2) test; urgency=low
+
+  * Test build: Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 16 May 2014 16:28:45 +0200
+
+moulinette-yunohost (2.0~megusta1) test; urgency=low
 
   * Test build: Add moulinette-yunohost package
 
