@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0~megusta4) test; urgency=low
+
+  * Test build: actionSSSSS map
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 16 May 2014 18:05:45 +0200
+
 moulinette-yunohost (2.0~megusta3) test; urgency=low
 
   * Test build: actionSSSSS map
