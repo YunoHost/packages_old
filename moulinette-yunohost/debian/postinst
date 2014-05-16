@@ -1,0 +1,27 @@
+#!/bin/bash
+
+TMP=/usr/share/yunohost/yunohost-config/moulinette
+
+#Firewall
+if [ ! -f /etc/yunohost/firewall.yml ];
+then
+	cp $TMP/firewall.yml /etc/yunohost/
+fi
+
+# Service list
+if [ ! -f /etc/yunohost/services.yml ];
+then
+	cp $TMP/services.yml /etc/yunohost/
+fi
+
+service yunohost-api restart
+
+# Reload SSOwat conf if obsolete
+if [ -f /etc/ssowat/conf.json ];
+then
+    grep -q "ynhadmin" /etc/ssowat/conf.json
+    if [[ $? -eq 0 ]]
+    then
+        yunohost tools ssowatconf
+    fi
+fi
