@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir -p /usr/lib/moulinette
-mkdir -p /usr/share/moulinette/actionmap
+mkdir -p /usr/share/moulinette/actionsmap
 
 update-rc.d yunohost-api defaults
 service yunohost-api restart
