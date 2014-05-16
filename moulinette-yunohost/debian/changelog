@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0~megusta5) test; urgency=low
+
+  * Test build: Update init script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 16 May 2014 18:23:14 +0200
+
 moulinette-yunohost (2.0~megusta4) test; urgency=low
 
   * Test build: actionSSSSS map
