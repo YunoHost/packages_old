@@ -3,7 +3,7 @@
 TMP=/usr/share/yunohost/yunohost-config/moulinette
 
 #Firewall
-if [ ! -f /etc/yunohost/firewall.yml ];
+if [ ! -f /etc/yunohost/firewall.yml ] || ;
 then
 	cp $TMP/firewall.yml /etc/yunohost/
 fi

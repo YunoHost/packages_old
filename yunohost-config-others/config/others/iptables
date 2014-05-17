@@ -19,12 +19,12 @@ start)
         touch /var/run/iptables
     fi
 
-    yunohost firewall checkupnp --no-ldap > /dev/null 2>&1
+    yunohost firewall upnp check > /dev/null 2>&1
     if [ $? = 0 ];
-	then yunohost firewall installupnp --no-ldap
+	then yunohost firewall upnp enable
     fi    
 
-    yunohost firewall reload --no-ldap > /dev/null 2>&1
+    yunohost firewall reload > /dev/null 2>&1
 
     ;;
 
@@ -41,7 +41,7 @@ stop|force-stop)
         /etc/init.d/fail2ban stop
     fi
 
-    yunohost firewall stop --no-ldap
+    yunohost firewall stop
  
     # start of fail2ban
     if [ -x /etc/init.d/fail2ban ]; then
@@ -73,7 +73,7 @@ status)
     echo "**********"
     echo "** UPNP **"
     echo "**********"
-    yunohost firewall checkupnp --no-ldap > /dev/null 2>&1
+    yunohost firewall checkupnp > /dev/null 2>&1
     if [ $? = 0 ];
     then
 	echo "UPNP Enable"
