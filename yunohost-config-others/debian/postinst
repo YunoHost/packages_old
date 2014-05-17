@@ -164,4 +164,5 @@ fi
 if [ ! -f /etc/fail2ban/filter.d/yunohost.conf ];
 then
 	cp -r $TMP/fail2ban/* /etc/fail2ban/
+	service iptables restart
 fi
