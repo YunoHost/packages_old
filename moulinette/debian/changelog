@@ -1,3 +1,9 @@
+moulinette (2.0-beta4~megusta21) test; urgency=low
+
+  * Test build: Update init script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 17 May 2014 20:47:12 +0200
+
 moulinette (2.0-beta4~megusta20) test; urgency=low
 
   * Test build: Update init script

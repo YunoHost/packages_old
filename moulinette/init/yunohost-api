@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 ### BEGIN INIT INFO
 # Provides:          yunohost-api
 # Required-Start:    $local_fs $remote_fs $network $syslog
@@ -28,16 +28,20 @@ case "$1" in
   stop)
     logger "YunoHost API: Stopping"
     log_daemon_msg "Stopping API: YunoHost"
-    kill `cat /var/run/yunohost-api.pid > /dev/null 2>&1` > /dev/null 2>&1
-    rm /var/run/yunohost-api.pid > /dev/null 2>&1
+    if [ -f /var/run/yunohost-api.pid ]; then
+        kill `cat /var/run/yunohost-api.pid` > /dev/null 2>&1
+        rm -f /var/run/yunohost-api.pid
+    fi
     kill `ps aux | grep 'yunohost-api' | grep -v grep | grep -v stop | awk '{print $2}'` > /dev/null 2>&1
     log_end_msg $?
     ;;
   restart)
     logger "YunoHost API: Restarting"
     log_daemon_msg "Restarting API: YunoHost"
-    kill `cat /var/run/yunohost-api.pid > /dev/null 2>&1` > /dev/null 2>&1
-    rm -f /var/run/yunohost-api.pid > /dev/null 2>&1
+    if [ -f /var/run/yunohost-api.pid ]; then
+        kill `cat /var/run/yunohost-api.pid` > /dev/null 2>&1
+        rm -f /var/run/yunohost-api.pid
+    fi
     kill `ps aux | grep 'yunohost-api' | grep -v grep | grep -v restart | awk '{print $2}'` > /dev/null 2>&1
     kill `ps aux | grep 'yunohost.tac' | grep -v grep | awk '{print $2}'` > /dev/null 2>&1
     start-stop-daemon --start --quiet --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
