@@ -159,3 +159,9 @@ then
     service radvd restart
     update-rc.d radvd defaults
 fi
+
+# Fail2ban
+if [ ! -f /etc/fail2ban/filter.d/yunohost.conf ];
+then
+	cp -r $TMP/fail2ban/* /etc/fail2ban/
+fi
