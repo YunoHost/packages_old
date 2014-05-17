@@ -21,8 +21,8 @@ case "$1" in
   start)
     logger "YunoHost API: Starting"
     log_daemon_msg "Starting API: YunoHost"
-    start-stop-daemon --start --quiet --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
-        --exec $DAEMON -- $DAEMON_OPTS
+    start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
+        --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
     log_end_msg $?
     ;;
   stop)
@@ -32,6 +32,7 @@ case "$1" in
         kill `cat /var/run/yunohost-api.pid` > /dev/null 2>&1
         rm -f /var/run/yunohost-api.pid
     fi
+    kill `ps aux | grep 'python /usr/bin/yunohost-api' | grep -v grep | awk '{print $2}'` > /dev/null 2>&1
     kill `ps aux | grep 'yunohost-api' | grep -v grep | grep -v stop | awk '{print $2}'` > /dev/null 2>&1
     log_end_msg $?
     ;;
@@ -42,10 +43,11 @@ case "$1" in
         kill `cat /var/run/yunohost-api.pid` > /dev/null 2>&1
         rm -f /var/run/yunohost-api.pid
     fi
+    kill `ps aux | grep 'python /usr/bin/yunohost-api' | grep -v grep | awk '{print $2}'` > /dev/null 2>&1
     kill `ps aux | grep 'yunohost-api' | grep -v grep | grep -v restart | awk '{print $2}'` > /dev/null 2>&1
     kill `ps aux | grep 'yunohost.tac' | grep -v grep | awk '{print $2}'` > /dev/null 2>&1
-    start-stop-daemon --start --quiet --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
-        --exec $DAEMON -- $DAEMON_OPTS
+    start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
+        --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
     log_end_msg $?
     ;;
   status)
