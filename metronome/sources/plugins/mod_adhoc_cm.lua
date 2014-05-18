@@ -125,8 +125,8 @@ module:provides("adhoc", list_descriptor);
 
 -- Verify handler
 
-module:hook("certificate-verification", function(sasl, session, authid, socket)
-	session.log("debug", "Certification verification is being handled by mod_adhoc_cm...");
+module:hook("auth-external-proxy", function(sasl, session, authid, socket)
+	session.log("debug", "Certificate verification is being handled by mod_adhoc_cm...");
 
 	local cert = socket:getpeercertificate();
 	if not cert then

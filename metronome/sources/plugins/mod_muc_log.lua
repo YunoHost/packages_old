@@ -25,26 +25,10 @@ local data_load, data_store, data_getpath = datamanager.load, datamanager.store,
 local datastore = "muc_log";
 local error_reply = require "util.stanza".error_reply;
 local storagemanager = storagemanager;
-local ripairs, t_remove = ripairs, table.remove;
+local ripairs, t_insert, t_remove = ripairs, table.insert, table.remove;
 
 local mod_host = module:get_host();
 local muc = hosts[mod_host].muc;
-
--- Helper Functions
-
-local function inject_storage_config()
-	local _storage = cm.getconfig()[mod_host].storage;
-
-	module:log("debug", "injecting storage config...");
-	if type(_storage) == "string" then cm.getconfig()[mod_host].default_storage = _storage; end
-	if type(_storage) == "table" then -- append
-		_storage.muc_log = "internal";
-	else
-		cm.getconfig()[mod_host].storage = { muc_log = "internal" };
-	end
-
-	storagemanager.get_driver(mod_host, "muc_log"); -- init
-end
 
 -- Module Definitions
 
@@ -114,59 +98,35 @@ module:hook("message/bare", log_if_needed, 50);
 
 -- Define config methods
 
-local function config_field(self)
-	local field = {
-		name = "muc#roomconfig_enablelogging",
+local field_xmlns = "muc#roomconfig_enablelogging";
+
+module:hook("muc-fields", function(room, layout)
+	t_insert(layout, {
+		name = field_xmlns,
 		type = "boolean",
 		label = "Enable room logging?",
-		value = self:get_option("logging");
-	};
-
-	return field;
-end
-local function config_check(self, stanza, config)
-	local reply;
-	if self:get_option("hidden") and config then
-		reply = error_reply(stanza, "cancel", "forbidden", "You can enable logging only into public rooms!");
-	end
-	return reply;
-end
-local function config_submitted(self, msg_st)
-	if self:get_option("logging") then
-		msg_st.tags[1]:tag("status", {code = "170"}):up();
-	else
-		msg_st.tags[1]:tag("status", {code = "171"}):up();
-	end
-	return msg_st;
-end
-local function config_onjoin(self, pr_st)
-	if self:get_option("logging") then pr_st:tag("status", {code = "170"}):up(); end
-	return pr_st;
-end
-
-local function reload()
-	inject_storage_config();
-end
-
-function module.load()
-	inject_storage_config();
-
-	module:fire_event("muc-config-handler", {
-		xmlns = "muc#roomconfig_enablelogging",
-		params = {
-			name = "logging",
-			field = config_field,
-			check = config_check,
-			submitted = config_submitted,
-			onjoin = config_onjoin
-		},
-		action = "register",
-		caller = "muc_log"
+		value = room:get_option("logging");
 	});
-end
+end, -100);
+module:hook("muc-fields-process", function(room, fields, stanza, changed)
+	local config = fields[field_xmlns];	
+	if room:get_option("hidden") and config then
+		return error_reply(stanza, "cancel", "forbidden", "You can enable logging only into public rooms!");
+	end
+	room:set_option("logging", config, changed);
+end, -100);
+module:hook("muc-fields-submitted", function(room, message)
+	if room:get_option("logging") then
+		message.tags[1]:tag("status", {code = "170"}):up();
+	else
+		message.tags[1]:tag("status", {code = "171"}):up();
+	end
+	return message;
+end, -100);
+module:hook("muc-occupant-joined", function(room, presence)
+	if room:get_option("logging") then presence:tag("status", {code = "170"}):up(); end
+end, -100);
 
-function module.unload()
-	module:fire_event("muc-config-handler", { xmlns = "muc#roomconfig_enablelogging", caller = "muc_log" });
-end			
+module.storage = { muc_log = "internal" };
 
 module:log("debug", "module mod_muc_log loaded!");

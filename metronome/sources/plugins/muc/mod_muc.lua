@@ -190,7 +190,7 @@ function stanza_handler(event)
 			return true;
 		end
 		local from_host = jid_section(stanza.attr.from, "host");
-		if not ((hosts[from_host] and hosts[from_host].modules.auth_anonymous and true) or false) and
+		if not ((hosts[from_host] and hosts[from_host].anonymous and true) or false) and
 		   (not restrict_room_creation or (restrict_room_creation == "admin" and is_admin(stanza.attr.from)) or
 		   (restrict_room_creation == "local" and from_host == module.host:gsub("^[^%.]+%.", ""))) then
 			room = muc_new_room(bare);
@@ -222,23 +222,7 @@ local function clean_affiliations(event)
 	end
 end
 
-local function handle_custom_config(event)
-	local name = event.xmlns;
-	local params = event.params;
-	local action = event.action;
-	local mod_name = event.caller;
-
-	if action == "register" then
-		muclib.room_mt:register_cc(name, params);
-	else
-		muclib.room_mt:deregister_cc(name);
-	end
-
-	module:log("debug", "Module %s %s %s custom config handler.", mod_name, action == "register" and "registered" or "deregistered", name);	
-end
-
 module:hook_global("user-deleted", clean_affiliations);
-module:hook("muc-config-handler", handle_custom_config);
 
 module:hook("iq/bare", stanza_handler, -1);
 module:hook("message/bare", stanza_handler, -1);

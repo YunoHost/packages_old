@@ -8,11 +8,12 @@ local datamanager = datamanager
 local b64_decode = require "util.encodings".base64.decode
 local b64_encode = require "util.encodings".base64.encode
 local http_event = require "net.http.server".fire_server_event
+local http_request = require "net.http".request;
 local jid_prep = require "util.jid".prep
 local json_decode = require "util.json".decode
 local nodeprep = require "util.encodings".stringprep.nodeprep
-local ipairs, pairs, pcall, open, os_time, setmt = 
-      ipairs, pairs, pcall, io.open, os.time, setmetatable
+local ipairs, pairs, pcall, open, os_time, setmt, tonumber = 
+      ipairs, pairs, pcall, io.open, os.time, setmetatable, tonumber
 local sha1 = require "util.hashes".sha1
 local urldecode = http.urldecode
 local usermanager = usermanager
@@ -31,6 +32,9 @@ local whitelist = module:get_option_set("reg_servlet_wl", {})
 local blacklist = module:get_option_set("reg_servlet_bl", {})
 local fm_patterns = module:get_option_table("reg_servlet_filtered_mails", {})
 local fn_patterns = module:get_option_table("reg_servlet_filtered_nodes", {})
+local use_cleanlist = module:get_option_boolean("reg_servlet_use_cleanlist", false)
+local cleanlist_ak = module:get_option_string("reg_servlet_cleanlist_apikey")
+if use_cleanlist and not cleanlist_ak then use_cleanlist = false end
 
 local files_base = module.path:gsub("/[^/]+$","") .. "/template/"
 
@@ -43,6 +47,21 @@ local recent_ips = {}
 local pending = {}
 local pending_node = {}
 local reset_tokens = {}
+local default_whitelist, whitelisted, dea_checks;
+
+if use_cleanlist then
+	default_whitelist = {
+		["fastmail.fm"] = true,
+		["gmail.com"] = true,
+		["yahoo.com"] = true,
+		["hotmail.com"] = true,
+		["live.com"] = true,
+		["icloud.com"] = true,
+		["me.com"] = true
+	}
+	whitelisted = datamanager.load("register_json", module.host, "whitelisted_md") or default_whitelist
+	dea_checks = {}
+end
 
 -- Setup hashes data structure
 
@@ -68,7 +87,7 @@ end
 
 function hashes_mt:save()
 	if not datamanager.store("register_json", module.host, "hashes", hashes) then
-		module:log("error", "Failed to save the mail addresses' hashes store.")
+		module:log("error", "Failed to save the mail addresses' hashes store")
 	end
 end
 
@@ -79,6 +98,32 @@ local function check_mail(address)
 		if address:match(pattern) then return false end
 	end
 	return true
+end
+
+local cleanlist_api = "http://app.cleanli.st/api/%s/pattern/check/%s"
+local function check_dea(address, username)
+	local domain = address:match("@+(.*)$")
+	if whitelisted[domain] then return end	
+
+	module:log("debug", "Submitting domain to cleanli.st API for checking...")
+	http_request(cleanlist_api:format(cleanlist_ak, domain), nil, function(data, code)
+		if code == 200 then
+			local ret = json_decode(data)
+			if not ret then
+				module:log("warn", "Failed to decode data from API, assuming address from %s as DEA...", domain)
+				dea_checks[username] = true
+				return
+			end
+
+			if tonumber(ret.code) > 3000 then
+				dea_checks[username] = true
+			else
+				module:log("debug", "Mail domain %s is valid, whitelisting", domain)
+				whitelisted[domain] = true
+				datamanager.store("register_json", module.host, "whitelisted_md", whitelisted)
+			end
+		end	
+	end)
 end
 
 local function check_node(node)
@@ -154,7 +199,7 @@ local function handle_register(data, event)
 	end
 
 	if not check_mail(mail) then
-		module:log("warn", "%s attempted to use a mail address (%s) matching one of the forbidden patterns.", ip, mail)
+		module:log("warn", "%s attempted to use an invalid mail address (%s).", ip, mail)
 		return http_error_reply(event, 403, "Requesting to register using this E-Mail address is forbidden, sorry.")
 	end
 
@@ -166,7 +211,7 @@ local function handle_register(data, event)
 		return http_error_reply(event, 406, "Supplied username contains invalid characters, see RFC 6122.")
 	else
 		if not check_node(username) then
-			module:log("warn", "%s attempted to use an username (%s) matching one of the forbidden patterns.", ip, username)
+			module:log("warn", "%s attempted to use an username (%s) matching one of the forbidden patterns", ip, username)
 			return http_error_reply(event, 403, "Requesting to register using this Username is forbidden, sorry.")
 		end
 			
@@ -178,18 +223,24 @@ local function handle_register(data, event)
 		if not usermanager.user_exists(username, module.host) then
 			-- if username fails to register successive requests shouldn't be throttled until one is successful.
 			if throttle_time and to_throttle(ip) then
-				module:log("warn", "JSON Registration request from %s has been throttled.", ip)
+				module:log("warn", "JSON Registration request from %s has been throttled", ip)
 				return http_error_reply(event, 503, "Request throttled, wait a bit and try again.")
 			end
-				local uuid = uuid_gen()
+			
 			if not hashes:add(username, mail) then
-				module:log("warn", "%s (%s) attempted to register to the server with an E-Mail address we already possess the hash of.", username, ip)
+				module:log("warn", "%s (%s) attempted to register to the server with an E-Mail address we already possess the hash of", username, ip)
 				return http_error_reply(event, 409, "The E-Mail Address provided matches the hash associated to an existing account.")
 			end
+
+			-- asynchronously run dea filtering if applicable
+			if use_cleanlist then check_dea(mail, username) end
+
+			local uuid = uuid_gen()
 			pending[uuid] = { node = username, password = password, ip = ip }
 			pending_node[username] = uuid
 
 			timer.add_task(300, function()
+				if use_cleanlist then dea_checks[username] = nil end
 				if pending[uuid] then
 					pending[uuid] = nil
 					pending_node[username] = nil
@@ -209,7 +260,7 @@ local function handle_password_reset(data, event)
 	local mail, ip = data.reset, data.ip
 
 	if throttle_time and to_throttle(ip) then
-		module:log("warn", "JSON Password Reset request from %s has been throttled.", ip)
+		module:log("warn", "JSON Password Reset request from %s has been throttled", ip)
 		return http_error_reply(event, 503, "Request throttled, wait a bit and try again.")
 	end
 	
@@ -241,7 +292,7 @@ local function handle_req(event)
 	local data
 	-- We check that what we have is valid JSON wise else we throw an error...
 	if not pcall(function() data = json_decode(b64_decode(request.body)) end) then
-		module:log("debug", "Data submitted by %s failed to Decode.", user)
+		module:log("debug", "Data submitted by %s failed to Decode", user)
 		return http_error_reply(event, 400, "Decoding failed.")
 	end
 	
@@ -322,6 +373,12 @@ local function handle_verify(event, path)
 				local username, password, ip = 
 				      pending[uuid].node, pending[uuid].password, pending[uuid].ip
 
+				if use_cleanlist and dea_checks[username] then
+					module:log("warn", "%s (%s) attempted to register using a disposable mail address, denying", username, ip)
+					pending[uuid] = nil ; pending_node[username] = nil ; dea_checks[username] = nil
+					return r_template(event, "verify_fail")
+				end
+
 				local ok, error = usermanager.create_user(username, password, module.host)
 				if ok then 
 					module:fire_event(
@@ -375,5 +432,8 @@ module:hook_global("user-deleted", handle_user_deletion, 10);
 
 -- Reloadability
 
-module.save = function() return { hashes = hashes } end
-module.restore = function(data) hashes = data.hashes or { _index = {} } ; setmt(hashes, hashes_mt) end
+module.save = function() return { hashes = hashes, whitelisted = whitelisted } end
+module.restore = function(data) 
+	hashes = data.hashes or { _index = {} } ; setmt(hashes, hashes_mt)
+	whitelisted = use_cleanlist and (data.whitelisted or default_whitelist) or nil
+end

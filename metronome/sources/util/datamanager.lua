@@ -19,14 +19,28 @@ local io_open = io.open;
 local os_remove = os.remove;
 local os_rename = os.rename;
 local tonumber = tonumber;
+local type = type;
 local next = next;
 local t_insert = table.insert;
 local t_concat = table.concat;
-local envloadfile = require"util.envload".envloadfile;
-local serialize = require "util.serialization".serialize;
+local _load_file = require "util.envload".envloadfile;
+local _serialize = require "util.serialization".serialize;
 local path_separator = assert ( package.config:match ( "^([^\n]+)" ) , "package.config not in standard form" ) -- Extract directory seperator from package.config (an undocumented string that comes with lua)
 local lfs = require "lfs";
 local metronome = metronome;
+
+local load_file = _load_file;
+local serialize = function(data)
+	return "return " .. _serialize(data) .. ";";
+end
+if metronome.serialization == "json" then
+	local json = require "util.jsonload";
+	if json then
+		load_file = json.loadfile;
+		serialize = json.serialize;
+	end
+end
+
 
 local raw_mkdir = lfs.mkdir;
 local function fallocate(f, offset, len)
@@ -142,19 +156,20 @@ function getpath(username, host, datastore, ext, create)
 end
 
 function load(username, host, datastore)
-	local data, ret = envloadfile(getpath(username, host, datastore), {});
+	local data, ret = load_file(getpath(username, host, datastore), {});
 	if not data then
 		local mode = lfs.attributes(getpath(username, host, datastore), "mode");
 		if not mode then
-			log("debug", "Assuming empty %s storage ('%s') for user: %s@%s", datastore, ret, username or "nil", host or "nil");
+			log("debug", "Assuming empty %s storage ('%s') for user: %s@%s", datastore, ret or "File not found", username or "nil", host or "nil");
 			return nil;
 		else -- file exists, but can't be read
-			-- TODO more detailed error checking and logging?
-			log("error", "Failed to load %s storage ('%s') for user: %s@%s", datastore, ret, username or "nil", host or "nil");
+			log("error", "Failed to load %s storage ('%s') for user: %s@%s", datastore, ret or "File can't be read", username or "nil", host or "nil");
 			return nil, "Error reading storage";
 		end
 	end
 
+	if type(data) ~= "function" then return data; end
+	
 	local success, ret = pcall(data);
 	if not success then
 		log("error", "Unable to load %s storage ('%s') for user: %s@%s", datastore, ret, username or "nil", host or "nil");
@@ -206,7 +221,7 @@ function store(username, host, datastore, data)
 	end
 
 	-- save the datastore
-	local d = "return " .. serialize(data) .. ";\n";
+	local d = serialize(data) .. "\n";
 	local mkdir_cache_cleared;
 	repeat
 		local ok, msg = atomic_store(getpath(username, host, datastore, nil, true), d);
@@ -241,7 +256,7 @@ function list_append(username, host, datastore, data)
 		log("error", "Unable to write to %s storage ('%s') for user: %s@%s", datastore, msg, username or "nil", host or "nil");
 		return;
 	end
-	local data = "item(" ..  serialize(data) .. ");\n";
+	local data = "item(" ..  _serialize(data) .. ");\n";
 	local pos = f:seek("end");
 	local ok, msg = fallocate(f, pos, #data);
 	f:seek("set", pos);
@@ -263,7 +278,7 @@ function list_store(username, host, datastore, data)
 	-- save the datastore
 	local d = {};
 	for _, item in ipairs(data) do
-		d[#d+1] = "item(" .. serialize(item) .. ");\n";
+		d[#d+1] = "item(" .. _serialize(item) .. ");\n";
 	end
 	local ok, msg = atomic_store(getpath(username, host, datastore, "list", true), t_concat(d));
 	if not ok then
@@ -281,7 +296,7 @@ end
 
 function list_load(username, host, datastore)
 	local items = {};
-	local data, ret = envloadfile(getpath(username, host, datastore, "list"), {item = function(i) t_insert(items, i); end});
+	local data, ret = _load_file(getpath(username, host, datastore, "list"), {item = function(i) t_insert(items, i); end});
 	if not data then
 		local mode = lfs.attributes(getpath(username, host, datastore, "list"), "mode");
 		if not mode then

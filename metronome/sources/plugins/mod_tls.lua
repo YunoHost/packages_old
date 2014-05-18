@@ -22,8 +22,7 @@ local starttls_proceed = st.stanza("proceed", starttls_attr);
 local starttls_failure = st.stanza("failure", starttls_attr);
 local c2s_feature = st.stanza("starttls", starttls_attr);
 local s2s_feature = st.stanza("starttls", starttls_attr);
-if secure_auth_only then c2s_feature:tag("required"):up(); end
-if secure_s2s_only then s2s_feature:tag("required"):up(); end
+local _c2s_feature, _s2s_feature;
 
 local global_ssl_ctx = metronome.global_ssl_ctx;
 
@@ -63,13 +62,13 @@ end);
 module:hook("stream-features", function(event)
 	local origin, features = event.origin, event.features;
 	if can_do_tls(origin) then
-		features:add_child(c2s_feature);
+		features:add_child(_c2s_feature);
 	end
 end, 101);
 module:hook("s2s-stream-features", function(event)
 	local origin, features = event.origin, event.features;
 	if can_do_tls(origin) then
-		features:add_child(s2s_feature);
+		features:add_child(_s2s_feature);
 	end
 end, 101);
 
@@ -99,6 +98,8 @@ function module.load()
 	end
 	host.ssl_ctx = create_context(host.host, "client", ssl_config); -- for outgoing connections
 	host.ssl_ctx_in = create_context(host.host, "server", ssl_config); -- for incoming connections
+	_c2s_feature = (secure_auth_only and st.clone(c2s_feature):tag("required"):up()) or c2s_feature;
+	_s2s_feature = (secure_s2s_only and st.clone(s2s_feature):tag("required"):up()) or s2s_feature;
 end
 
 function module.unload()
@@ -106,11 +107,10 @@ function module.unload()
 	host.ssl_ctx_in = nil;
 end
 
-local function reload()
+module:hook_global("config-reloaded", function()
 	secure_auth_only = module:get_option_boolean("c2s_require_encryption", false) or module:get_option_boolean("require_encryption", false);
 	secure_s2s_only = module:get_option_boolean("s2s_require_encryption", false);
 	allow_s2s_tls = module:get_option_boolean("s2s_allow_encryption", true);
 	if secure_s2s_only then allow_s2s_tls = true; end
 	module.load();
-end
-module:hook_global("config-reloaded", reload);
+end);

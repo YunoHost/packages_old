@@ -9,6 +9,7 @@
 
 local st = require "util.stanza";
 local zlib = require "zlib";
+local add_task = require "util.timer".add_task;
 local pcall = pcall;
 local tostring = tostring;
 
@@ -19,47 +20,62 @@ local compression_stream_feature = st.stanza("compression", {xmlns = xmlns_compr
 local add_filter = require "util.filters".add_filter;
 
 local compression_level = module:get_option_number("compression_level", 7);
+local size_limit = module:get_option_number("compressed_data_max_size", 131072);
+
+local host_session = hosts[module.host];
 
 if not compression_level or compression_level < 1 or compression_level > 9 then
 	module:log("warn", "Invalid compression level in config: %s", tostring(compression_level));
-	module:log("warn", "Module loading aborted. Compression won't be available.");
+	module:log("warn", "Module loading aborted. Compression won't be available");
 	return;
 end
 
 module:hook("stream-features", function(event)
 	local origin, features = event.origin, event.features;
-	if not origin.compressed and (origin.type == "c2s" or origin.type == "s2sin" or origin.type == "s2sout") then
-		-- FIXME only advertise compression support when TLS layer has no compression enabled
+	if not origin.compressed and origin.type == "c2s" then
 		features:add_child(compression_stream_feature);
 	end
 end, 97);
 
 module:hook("s2s-stream-features", function(event)
 	local origin, features = event.origin, event.features;
-	-- FIXME only advertise compression support when TLS layer has no compression enabled
-	if not origin.compressed and (origin.type == "c2s" or origin.type == "s2sin" or origin.type == "s2sout") then
+	if not origin.compressed and (host_session.dialback_capable or session.type == "s2sin") then
 		features:add_child(compression_stream_feature);
 	end
 end, 97);
 
 -- Hook to activate compression if remote server supports it.
 module:hook_stanza(xmlns_stream, "features", function(session, stanza)
-	if not session.compressed and (session.type == "c2s" or session.type == "s2sin" or session.type == "s2sout") then
+	if not session.compressed and not session.compressing and 
+	   (session.type == "s2sout_unauthed" or session.type == "s2sout") then
 		local comp_st = stanza:child_with_name("compression");
 		if comp_st then
 			for a in comp_st:children() do
 				local algorithm = a[1]
 				if algorithm == "zlib" then
-					session.sends2s(st.stanza("compress", {xmlns = xmlns_compression_protocol}):tag("method"):text("zlib"))
-					session.log("debug", "Enabled compression using zlib.")
-					return true;
+					session.log("debug", "Preparing to enable compression...");
+					session.compressing = true;
+					return;
 				end
 			end
-			session.log("debug", "Remote server supports no compression algorithm we support.")
+			session.log("debug", "Remote server supports no compression algorithm we support");
 		end
 	end
 end, 250);
 
+module:hook("s2sout-established", function(event)
+	local session = event.session;
+	if session.compressing then
+		add_task(3, function()
+			if not session.destroyed then
+				session.compressing = nil;
+				(session.sends2s or session.send)(
+					st.stanza("compress", {xmlns = xmlns_compression_protocol}):tag("method"):text("zlib")
+				);
+			end
+		end);
+	end
+end);
 
 -- returns either nil or a fully functional ready to use inflate stream
 local function get_deflate_stream(session)
@@ -67,11 +83,11 @@ local function get_deflate_stream(session)
 	if status == false then
 		local error_st = st.stanza("failure", {xmlns = xmlns_compression_protocol}):tag("setup-failed");
 		(session.sends2s or session.send)(error_st);
-		session.log("error", "Failed to create zlib.deflate filter.");
+		session.log("error", "Failed to create zlib.deflate filter");
 		module:log("error", "%s", tostring(deflate_stream));
-		return
+		return;
 	end
-	return deflate_stream
+	return deflate_stream;
 end
 
 -- returns either nil or a fully functional ready to use inflate stream
@@ -80,11 +96,11 @@ local function get_inflate_stream(session)
 	if status == false then
 		local error_st = st.stanza("failure", {xmlns = xmlns_compression_protocol}):tag("setup-failed");
 		(session.sends2s or session.send)(error_st);
-		session.log("error", "Failed to create zlib.inflate filter.");
+		session.log("error", "Failed to create zlib.inflate filter");
 		module:log("error", "%s", tostring(inflate_stream));
-		return
+		return;
 	end
-	return inflate_stream
+	return inflate_stream;
 end
 
 -- setup compression for a stream
@@ -92,7 +108,7 @@ local function setup_compression(session, deflate_stream)
 	add_filter(session, "bytes/out", function(t)
 		local status, compressed, eof = pcall(deflate_stream, tostring(t), "sync");
 		if status == false then
-			module:log("warn", "%s", tostring(compressed));
+			module:log("warn", "Decompressed data processing failed: %s", tostring(compressed));
 			session:close({
 				condition = "undefined-condition";
 				text = compressed;
@@ -107,9 +123,15 @@ end
 -- setup decompression for a stream
 local function setup_decompression(session, inflate_stream)
 	add_filter(session, "bytes/in", function(data)
-		local status, decompressed, eof = pcall(inflate_stream, data);
+		local status, decompressed, eof;
+		if data and #data > size_limit then
+			status, decompressed = false, "Received compressed data exceeded the max allowed size!";
+		else
+			status, decompressed, eof = pcall(inflate_stream, data);
+		end
+
 		if status == false then
-			module:log("warn", "%s", tostring(decompressed));
+			module:log("warn", "Compressed data processing failed: %s", tostring(decompressed));
 			session:close({
 				condition = "undefined-condition";
 				text = decompressed;
@@ -124,7 +146,7 @@ end
 module:hook("stanza/http://jabber.org/protocol/compress:compressed", function(event)
 	local session = event.origin;
 	
-	if session.type == "s2sout_unauthed" or session.type == "s2sout" then
+	if session.type == "s2sout" then
 		session.log("debug", "Activating compression...")
 		local deflate_stream = get_deflate_stream(session);
 		if not deflate_stream then return true; end
@@ -137,6 +159,7 @@ module:hook("stanza/http://jabber.org/protocol/compress:compressed", function(ev
 		session:reset_stream();
 		session:open_stream();
 		session.compressed = true;
+		module:fire_event("s2sout-compressed", session);
 		return true;
 	end
 end);
@@ -144,18 +167,18 @@ end);
 module:hook("stanza/http://jabber.org/protocol/compress:compress", function(event)
 	local session, stanza = event.origin, event.stanza;
 
-	if session.type == "c2s" or session.type == "s2sin" or session.type == "c2s_unauthed" or session.type == "s2sin_unauthed" then
+	if session.type == "c2s" or session.type == "s2sin" then
 		if session.compressed then
 			local error_st = st.stanza("failure", {xmlns = xmlns_compression_protocol}):tag("setup-failed");
 			(session.sends2s or session.send)(error_st);
-			session.log("debug", "Client tried to establish another compression layer.");
+			session.log("debug", "Client tried to establish another compression layer");
 			return true;
 		end
 		
 		local method = stanza:child_with_name("method");
 		method = method and (method[1] or "");
 		if method == "zlib" then
-			session.log("debug", "zlib compression enabled.");
+			session.log("debug", "zlib compression enabled");
 			
 			-- create deflate and inflate streams
 			local deflate_stream = get_deflate_stream(session);
@@ -163,25 +186,37 @@ module:hook("stanza/http://jabber.org/protocol/compress:compress", function(even
 			
 			local inflate_stream = get_inflate_stream(session);
 			if not inflate_stream then return true; end
-			
+
 			(session.sends2s or session.send)(st.stanza("compressed", {xmlns = xmlns_compression_protocol}));
-			session:reset_stream();
 			
-			-- setup compression for session.w
 			setup_compression(session, deflate_stream);
-				
-			-- setup decompression for session.data
 			setup_decompression(session, inflate_stream);
-			
+			session:reset_stream();
 			session.compressed = true;
+			module:fire_event(session.type .. "-compressed", session);
 		elseif method then
-			session.log("debug", "%s compression selected, but we don't support it.", tostring(method));
+			session.log("debug", "%s compression selected, but we don't support it", tostring(method));
 			local error_st = st.stanza("failure", {xmlns = xmlns_compression_protocol}):tag("unsupported-method");
 			(session.sends2s or session.send)(error_st);
 		else
 			(session.sends2s or session.send)(st.stanza("failure", {xmlns = xmlns_compression_protocol}):tag("setup-failed"));
 		end
 		return true;
+	else
+		return (session.sends2s or session.send)(
+			st.stanza("failure", { xmlns = xmlns_compression_protocol })
+				:tag("error", { type = "auth" })
+					:tag("not-authorized", { xmlns = "urn:ietf:params:xml:ns:xmpp-stanzas" }):up()
+					:tag("text", { xmlns = "urn:ietf:params:xml:ns:xmpp-stanzas" }):text(
+						"Authentication is required, before compressing a stream"
+					):up():up()
+		);
 	end
+end);
+
+module:hook("stanza/http://jabber.org/protocol/compress:failure", function(event)
+	local session, stanza = event.origin, event.stanza;
+	session.log("warn", "Remote entity refused to enable compression, failure stanza dump: %s", tostring(stanza));
+	return true;
 end);
 

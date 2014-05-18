@@ -128,6 +128,7 @@ local function wrap(session, _r) -- SM session wrapper
 		_q, session.sm_queue = {}, {};
 	end
 	
+	module:fire_event(session.type .. "-sm-enabled", session);
 	return session;
 end
 
@@ -135,14 +136,16 @@ end
 
 module:hook("stream-features", function(event)
 	local session = event.origin;
-	if session.type == "c2s" and not session.sm then 
-		event.features:tag("sm", { xmlns = xmlns_sm }):tag("optional"):up():up(); 
+	if session.type == "c2s" and not session.sm then
+		event.features:tag("sm", { xmlns = xmlns_sm }):tag("optional"):up():up();
 	end
 end);
 
 module:hook("s2s-stream-features", function(event)
 	local session = event.origin;
-	event.features:tag("sm", { xmlns = xmlns_sm }):tag("optional"):up():up(); 
+	if not session.sm then
+		event.features:tag("sm", { xmlns = xmlns_sm }):tag("optional"):up():up();
+	end
 end, 97);
 
 module:hook_stanza("http://etherx.jabber.org/streams", "features", function(session, stanza)
@@ -265,7 +268,7 @@ module:hook_stanza(xmlns_sm, "resume", function(session, stanza)
 		for _, queued in ipairs(_q) do session.send(queued); end
 	else
 		module:log("warn", "Client %s@%s[%s] tried to resume stream for %s@%s[%s]",
-                        session.username or "?", session.host or "?", session.type,
+			session.username or "?", session.host or "?", session.type,
 			original.username or "?", original.host or "?", original.type);
 		session.send(st_stanza("failed", { xmlns = xmlns_sm }):tag("not-authorized", { xmlns = xmlns_e }));
 	end

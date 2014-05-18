@@ -20,6 +20,8 @@
 --   <in/> / <out/>
 -- </session>
 
+module:depends("bosh");
+
 local st = require "util.stanza";
 local uuid_generate = require "util.uuid".generate;
 local is_admin = usermanager.is_admin;
@@ -27,6 +29,7 @@ local pubsub = require "util.pubsub";
 local jid_bare = require "util.jid".bare;
 local lfs = require "lfs";
 local open = io.open;
+local select = select;
 local stat = lfs.attributes;
 local hosts = metronome.hosts;
 
@@ -50,43 +53,13 @@ local mime_map = {
 };
 
 local idmap = {};
+local retract = st.stanza("retract");
 
-function add_client(session, host)
-	local name = session.full_jid;
-	local id = idmap[name];
-	if not id then
-		id = uuid_generate();
-		idmap[name] = id;
-	end
-	local item = st.stanza("item", { id = id }):tag("session", {xmlns = xmlns_c2s_session, jid = name}):up();
-	if session.secure then
-		item:tag("encrypted"):up();
-	end
-	if session.compressed then
-		item:tag("compressed"):up();
-	end
-	service[host]:publish(xmlns_c2s_session, host, id, item);
-	module:log("debug", "Added client " .. name);
-end
-
-function del_client(session, host)
-	local name = session.full_jid;
-	local id = idmap[name];
-	if id then
-		local notifier = st.stanza("retract", { id = id });
-		service[host]:retract(xmlns_c2s_session, host, id, notifier);
-	end
-end
-
-function add_host(session, type, host)
-	local name = (type == "out" and session.to_host) or (type == "in" and session.from_host);
-	local id = idmap[name.."_"..type];
-	if not id then
-		id = uuid_generate();
-		idmap[name.."_"..type] = id;
-	end
-	local item = st.stanza("item", { id = id }):tag("session", {xmlns = xmlns_s2s_session, jid = name})
-		:tag(type):up();
+function generate_item(name, session, id)
+	local xmlns = session.type == "c2s" and xmlns_c2s_session or xmlns_s2s_session;
+	local item = st.stanza("item", { id = id }):tag("session", {xmlns = xmlns, jid = name}):up();
+	if session.type == "s2sin" then item:tag("in"):up(); end
+	if session.type == "s2sout" then item:tag("out"):up(); end
 	if session.secure then
 		if session.cert_identity_status == "valid" then
 			item:tag("encrypted"):tag("valid"):up():up();
@@ -94,19 +67,71 @@ function add_host(session, type, host)
 			item:tag("encrypted"):tag("invalid"):up():up();
 		end
 	end
+	if session.bidirectional then
+		item:tag("bidi"):up();
+	end
 	if session.compressed then
 		item:tag("compressed"):up();
 	end
+	if session.sm then
+		item:tag("sm"):up();
+	end
+	return item;
+end
+
+function add_client(session, host, update)
+	local name = session.full_jid;
+	if not name then return; end
+
+	local id = idmap[name];
+	if not id then
+		id = uuid_generate();
+		idmap[name] = id;
+	end
+	local item_exists = select(2, service[host]:get_items(xmlns_c2s_session, host, id));
+	if item_exists and item_exists[id] then
+		retract.attr.id = id;
+		service[host]:retract(xmlns_c2s_session, host, id, retract);
+	end
+	local item = generate_item(name, session, id);
+	service[host]:publish(xmlns_c2s_session, host, id, item);
+	if not update then module:log("debug", "Added client " .. name); end
+end
+
+function del_client(session, host)
+	local name = session.full_jid;
+	local id = idmap[name];
+	if id then
+		retract.attr.id = id;
+		service[host]:retract(xmlns_c2s_session, host, id, retract);
+		idmap[name] = nil;
+	end
+end
+
+function add_host(session, type, host, update)
+	local name = (type == "out" and session.to_host) or (type == "in" and session.from_host);
+	local id = idmap[name.."_"..type];
+	if not id then
+		id = uuid_generate();
+		idmap[name.."_"..type] = id;
+	end
+	local item_exists = select(2, service[host]:get_items(xmlns_s2s_session, host, id));
+	if item_exists and item_exists[id] then
+		retract.attr.id = id;
+		service[host]:retract(xmlns_s2s_session, host, id, retract);
+	end
+	local item = generate_item(name, session, id);
 	service[host]:publish(xmlns_s2s_session, host, id, item);
-	module:log("debug", "Added host " .. name .. " s2s" .. type);
+	if not update then module:log("debug", "Added host " .. name .. " s2s" .. type); end
 end
 
 function del_host(session, type, host)
 	local name = (type == "out" and session.to_host) or (type == "in" and session.from_host);
 	local id = idmap[name.."_"..type];
 	if id then
-		local notifier = st.stanza("retract", { id = id });
-		service[host]:retract(xmlns_s2s_session, host, id, notifier);
+		retract.attr.id = id;
+		service[host]:retract(xmlns_s2s_session, host, id, retract);
+		idmap[name] = nil;
 	end
 end
 
@@ -302,6 +327,14 @@ function module.add_host(module)
 		add_client(event.session, module.host);
 	end);
 
+	module:hook("c2s-compressed", function(session)
+		add_client(session, module.host, true);
+	end);
+
+	module:hook("c2s-sm-enabled", function(session)
+		add_client(session, module.host, true);
+	end);
+
 	module:hook("resource-unbind", function(event)
 		del_client(event.session, module.host);
 		service[module.host]:remove_subscription(xmlns_c2s_session, module.host, event.session.full_jid);
@@ -309,12 +342,36 @@ function module.add_host(module)
 	end);
 
 	-- Add/remove s2s sessions
+	module:hook("bidi-established", function(event)
+		if event.type == "outgoing" then
+			add_host(event.origin, "out", module.host, true);
+		else
+			add_host(event.session, "in", module.host, true);
+		end
+	end);
+
 	module:hook("s2sout-established", function(event)
 		add_host(event.session, "out", module.host);
 	end);
 
+	module:hook("s2sout-compressed", function(session)
+		add_host(session, "out", module.host, true);
+	end);
+
+	module:hook("s2sout-sm-enabled", function(session)
+		add_host(session, "out", module.host, true);
+	end);
+
 	module:hook("s2sin-established", function(event)
 		add_host(event.session, "in", module.host);
+	end);
+
+	module:hook("s2sin-compressed", function(session)
+		add_host(session, "in", module.host, true);
+	end);
+
+	module:hook("s2sin-sm-enabled", function(session)
+		add_host(session, "in", module.host, true);
 	end);
 
 	module:hook("s2sout-destroyed", function(event)

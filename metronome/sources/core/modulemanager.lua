@@ -31,7 +31,7 @@ pcall = function(f, ...)
 end
 
 local autoload_modules = { "router", "bind_session", "presence", "message", "iq", "offline", "c2s", "s2s" };
-local component_inheritable_modules = { "tls", "iq", "bidi", "host_guard", "s2s", "stream_management" };
+local component_inheritable_modules = { "tls", "iq", "bidi", "compression", "host_guard", "s2s", "stream_management" };
 
 local _G = _G;
 
@@ -62,7 +62,7 @@ function load_modules_for_host(host)
 		load(host, component);
 	end
 	for module in modules do
-		load(host, module);
+		if not is_loaded(host, module) then load(host, module); end
 	end
 end
 metronome.events.add_handler("host-activated", load_modules_for_host);
@@ -231,15 +231,20 @@ end
 function load(host, name)
 	local mod, err = do_load_module(host, name);
 	if mod then
-		(hosts[mod.module.host] or metronome).events.fire_event("module-loaded", { module = name, host = mod.module.host });
+		(hosts[mod.module.host] or metronome).events.fire_event("module-loaded",
+			{ module = name, host = mod.module.host, storage = mod.module.storage }
+		);
 	end
 	return mod, err;
 end
 
 function unload(host, name)
+	local mod = get_module(host, name);
 	local ok, err = do_unload_module(host, name);
 	if ok then
-		(hosts[host] or metronome).events.fire_event("module-unloaded", { module = name, host = host });
+		(hosts[host] or metronome).events.fire_event("module-unloaded",
+			{ module = name, host = host, storage = mod.module.storage }
+		);
 	end
 	return ok, err;
 end

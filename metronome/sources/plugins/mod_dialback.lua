@@ -9,6 +9,7 @@
 
 local hosts = metronome.hosts;
 local incoming = metronome.incoming_s2s;
+local host_session = hosts[module.host];
 local s2s_make_authenticated = require "core.s2smanager".make_authenticated;
 
 local log = module._log;
@@ -64,6 +65,11 @@ function make_authenticated(session, host)
 		end
 	end
 	return s2s_make_authenticated(session, host);
+end
+
+local function can_do_dialback(origin)
+	local db = origin.stream_declared_ns and origin.stream_declared_ns["db"];
+	if db == xmlns_db then return true; else return false; end
 end
 
 local errors_map = {
@@ -243,8 +249,9 @@ module:hook("stanza/"..xmlns_db..":result", function(event)
 end);
 
 module:hook_stanza("urn:ietf:params:xml:ns:xmpp-sasl", "failure", function (origin, stanza)
-	if origin.external_auth == "failed" and origin.can_do_dialback then
+	if origin.external_auth == "failed" and can_do_dialback(origin) then
 		module:log("debug", "SASL EXTERNAL failed, falling back to dialback");
+		origin.can_do_dialback = true;
 		initiate_dialback(origin);
 		return true;
 	else
@@ -256,9 +263,8 @@ end, 100);
 
 module:hook_stanza(xmlns_stream, "features", function (origin, stanza)
 	if not origin.external_auth or origin.external_auth == "failed" then
-		local db = origin.stream_declared_ns and origin.stream_declared_ns["db"];
 		local tls = stanza:child_with_ns(xmlns_starttls);
-		if db == xmlns_db then
+		if can_do_dialback(origin) then
 			local tls_required = tls and tls:get_child("required");
 			if tls_required and not origin.secure then
 				local to, from = origin.to_host, origin.from_host;
@@ -291,9 +297,19 @@ module:hook("s2s-authenticate-legacy", function (event)
 	return true;
 end, 100);
 
+function module.load()
+	host_session.dialback_capable = true;
+end
+
 function module.unload(reload)
 	if not reload and not s2s_strict_mode then
 		module:log("warn", "In interoperability mode mod_s2s directly depends on mod_dialback for its local instances.");
 		module:log("warn", "Perhaps it will be unloaded as well for this host. (To prevent this set s2s_strict_mode = true in the config)");
 	end
+	host_session.dialback_capable = nil;
 end
+
+module:hook_global("config-reloaded", function()
+	s2s_strict_mode = module:get_option_boolean("s2s_strict_mode", false);
+	require_encryption = module:get_option_boolean("s2s_require_encryption", false);
+end);
