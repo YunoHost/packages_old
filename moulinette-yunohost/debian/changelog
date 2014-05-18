@@ -1,3 +1,10 @@
+moulinette-yunohost (2.0~megusta19) test; urgency=low
+
+  * Test build: [enh] Move init script in the moulinette-yunohost
+    package
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 18 May 2014 15:15:23 +0200
+
 moulinette-yunohost (2.0~megusta18) test; urgency=low
 
   * Test build: Update from git
