@@ -19,7 +19,7 @@ start)
         touch /var/run/iptables
     fi
 
-    yunohost firewall upnp check > /dev/null 2>&1
+    yunohost firewall upnp | grep -i true > /dev/null 2>&1
     if [ $? = 0 ];
 	then yunohost firewall upnp enable
     fi    
