@@ -3,6 +3,7 @@
 TMP="/usr/share/yunohost/yunohost-config/nginx"
 
 cp $TMP/ssowat.conf /etc/nginx/conf.d/
+cp $TMP/ynhpanel.conf.inc /etc/nginx/conf.d/
 
 if [ ! -f /etc/yunohost/installed ];
 then
