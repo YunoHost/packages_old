@@ -16,6 +16,7 @@ then
 fi
 
 rm -rf /var/cache/moulinette/*
+update-rc.d yunohost-api defaults
 service yunohost-api restart
 
 # Reload SSOwat conf if obsolete

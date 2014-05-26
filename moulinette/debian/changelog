@@ -1,3 +1,10 @@
+moulinette (2.0-beta4~megusta31) test; urgency=low
+
+  * Test build: [fix] Restart yunohost-api only if the service file is
+    present
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 26 May 2014 13:18:34 +0200
+
 moulinette (2.0-beta4~megusta30) test; urgency=low
 
   * Test build: Update from git
