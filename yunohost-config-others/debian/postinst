@@ -49,7 +49,6 @@ then
 	ln -s /etc/yunohost/certs/yunohost.org/crt.pem /etc/ssl/certs/yunohost_crt.pem
 	ln -s /etc/yunohost/certs/yunohost.org/key.pem /etc/ssl/private/yunohost_key.pem
 	ln -s /etc/yunohost/certs/yunohost.org/ca.pem /etc/ssl/certs/ca-yunohost_crt.pem
-	cp /etc/yunohost/certs/yunohost.org/ca.pem /etc/ssl/certs/ca-yunohostoriginal_crt.pem
         update-ca-certificates
 fi
 

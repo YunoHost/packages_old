@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta4~megusta14) test; urgency=low
+
+  * Test build: [fix] No need to duplicate CA
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 27 May 2014 19:44:46 +0200
+
 yunohost-config-others (2.0-beta4~megusta13) test; urgency=low
 
   * Test build: [fix] Keep original CA in certificates
