@@ -26,11 +26,15 @@ then
         for FILE in $(ls /etc/nginx/conf.d/*.*.conf)
         do
             grep -q yunohost_admin $FILE
-            if [[ $? -eq 1 ]]
+            if [[ $? -eq 1 ]];
             then
                 DOMAIN=$(echo $FILE | sed 's@^/etc/nginx/conf.d/@@' | sed 's@.conf$@@')
-                cp $TMP/template.conf $FILE
-                sed -i "s@yunohost.org@$DOMAIN@g" $FILE
+                yunohost domain list | grep -q '"$DOMAIN"'
+                if [[ $? -eq 0 ]];
+                then
+                    cp $TMP/template.conf $FILE
+                    sed -i "s@yunohost.org@$DOMAIN@g" $FILE
+                fi
             fi
         done
     fi
@@ -42,5 +46,10 @@ if [[ $? -eq 0 ]]; then
     cp $TMP/openresty.conf /etc/nginx/conf.d/
 fi
 
-service nginx restart > /dev/null 2>&1
+if [ ! -f /etc/yunohost/installed ];
+then
+    service nginx restart
+else
+    service nginx restart > /dev/null 2>&1
+fi
 exit 0

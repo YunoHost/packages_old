@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-beta4~megusta16) test; urgency=low
+
+  * Test build: [fix] Do not replace unhandled domain configurations
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 27 May 2014 15:20:17 +0200
+
 yunohost-config-nginx (2.0-beta4~megusta15) test; urgency=low
 
   * Test build: [fix] Only replace if actually postinstalled
