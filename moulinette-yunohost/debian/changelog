@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0~megusta30) test; urgency=low
+
+  * Test build: [fix] Reload SSOwat conf at postinst
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 27 May 2014 13:54:53 +0200
+
 moulinette-yunohost (2.0~megusta29) test; urgency=low
 
   * Test build: [fix] Reload SSOwat conf at postinst

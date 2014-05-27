@@ -22,5 +22,5 @@ service yunohost-api restart
 # Reload SSOwat conf if obsolete
 if [ -f /etc/yunohost/installed ];
 then
-    yunohost tools ssowatconf
+    yunohost app ssowatconf
 fi
