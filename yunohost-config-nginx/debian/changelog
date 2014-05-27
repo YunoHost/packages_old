@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-beta4~megusta13) test; urgency=low
+
+  * Test build: [fix] Upgrade Nginx config to enable WebSocket
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 27 May 2014 13:45:29 +0200
+
 yunohost-config-nginx (2.0-beta4~megusta12) test; urgency=low
 
   * Test build: [fix] Remove yunhadmin.conf file to avoid conflicts

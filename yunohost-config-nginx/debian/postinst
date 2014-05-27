@@ -19,8 +19,20 @@ then
 	rm /etc/nginx/sites-enabled/default
 fi
 
-sed -i "s@ynhadmin@yunohost/admin@g" /etc/nginx/conf.d/*.conf
-sed -i "s@ynhapi@yunohost/api@g" /etc/nginx/conf.d/*.conf
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep nginx /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+    for FILE in $(ls /etc/nginx/conf.d/*.*.conf)
+    do
+        grep -q yunohost_admin $FILE
+        if [[ $? -eq 1 ]]
+        then
+            DOMAIN=$(echo $FILE | sed 's@^/etc/nginx/conf.d/@@' | sed 's@.conf$@@')
+            cp $TMP/template.conf $FILE
+            sed -i "s@yunohost.org@$DOMAIN@g" $FILE
+        fi
+    done
+fi
+    
 
 dpkg -l | grep openresty
 if [[ $? -eq 0 ]]; then
