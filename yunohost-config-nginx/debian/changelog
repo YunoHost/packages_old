@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-beta4~megusta18) test; urgency=low
+
+  * Test build: [fix] Make yunohost_admin.conf default vhost
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 27 May 2014 19:49:05 +0200
+
 yunohost-config-nginx (2.0-beta4~megusta17) test; urgency=low
 
   * Test build: [enh] Add strict cyphers + ipv6
