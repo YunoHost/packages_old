@@ -21,7 +21,7 @@ fi
 
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep nginx /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
-    if [ ! -f /etc/yunohost/installed ];
+    if [ -f /etc/yunohost/installed ];
     then
         for FILE in $(ls /etc/nginx/conf.d/*.*.conf)
         do
