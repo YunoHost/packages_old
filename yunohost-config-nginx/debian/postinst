@@ -21,16 +21,19 @@ fi
 
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep nginx /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
-    for FILE in $(ls /etc/nginx/conf.d/*.*.conf)
-    do
-        grep -q yunohost_admin $FILE
-        if [[ $? -eq 1 ]]
-        then
-            DOMAIN=$(echo $FILE | sed 's@^/etc/nginx/conf.d/@@' | sed 's@.conf$@@')
-            cp $TMP/template.conf $FILE
-            sed -i "s@yunohost.org@$DOMAIN@g" $FILE
-        fi
-    done
+    if [ ! -f /etc/yunohost/installed ];
+    then
+        for FILE in $(ls /etc/nginx/conf.d/*.*.conf)
+        do
+            grep -q yunohost_admin $FILE
+            if [[ $? -eq 1 ]]
+            then
+                DOMAIN=$(echo $FILE | sed 's@^/etc/nginx/conf.d/@@' | sed 's@.conf$@@')
+                cp $TMP/template.conf $FILE
+                sed -i "s@yunohost.org@$DOMAIN@g" $FILE
+            fi
+        done
+    fi
 fi
     
 
