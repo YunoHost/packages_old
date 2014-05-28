@@ -1,8 +1,22 @@
 CHANGELOG
 ---------
 
-0.7.0 (in preparation)
-~~~~~~~~~~~~~~~~~~~~~~
+0.8.0
+~~~~~
+
+- remove the '--filters' parameter for good
+- change config format to YAML
+- change default config path to $XDG_CONFIG_HOME/udiskie/config.yml
+- separate ignore filters from mount option filters
+- allow to match multiple attributes against a device (AND-wise)
+- allow to overwrite udiskies default handleability settings
+- raise exception if --config file doesn't exist
+- add --options parameter for udiskie-mount
+- simplify local installations
+
+
+0.7.0
+~~~~~
 
 There are some backward incompatible changes, hence the version break:
 
@@ -25,6 +39,8 @@ There are some backward incompatible changes, hence the version break:
 - remove automatic retries to unlock LUKS partitions
 - pass only device name to external password prompt
 - add '--quiet' command line option
+- ignore devices ignored by udev rules
+
 
 0.6.4
 ~~~~~

@@ -1,3 +1,9 @@
+python-udiskie (2.0-beta4~megusta11) test; urgency=low
+
+  * Test build: [enh] Upgrade to 0.8.0
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 28 May 2014 13:33:36 +0200
+
 python-udiskie (2.0-beta4~megusta10) test; urgency=low
 
   * Test build: [fix] Add udiskie bin
