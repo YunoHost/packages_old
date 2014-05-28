@@ -1,2 +1,2 @@
 init/* /etc/init.d/
-bin/* /usr/local/bin/
+bin/* /usr/bin/
