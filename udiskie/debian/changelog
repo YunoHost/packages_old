@@ -1,3 +1,9 @@
+python-udiskie (2.0-beta4~megusta13) test; urgency=low
+
+  * Test build: [fix] Correctly restart udiskie
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 28 May 2014 13:50:29 +0200
+
 python-udiskie (2.0-beta4~megusta12) test; urgency=low
 
   * Test build: [enh] Upgrade to 0.8.0

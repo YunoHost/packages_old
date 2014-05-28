@@ -8,4 +8,9 @@ then
 fi
 
 update-rc.d udiskie defaults
+service dbus restart
+if [[ $? -eq 1 ]]; then
+    rm -f /var/run/dbus/system_bus_socket
+    service dbus restart
+fi
 service udiskie restart
