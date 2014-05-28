@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0~megusta32) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 28 May 2014 15:38:24 +0200
+
 moulinette-yunohost (2.0~megusta31) test; urgency=low
 
   * Test build: Update from git
