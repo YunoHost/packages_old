@@ -1,3 +1,9 @@
+python-udiskie (2.0-beta4~megusta8) test; urgency=low
+
+  * Test build: [fix] Add udiskie bin
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 28 May 2014 12:48:38 +0200
+
 python-udiskie (2.0-beta4~megusta7) megusta; urgency=low
 
   * Production build: [bump] beta5 ?
