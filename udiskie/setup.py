@@ -22,8 +22,8 @@ def check_any(*packages):
 
 check_any('dbus')
 check_any('gobject')
-check_any('pynotify', 'notify2')
-check_any('gtk')
+#check_any('pynotify', 'notify2')
+#check_any('gtk')
 
 # read long_description from README.rst
 long_description = None
