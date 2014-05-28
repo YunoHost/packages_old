@@ -8,7 +8,7 @@
 # Short-Description: Start/stop Udiskie Daemon
 ### END INIT INFO
 
-DAEMON=/usr/local/bin/udiskie
+DAEMON=/usr/bin/udiskie
 DAEMON_OPTS="--suppress --file-manager=ls"
 
 test -x $DAEMON || exit 0
