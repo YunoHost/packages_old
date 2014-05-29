@@ -36,6 +36,13 @@ then
 	cp $TMP/services.yml /etc/yunohost/
 fi
 
+# Stop old API
+ps aux | grep -q "yunohost.tac"
+if [[ $? -eq 0 ]];
+then
+    killall twistd
+fi
+
 rm -rf /var/cache/moulinette/*
 update-rc.d yunohost-api defaults
 service yunohost-api restart
