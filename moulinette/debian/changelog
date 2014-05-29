@@ -1,3 +1,9 @@
+moulinette (2.0-beta4~megusta34) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 29 May 2014 18:56:39 +0200
+
 moulinette (2.0-beta4~megusta33) test; urgency=low
 
   * Test build: [fix] Install udiskie via pip
