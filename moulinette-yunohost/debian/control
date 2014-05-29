@@ -8,6 +8,8 @@ Standards-Version: 3.9.1
 Package: moulinette-yunohost
 Architecture: all
 Depends: moulinette
+Replaces: python-udiskie
+Breaks: python-udiskie
 Homepage: http://yunohost.org
 Description: YunoHost Python scripts
  Python functions to manage a YunoHost instance
