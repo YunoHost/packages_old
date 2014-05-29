@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0~megusta36) test; urgency=low
+
+  * Test build: [fix] dependencies
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 29 May 2014 21:21:52 +0200
+
 moulinette-yunohost (2.0~megusta35) test; urgency=low
 
   * Test build: [fix] Install udiskie via pip
