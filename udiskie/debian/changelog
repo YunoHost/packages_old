@@ -1,3 +1,9 @@
+python-udiskie (2.0-beta4~megusta17) test; urgency=low
+
+  * Test build: [fix] Make package useless
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 30 May 2014 13:34:20 +0200
+
 python-udiskie (2.0-beta4~megusta16) test; urgency=low
 
   * Test build: [fix] Make package useless
