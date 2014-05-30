@@ -8,9 +8,9 @@ XS-Python-Version: current
 
 Package: moulinette
 Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}, python-ldap, python-psutil, python-yaml, python-netifaces, bind9, glances, python-pip, rubygems, pyminiupnpc, python-requests, dnsutils, python-bottle (>= 0.12), python-gnupg, python-importlib, python-gevent-websocket, ntfs-3g, python-dbus, python-dbus-dev, python-gi, python-gobject, python-gobject-2, udisks
-Replaces: yunohost-cli, python-udiskie
-Breaks: yunohost-cli, python-udiskie
+Depends: ${misc:Depends}, ${python:Depends}, python-ldap, python-psutil, python-yaml, python-netifaces, bind9, glances, python-pip, rubygems, pyminiupnpc, python-requests, dnsutils, python-bottle (>= 0.12), python-gnupg, python-importlib, python-gevent-websocket
+Replaces: yunohost-cli
+Breaks: yunohost-cli
 XB-Python-Version: ${python:Versions}
 Provides: ${python:Provides}
 Description: CLI/API

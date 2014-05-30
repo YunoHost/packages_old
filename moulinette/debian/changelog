@@ -1,3 +1,9 @@
+moulinette (2.0-beta4~megusta37) test; urgency=low
+
+  * Test build: [fix] Dependencies
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 30 May 2014 12:33:23 +0200
+
 moulinette (2.0-beta4~megusta36) test; urgency=low
 
   * Test build: [fix] dependencies
