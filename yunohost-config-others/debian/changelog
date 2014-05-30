@@ -1,3 +1,10 @@
+yunohost-config-others (2.0-beta4~megusta15) test; urgency=low
+
+  * Test build: [fix] Only reload iptables if new firewall.yml as been
+    set
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 30 May 2014 13:47:58 +0200
+
 yunohost-config-others (2.0-beta4~megusta14) test; urgency=low
 
   * Test build: [fix] No need to duplicate CA
