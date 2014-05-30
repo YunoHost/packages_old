@@ -1,3 +1,9 @@
+moulinette (2.0-beta4~megusta39) test; urgency=low
+
+  * Test build: [fix] Do not restart old API
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 30 May 2014 14:01:40 +0200
+
 moulinette (2.0-beta4~megusta38) test; urgency=low
 
   * Test build: [fix] Kill twisted API before restarting it
