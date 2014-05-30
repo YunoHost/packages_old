@@ -1,3 +1,9 @@
+metronome (3.5~megusta3) test; urgency=low
+
+  * Test build: [fix] Do not use old zlib library
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 30 May 2014 14:10:58 +0200
+
 metronome (3.5~megusta2) test; urgency=low
 
   * Test build: Metronome 3.5

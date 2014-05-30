@@ -42,7 +42,7 @@ modules_enabled = {
                 "private"; -- Private XML storage (for room bookmarks, etc.)
                 "vcard"; -- Allow users to set vCards
                 "privacy"; -- Support privacy lists
-                "compression"; -- Stream compression (Debian: requires lua-zlib module to work)
+                --"compression"; -- Stream compression (Debian: requires lua-zlib module to work)
 
         -- Nice to have
                 "legacyauth"; -- Legacy authentication. Only used by some old clients and bots.
