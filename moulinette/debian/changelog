@@ -1,3 +1,9 @@
+moulinette (2.0-beta4~megusta38) test; urgency=low
+
+  * Test build: [fix] Kill twisted API before restarting it
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 30 May 2014 13:52:50 +0200
+
 moulinette (2.0-beta4~megusta37) test; urgency=low
 
   * Test build: [fix] Dependencies

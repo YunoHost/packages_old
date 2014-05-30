@@ -4,5 +4,11 @@ mkdir -p /usr/lib/moulinette
 mkdir -p /usr/share/moulinette/actionsmap
 
 if [ -f /etc/init.d/yunohost-api ]; then
+    # Stop old API
+    ps aux | grep -q "yunohost.tac"
+    if [[ $? -eq 0 ]];
+    then
+        killall twistd
+    fi
     service yunohost-api restart
 fi
