@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-beta4~megusta20) test; urgency=low
+
+  * Test build: [fix] Put script at the beginning of the head
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 31 May 2014 15:00:32 +0200
+
 yunohost-config-nginx (2.0-beta4~megusta19) test; urgency=low
 
   * Test build: [fix] Nginx conf replacing
