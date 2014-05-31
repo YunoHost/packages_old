@@ -32,6 +32,10 @@ fi
 # SSL
 #SSL
 mkdir -p /usr/share/yunohost/yunohost-config/ssl/yunoCA/{ca,certs,crl,newcerts}
+if [ ! -f /usr/share/yunohost/yunohost-config/ssl/yunoCA/serial ];
+then
+    echo "01" > /usr/share/yunohost/yunohost-config/ssl/yunoCA/serial
+fi
 
 if [ ! -f /etc/yunohost/certs/yunohost.org/ca.pem ];
 then

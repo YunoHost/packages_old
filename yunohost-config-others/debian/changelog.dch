@@ -1,0 +1,102 @@
+yunohost-config-others (2.0-beta4~megusta16) test; urgency=low
+
+  * Test build: [fix] Do not reset serial at package upgrade
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 31 May 2014 19:09:53 +0200
+
+yunohost-config-others (2.0-beta4~megusta15) test; urgency=low
+
+  * Test build: [fix] Only reload iptables if new firewall.yml as been
+    set
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 30 May 2014 13:47:58 +0200
+
+yunohost-config-others (2.0-beta4~megusta14) test; urgency=low
+
+  * Test build: [fix] No need to duplicate CA
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 27 May 2014 19:44:46 +0200
+
+yunohost-config-others (2.0-beta4~megusta13) test; urgency=low
+
+  * Test build: [fix] Keep original CA in certificates
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 27 May 2014 16:46:46 +0200
+
+yunohost-config-others (2.0-beta4~megusta12) test; urgency=low
+
+  * Test build: [fix] Keep original CA in certificates
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 27 May 2014 16:38:20 +0200
+
+yunohost-config-others (2.0-beta4~megusta11) test; urgency=low
+
+  * Test build: Update fail2ban config
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 19 May 2014 18:27:51 +0200
+
+yunohost-config-others (2.0-beta4~megusta10) test; urgency=low
+
+  * Test build: fix iptables init script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 18 May 2014 13:17:23 +0200
+
+yunohost-config-others (2.0-beta4~megusta9) test; urgency=low
+
+  * Test build: fix iptables init script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 18 May 2014 13:11:32 +0200
+
+yunohost-config-others (2.0-beta4~megusta8) test; urgency=low
+
+  * Test build: update iptable init script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 17 May 2014 13:09:43 +0200
+
+yunohost-config-others (2.0-beta4~megusta7) test; urgency=low
+
+  * Test build: add fail2ban config
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 17 May 2014 12:34:32 +0200
+
+yunohost-config-others (2.0-beta4~megusta6) test; urgency=low
+
+  * Test build: add fail2ban config
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 17 May 2014 12:17:26 +0200
+
+yunohost-config-others (2.0-beta4~megusta5) megusta; urgency=low
+
+  * Production build: [enh] IPv6 forwarding
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 15 May 2014 13:46:20 +0200
+
+yunohost-config-others (2.0-beta4~megusta4) megusta; urgency=low
+
+  * Production build: RADVD & IPv6
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 15 May 2014 12:37:31 +0200
+
+yunohost-config-others (2.0-beta4~megusta3) test; urgency=low
+
+  * Test build: [enh] Generate ULA
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 14 May 2014 16:42:59 +0200
+
+yunohost-config-others (2.0-beta4~megusta2) test; urgency=low
+
+  * Test build: [enh] radvd + network interface
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 10 May 2014 13:26:27 +0200
+
+yunohost-config-others (2.0-beta4~megusta1) megusta; urgency=low
+
+  * Production build: [bump] beta5 ?
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 27 Apr 2014 19:26:01 +0200
+
+yunohost-config-others (2.0-beta4~megusta0) megusta; urgency=low
+
+  * Production build: update beta4
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 17 Mar 2014 17:16:54 +0100
