@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-beta4~megusta16) test; urgency=low
+
+  * Test build: [fix] Do not reset serial at package upgrade
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 31 May 2014 19:10:13 +0200
+
 yunohost-config-others (2.0-beta4~megusta15) test; urgency=low
 
   * Test build: [fix] Only reload iptables if new firewall.yml as been
