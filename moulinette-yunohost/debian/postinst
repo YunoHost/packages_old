@@ -30,6 +30,12 @@ then
 	cp $TMP/firewall.yml /etc/yunohost/
 fi
 
+# App fetchlist
+if [ -f /etc/cron.d/yunohost-applist-yunohost ];
+then
+    sed -i "s/--no-ldap //g" /etc/cron.d/yunohost-applist-yunohost
+fi
+
 # Service list
 if [ ! -f /etc/yunohost/services.yml ];
 then

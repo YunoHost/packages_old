@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0~megusta40) test; urgency=low
+
+  * Test build: [fix] Remove --no-ldap argument while fetching applist
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 01 Jun 2014 21:44:08 +0200
+
 moulinette-yunohost (2.0~megusta39) test; urgency=low
 
   * Test build: Update from git
