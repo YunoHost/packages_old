@@ -1,0 +1,223 @@
+python-bottle (0.12.6-1.1) stable; urgency=low
+
+  * Non-maintainer upload
+  * Build only python-bottle for wheezy
+
+ -- Jérôme Lebleu <jerome.lebleu@mailoo.org>  Sun, 18 May 2014 12:56:15 +0200
+
+python-bottle (0.12.6-1) unstable; urgency=high
+
+  * New upstream release, closes https://github.com/defnull/bottle/issues/616
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Tue, 29 Apr 2014 00:18:11 +0100
+
+python-bottle (0.12.5-1) unstable; urgency=medium
+
+  * New upstream version
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Thu, 13 Mar 2014 00:45:10 +0000
+
+python-bottle (0.12.4-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Fri, 28 Feb 2014 23:29:33 +0000
+
+python-bottle (0.12.3-1) unstable; urgency=medium
+
+  [ Federico Ceratto ]
+  * New upstream version
+  * Standard-Version bumped to 3.9.5
+
+  [ Daniel Schepler ]
+  * DEB_BUILD_OPTIONS nocheck support added (Closes: #739102)
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Sun, 16 Feb 2014 22:08:50 +0000
+
+python-bottle (0.12.0-1) unstable; urgency=medium
+
+  [ Federico Ceratto ]
+  * New upstream version
+
+ -- David Paleino <dapal@debian.org>  Mon, 06 Jan 2014 18:44:50 +0100
+
+python-bottle (0.11.6-1) unstable; urgency=low
+
+  * d/changelog: New upstream release 0.11.6
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Mon, 06 May 2013 21:05:51 +0100
+
+python-bottle (0.11.3-1) experimental; urgency=low
+
+  * New upstream version
+  * Unit-testing enabled
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Fri, 02 Nov 2012 15:34:26 +0000
+
+python-bottle (0.10.11-1) unstable; urgency=low
+
+  * New upstream version
+  * Homepage updated (Closes: #671230)
+  * Standard-Version bumped to 3.9.3, debhelper version bumped to 9
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Fri, 29 Jun 2012 22:38:13 +0100
+
+python-bottle (0.10.9-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Fri, 17 Feb 2012 20:09:00 +0000
+
+python-bottle (0.10.7-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Sat, 21 Jan 2012 19:08:19 +0000
+
+python-bottle (0.10.6-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Thu, 22 Dec 2011 21:42:21 +0000
+
+python-bottle (0.10.2-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- David Paleino <dapal@debian.org>  Sun, 04 Dec 2011 18:52:27 +0100
+
+python-bottle (0.10.1-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Sat, 26 Nov 2011 18:27:31 +0000
+
+python-bottle (0.9.7-1) unstable; urgency=low
+
+  * New upstream version
+  * debian/control:
+    - bumped to debhelper 8
+    - dependency to python-all added
+  * debian/copyright updated
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Fri, 18 Nov 2011 21:34:34 +0000
+
+python-bottle (0.9.5-2) unstable; urgency=low
+
+  * Testsuite disabled at build-time (Closes: #640266)
+  * Use libjs-underscore in python-bottle-doc
+
+ -- David Paleino <dapal@debian.org>  Thu, 27 Oct 2011 23:04:15 +0200
+
+python-bottle (0.9.5-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Federico Ceratto <federico.ceratto@gmail.com>  Sun, 03 Jul 2011 09:23:08 +0000
+
+python-bottle (0.9.4-1) unstable; urgency=low
+
+  [ David Paleino ]
+  * Added python-{paste,eventlet} B-D to feed the testsuite
+
+  [ Federico Ceratto ]
+  * New upstream version
+  * DM-Upload-Allowed added
+
+ -- David Paleino <dapal@debian.org>  Fri, 24 Jun 2011 11:17:34 +0200
+
+python-bottle (0.9.1-1) unstable; urgency=low
+
+  * New upstream version
+  * Update debian/copyright
+  * Standards-Version bump to 3.9.2, no changes needed
+  * Patches refreshed
+  * Fix docs generation (directory renamed upstream)
+  * Fix testsuite
+  * Adapt debian/rules to correctly run the testsuite and install
+    the plugins
+
+ -- David Paleino <dapal@debian.org>  Fri, 13 May 2011 18:13:10 +0200
+
+python-bottle (0.8.4-1) unstable; urgency=low
+
+  * New upstream version
+  * Uploading to unstable
+
+ -- David Paleino <dapal@debian.org>  Wed, 13 Oct 2010 09:46:03 +0200
+
+python-bottle (0.8.3-1) experimental; urgency=low
+
+  * New upstream version
+  * Upload to experimental, since we're in hard Squeeze freeze now.
+
+ -- David Paleino <dapal@debian.org>  Sun, 05 Sep 2010 07:52:39 +0200
+
+python-bottle (0.8.2-1) unstable; urgency=low
+
+  * New upstream version
+  * debian/patches/02-fix_autoserver_ordering.patch refreshed
+  * debian/control:
+    - Standards-Version bumped to 3.9.1, no changes needed
+
+ -- David Paleino <dapal@debian.org>  Mon, 02 Aug 2010 21:59:17 +0200
+
+python-bottle (0.8.1-1) unstable; urgency=low
+
+  * New upstream version
+  * debian/patches/:
+    - 01-fix_quiet_parsing.patch disabled, seems fixed in a different
+      way upstream
+    - 02-fix_autoserver_ordering.patch refreshed
+  * debian/control:
+    - Standards-Version bumped to 3.9.0, no changes needed
+  * debian/README.source removed, since the package now contains the
+    documentation
+  * debian/watch fixed, only get versions made by digits and dots
+  * debian/NEWS.Debian added, explain incompatible API changes with previous
+    versions
+
+ -- David Paleino <dapal@debian.org>  Thu, 15 Jul 2010 19:22:37 +0200
+
+python-bottle (0.8.0-3) unstable; urgency=low
+
+  * debian/patches/02-fix_autoserver_ordering.patch added, moves
+    CherryPyServer later in the list, since it does weird things
+    on import even when people don't use it. (Closes: #586316)
+  * debian/control:
+    - added Provides to python-bottle
+
+ -- David Paleino <dapal@debian.org>  Fri, 18 Jun 2010 20:24:26 +0200
+
+python-bottle (0.8.0-2) unstable; urgency=low
+
+  * debian/patches/01-fix_quiet_parsing.patch added, thanks to Enrico
+    Zini: only use "quiet" parameter inside run(), i.e. don't pass it
+    to the server adapter (Closes: #584781)
+
+ -- David Paleino <dapal@debian.org>  Sun, 06 Jun 2010 17:04:28 +0200
+
+python-bottle (0.8.0-1) unstable; urgency=low
+
+  * New upstream version
+  * debian/watch updated to point to github tags
+  * debian/control:
+    - added Build-Dependency on python-sphinx, to build documentation
+    - bumped debhelper B-D to >= 7.0.50~
+    - Standards-Version bumped to 3.8.4 , no changes needed
+    - added runtime Depends on libjs-jquery
+    - new package python-bottle-doc added
+  * debian/python-bottle-doc.docs added
+  * debian/rules:
+    - also install generated documentation
+  * debian/source/format added, using 3.0 (quilt).
+  * debian/python-bottle-doc.links added, use system-wide jQuery
+  * debian/python-bottle-doc.doc-base added
+
+ -- David Paleino <dapal@debian.org>  Wed, 31 Mar 2010 18:30:31 +0200
+
+python-bottle (0.6.4-1) unstable; urgency=low
+
+  * Initial release (Closes: #555717)
+
+ -- David Paleino <dapal@debian.org>  Wed, 11 Nov 2009 13:48:02 +0100

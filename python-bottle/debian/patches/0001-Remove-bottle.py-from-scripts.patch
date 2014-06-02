@@ -1,0 +1,20 @@
+From: Federico Ceratto <federico.ceratto@gmail.com>
+Date: Sun, 15 Dec 2013 01:41:56 +0000
+Subject: Remove bottle.py from scripts
+
+---
+ setup.py | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/setup.py b/setup.py
+index 8b83522..19392f8 100755
+--- a/setup.py
++++ b/setup.py
+@@ -17,7 +17,6 @@ setup(name='bottle',
+       author_email='marc@gsites.de',
+       url='http://bottlepy.org/',
+       py_modules=['bottle'],
+-      scripts=['bottle.py'],
+       license='MIT',
+       platforms = 'any',
+       classifiers=['Development Status :: 4 - Beta',

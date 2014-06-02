@@ -1,0 +1,15 @@
+Package: python-bottle
+Version: 0.12.6-1
+Architecture: all
+Maintainer: David Paleino <dapal@debian.org>
+Installed-Size: 203
+Depends: python (>= 2.6.6-3), python (<< 2.8)
+Provides: python2.6-bottle, python2.7-bottle
+Section: python
+Priority: optional
+Homepage: http://bottlepy.org
+Description: fast and simple WSGI-framework for Python
+ Bottle is a fast and simple WSGI-framework for the Python programming
+ language. It offers request dispatching with url parameter support
+ (routes), templates, key/value databases, a built-in HTTP server and
+ adapters for many third party WSGI/HTTP-server and template engines.

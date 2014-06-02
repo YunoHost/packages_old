@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+export DH_VERBOSE=1
+export PYBUILD_NAME=bottle
+
+%:
+	dh $@ --with python2 --buildsystem=pybuild
+
+override_dh_auto_build:
+	dh_auto_build
+#	PYTHONPATH=. http_proxy='http://127.0.0.1:9/' sphinx-build -N -E -bhtml docs build/html
+#	PYTHONPATH=. http_proxy='http://127.0.0.1:9/' sphinx-build -N -E -bman docs build/man
+	rm -rf ./build/html/.doctrees
+
+#override_dh_sphinxdoc:
+#ifeq (,$(findstring nodoc,$(DEB_BUILD_OPTIONS)))
+#	dh_sphinxdoc -ppython-bottle-doc
+#endif
+
+override_dh_installchangelogs:
+	dh_installchangelogs docs/changelog.rst
+
+#override_dh_auto_test:
+#ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
+#	python test/testall.py
+#endif

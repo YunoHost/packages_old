@@ -1,0 +1,29 @@
+python-bottle (0.8.1-1) unstable; urgency=low
+
+Bottle 0.8.1 has some API changes which may break compatibility with previous
+versions.
+
+  - the built-in Key/Value database is not available anymore. It was marked as
+    deprecated since 0.6.4
+  - the Route syntax and behaviour changed.
+    + regular expressions must be encapsulated with #. In 0.6 all
+      non-alphanumeric characters not present in the regular expression were
+      allowed.
+    + regular expressions not part of a route wildcard are escaped
+      automatically. You don't have to escape dots or other regular control
+      characters anymore. In 0.6 the whole URL was interpreted as a regular
+      expression. You can use anonymous wildcards (/index:#(\.html)?#) to
+      achieve a similar behaviour.
+  - the BreakTheBottle exception is gone. Use HTTPResponse instead.
+  - the SimpleTemplate engine escapes HTML special characters in {{bad_html}}
+    expressions automatically. Use the new {{!good_html}} syntax to get old
+    behaviour (no escaping).
+  - the SimpleTemplate engine returns unicode strings instead of lists of byte
+    strings.
+  - bottle.optimize() and the automatic route optimization is obsolete.
+  - Request._environ was renamed to Request.environ
+  - the default redirect() code changed from 307 to 303.
+  - removed support for @default. Use @error(404) instead.
+  - default_app() is obsolete. Use app() instead.  
+
+ -- David Paleino <dapal@debian.org>  Thu, 15 Jul 2010 18:37:46 +0200
