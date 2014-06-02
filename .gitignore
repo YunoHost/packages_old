@@ -1,4 +1,4 @@
-./*.changes
-./*.tar.gz
-./*.build
-./*.dsc
+*.changes
+*.tar.gz
+*.build
+*.dsc
