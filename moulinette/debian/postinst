@@ -5,7 +5,7 @@ mkdir -p /usr/share/moulinette/actionsmap
 
 if [ -f /etc/init.d/yunohost-api ]; then
     # Do not restart old API
-    grep -q "yunohost.tac" /etc/init.d/yunohost-api
+    grep -q "/usr/share/pyshared/yunohost-cli" /etc/init.d/yunohost-api
     if [[ ! $? -eq 0 ]];
     then
         service yunohost-api restart
