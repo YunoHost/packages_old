@@ -1,3 +1,9 @@
+moulinette (2.0-beta4~megusta50) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 07 Jun 2014 15:30:00 +0200
+
 moulinette (2.0-beta4~megusta49) test; urgency=low
 
   * Test build: [fix] Restart yunohost-api
