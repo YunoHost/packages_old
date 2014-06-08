@@ -1,3 +1,9 @@
+metronome (3.5~megusta4) megusta; urgency=low
+
+  * Production build: Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 09 Jun 2014 01:39:12 +0200
+
 metronome (3.5~megusta3) test; urgency=low
 
   * Test build: [fix] Do not use old zlib library
