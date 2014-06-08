@@ -1,3 +1,15 @@
+ssowat (2.0-rc~megusta2) megusta; urgency=low
+
+  * Production build: Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 09 Jun 2014 01:49:22 +0200
+
+ssowat (2.0-rc~megusta1) test; urgency=low
+
+  * Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 02 Jun 2014 22:16:40 +0200
+
 ssowat (1.0~megusta44) test; urgency=low
 
   * Test build: Update from git
