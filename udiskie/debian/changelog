@@ -1,3 +1,15 @@
+python-udiskie (2.0-rc1~megusta2) megusta; urgency=low
+
+  * Production build: Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 09 Jun 2014 01:51:49 +0200
+
+python-udiskie (2.0-rc1~megusta1) test; urgency=low
+
+  * Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 30 May 2014 13:35:20 +0200
+
 python-udiskie (2.0-beta4~megusta17) test; urgency=low
 
   * Test build: [fix] Make package useless
