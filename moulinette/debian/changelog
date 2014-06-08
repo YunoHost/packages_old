@@ -1,3 +1,15 @@
+moulinette (2.0-rc~megusta2) megusta; urgency=low
+
+  * Production build: Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 09 Jun 2014 01:45:18 +0200
+
+moulinette (2.0-rc~megusta1) test; urgency=low
+
+  * Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 07 Jun 2014 15:31:00 +0200
+
 moulinette (2.0-beta4~megusta50) test; urgency=low
 
   * Test build: Update from git
