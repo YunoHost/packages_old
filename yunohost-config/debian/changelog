@@ -1,3 +1,15 @@
+yunohost-config (2.0-rc1~megusta2) megusta; urgency=low
+
+  * Production build: Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 09 Jun 2014 02:07:29 +0200
+
+yunohost-config (2.0-rc1~megusta1) test; urgency=low
+
+  * Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 16 May 2014 22:01:32 +0200
+
 yunohost-config (2.0-beta4~megusta2) test; urgency=low
 
   * Test build: Update dependencies
