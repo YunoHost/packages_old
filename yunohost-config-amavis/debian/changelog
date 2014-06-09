@@ -1,3 +1,15 @@
+yunohost-config-amavis (2.0-rc1~megusta1) megusta; urgency=low
+
+  * Production build: Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 09 Jun 2014 11:45:25 +0200
+
+yunohost-config-amavis (2.0-rc1~megusta0) test; urgency=low
+
+  * bump rc 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 09 Jun 2014 11:45:02 +0200
+
 yunohost-config-amavis (2.0-beta4~megusta2) test; urgency=low
 
   * Test build: chown spamassassin folder
