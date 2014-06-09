@@ -1,3 +1,15 @@
+yunohost-config-others (2.0-rc1~megusta2) megusta; urgency=low
+
+  * Production build: Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 09 Jun 2014 02:02:24 +0200
+
+yunohost-config-others (2.0-rc1~megusta1) test; urgency=low
+
+  * Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 02 Jun 2014 13:45:42 +0200
+
 yunohost-config-others (2.0-beta4~megusta17) test; urgency=low
 
   * Test build: [fix] Fail2ban : ignore local ip
