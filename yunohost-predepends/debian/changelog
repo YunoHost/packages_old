@@ -1,3 +1,15 @@
+yunohost-predepends (2.0-rc1~megusta1) megusta; urgency=low
+
+  * Production build: Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 09 Jun 2014 12:01:42 +0200
+
+yunohost-predepends (2.0-rc1~megusta0) megusta; urgency=low
+
+  * bump rc 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 09 Jun 2014 12:01:21 +0200
+
 yunohost-predepends (2.0-beta4~megusta0) megusta; urgency=low
 
   * Production build: update beta4
