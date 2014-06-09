@@ -1,3 +1,15 @@
+yunohost-config-tahoe (2.0-rc1~megusta1) megusta; urgency=low
+
+  * Production build: Bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 09 Jun 2014 11:58:35 +0200
+
+yunohost-config-tahoe (2.0-rc1~megusta0) megusta; urgency=low
+
+  * bump rc 
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 09 Jun 2014 11:58:16 +0200
+
 yunohost-config-tahoe (2.0-beta4~megusta0) megusta; urgency=low
 
   * Production build: update beta4
