@@ -1,3 +1,9 @@
+haste (1.0-beta4~megusta1) megusta; urgency=low
+
+  * Production build: [fix] authentification failed
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 10 Jun 2014 15:32:22 +0200
+
 haste (1.0-beta4~megusta0) megusta; urgency=low
 
   * Production build: bump version

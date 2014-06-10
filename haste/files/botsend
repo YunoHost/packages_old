@@ -4,7 +4,7 @@ import sys
 
 
 nickname = "haste." + sys.argv[2]
-login = 'anonymous@yunohost.org'
+login = 'anonymous@anonymous.yunohost.org'
 room = "support@conference.yunohost.org"
 msg = "New file " + str(sys.argv[1])
 jid=xmpp.protocol.JID(login)
