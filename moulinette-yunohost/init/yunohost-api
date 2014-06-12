@@ -24,6 +24,7 @@ case "$1" in
     start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
         --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
     result=$?
+    sleep 4
     grep -qIn "segmentation fault" /var/log/yunohost.log
     if [[ $? -eq 0 ]];
     then
@@ -59,6 +60,7 @@ case "$1" in
     start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
         --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
     result=$?
+    sleep 4
     grep -qIn "segmentation fault" /var/log/yunohost.log
     if [[ $? -eq 0 ]];
     then

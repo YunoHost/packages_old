@@ -1,3 +1,10 @@
+moulinette-yunohost (2.0-rc~megusta5) test; urgency=low
+
+  * Test build: [fix] Add --no-websocket option to yunohost-api when
+    gevent segfault
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 12 Jun 2014 09:51:56 +0200
+
 moulinette-yunohost (2.0-rc~megusta4) test; urgency=low
 
   * Test build: [fix] Add --no-websocket option to yunohost-api when
