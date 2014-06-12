@@ -1,3 +1,10 @@
+moulinette (2.0-rc~megusta3) megusta; urgency=low
+
+  * Production build: [fix] Do not install /messages route if WebSocket
+    is disabled
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 12 Jun 2014 19:09:02 +0200
+
 moulinette (2.0-rc~megusta2) megusta; urgency=low
 
   * Production build: Bump version
