@@ -23,7 +23,17 @@ case "$1" in
     log_daemon_msg "Starting API: YunoHost"
     start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
         --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
-    log_end_msg $?
+    result=$?
+    grep -qIn "segmentation fault" /var/log/yunohost.log
+    if [[ $? -eq 0 ]];
+    then
+        DAEMON_OPTS="--no-websocket"
+        start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
+            --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
+        log_end_msg $?
+    else
+        log_end_msg $result
+    fi
     ;;
   stop)
     logger "YunoHost API: Stopping"
@@ -34,7 +44,7 @@ case "$1" in
     fi
     kill `ps aux | grep 'python /usr/bin/yunohost-api' | grep -v grep | awk '{print $2}'` > /dev/null 2>&1
     kill `ps aux | grep 'yunohost-api' | grep -v grep | grep -v stop | awk '{print $2}'` > /dev/null 2>&1
-    log_end_msg $?
+    log_end_msg 0
     ;;
   restart)
     logger "YunoHost API: Restarting"
@@ -48,7 +58,17 @@ case "$1" in
     kill `ps aux | grep 'yunohost.tac' | grep -v grep | awk '{print $2}'` > /dev/null 2>&1
     start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
         --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
-    log_end_msg $?
+    result=$?
+    grep -qIn "segmentation fault" /var/log/yunohost.log
+    if [[ $? -eq 0 ]];
+    then
+        DAEMON_OPTS="--no-websocket"
+        start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
+            --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
+        log_end_msg $?
+    else
+        log_end_msg $result
+    fi
     ;;
   status)
     logger "YunoHost API: Running"
