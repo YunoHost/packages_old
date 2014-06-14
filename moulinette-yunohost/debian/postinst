@@ -2,6 +2,11 @@
 
 TMP=/usr/share/yunohost/yunohost-config/moulinette
 
+if [ ! -d /etc/yunohost ];
+then
+	mkdir -p /etc/yunohost
+fi
+
 # Udiskie
 ps aux | grep udiskie | grep -qv grep
 if [[ ! $? -eq 0 ]];
