@@ -1,3 +1,9 @@
+yunohost-admin (2.0-rc1~megusta8) test; urgency=low
+
+  * Test build: Update from git
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 24 Jun 2014 13:59:37 +0200
+
 yunohost-admin (2.0-rc1~megusta7) test; urgency=low
 
   * Test build: Firewall first draft
