@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0-rc~megusta9) test; urgency=low
+
+  * Test build: [fix] API init script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 25 Jun 2014 22:31:51 +0200
+
 moulinette-yunohost (2.0-rc~megusta8) test; urgency=low
 
   * Test build: Update from git

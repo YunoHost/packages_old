@@ -25,8 +25,13 @@ case "$1" in
         --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
     result=$?
     sleep 4
-    grep -qIn "segmentation fault" /var/log/yunohost.log
-    if [[ $? -eq 0 ]];
+    curl http://127.0.0.1:6787/installed > /dev/null 2>&1
+    if [[ $? -eq 7 ]];
+    then
+        sleep 6
+    fi
+    curl http://127.0.0.1:6787/installed > /dev/null 2>&1
+    if [[ $? -gt 50 ]];
     then
         DAEMON_OPTS="--no-websocket"
         start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
@@ -61,8 +66,13 @@ case "$1" in
         --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
     result=$?
     sleep 4
-    grep -qIn "segmentation fault" /var/log/yunohost.log
-    if [[ $? -eq 0 ]];
+    curl http://127.0.0.1:6787/installed > /dev/null 2>&1
+    if [[ $? -eq 7 ]];
+    then
+        sleep 6
+    fi
+    curl http://127.0.0.1:6787/installed > /dev/null 2>&1
+    if [[ $? -gt 50 ]];
     then
         DAEMON_OPTS="--no-websocket"
         start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
