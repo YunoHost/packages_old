@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0-rc~megusta10) test; urgency=low
+
+  * Test build: [fix] Properly separate upnp and firewall
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 26 Jun 2014 12:40:47 +0200
+
 moulinette-yunohost (2.0-rc~megusta9) test; urgency=low
 
   * Test build: [fix] API init script

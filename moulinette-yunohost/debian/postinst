@@ -61,5 +61,10 @@ service yunohost-api restart
 # Reload SSOwat conf if obsolete
 if [ -f /etc/yunohost/installed ];
 then
+    yunohost firewall upnp | grep -qi "true"
+    if [[ $? -eq 0 ]];
+    then
+        yunohost firewall upnp enable
+    fi
     yunohost app ssowatconf
 fi
