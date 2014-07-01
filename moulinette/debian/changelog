@@ -1,3 +1,9 @@
+moulinette (2.0-rc~megusta5) test; urgency=low
+
+  * Test build: Keep actions map arguments's order 8c3203a106
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 01 Jul 2014 17:36:27 +0200
+
 moulinette (2.0-rc~megusta4) megusta; urgency=low
 
   * Production build: Backport fixes
