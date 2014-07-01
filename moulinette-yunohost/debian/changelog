@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0-rc~megusta14) test; urgency=low
+
+  * Test build: Update from git  496b4910159d
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 01 Jul 2014 19:01:33 +0200
+
 moulinette-yunohost (2.0-rc~megusta13) test; urgency=low
 
   * Test build: [fix] Init script
