@@ -1,3 +1,9 @@
+yunohost-admin (2.0-rc1~megusta9) test; urgency=low
+
+  * Test build: Fix custom app install.
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 02 Jul 2014 09:09:50 +0200
+
 yunohost-admin (2.0-rc1~megusta8) test; urgency=low
 
   * Test build: Update from git
