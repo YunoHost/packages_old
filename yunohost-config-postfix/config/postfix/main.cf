@@ -22,6 +22,7 @@ smtpd_tls_cert_file=/etc/ssl/certs/yunohost_crt.pem
 smtpd_tls_key_file=/etc/ssl/private/yunohost_key.pem
 smtpd_tls_CAfile = /etc/ssl/certs/ca-yunohost_crt.pem
 smtpd_use_tls=yes
+smtpd_tls_exclude_ciphers = aNULL, MD5, DES, ADH
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 
