@@ -1,3 +1,9 @@
+yunohost-admin (2.0-rc1~megusta13) test; urgency=low
+
+  * Test build: Add breadcrumb and various bugfix
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 13 Jul 2014 13:03:14 +0200
+
 yunohost-admin (2.0-rc1~megusta12) test; urgency=low
 
   * Test build: Icons and new header. Update warning. Fix domain delete.
