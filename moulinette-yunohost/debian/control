@@ -7,7 +7,15 @@ Standards-Version: 3.9.1
 
 Package: moulinette-yunohost
 Architecture: all
-Depends: moulinette
+Depends: moulinette,
+    python-psutil,
+    python-requests,
+    glances,
+    python-udiskie,
+    python-pip,
+    rubygems,
+    pyminiupnpc,
+    dnsutils
 Homepage: http://yunohost.org
 Description: YunoHost Python scripts
  Python functions to manage a YunoHost instance
