@@ -1,3 +1,10 @@
+yunohost-admin (2.0-rc1~megusta15) megusta; urgency=low
+
+  * Production build: New menu. Custom app install. Bug fixes and
+    translation
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 18 Jul 2014 18:46:04 +0200
+
 yunohost-admin (2.0-rc1~megusta14) test; urgency=low
 
   * Test build: Fix firewall upd route.
