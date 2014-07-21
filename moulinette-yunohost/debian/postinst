@@ -48,7 +48,7 @@ then
 fi
 
 # Stop old API
-ps aux | grep -q "yunohost.tac"
+ps aux | grep "yunohost.tac" | grep -qv grep
 if [[ $? -eq 0 ]];
 then
     killall twistd
