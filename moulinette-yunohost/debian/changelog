@@ -1,18 +1,21 @@
+moulinette-yunohost (2.0-rc~megusta19) megusta; urgency=low
+
+  * Production build: bump version
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 21 Jul 2014 16:23:15 +0200
+
 moulinette-yunohost (2.0-rc~megusta18) megusta; urgency=low
 
   * Production build: Fix upgrade and various fixes
 
  -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 21 Jul 2014 16:16:57 +0200
 
-<<<<<<< HEAD
-=======
 moulinette-yunohost (2.0-rc~megusta17) test; urgency=low
 
   * Test build: Various fixes
 
  -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 21 Jul 2014 16:10:40 +0200
 
->>>>>>> test
 moulinette-yunohost (2.0-rc~megusta16) test; urgency=low
 
   * Test build: Update from git fed3e6f67
