@@ -29,6 +29,8 @@ then
 	fi
 	cp $TMP/ldap* /etc/postfix
 	cp $TMP/sender_canonical /etc/postfix
+	cp $TMP/header_checks /etc/postfix
+        postmap /etc/postfix/header_checks
 	cp $TMP/postgrey /etc/default/
 	if [ -f /var/run/postgrey.pid ];
 	then
