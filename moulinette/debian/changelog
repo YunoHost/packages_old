@@ -1,3 +1,9 @@
+moulinette (2.0-rc~megusta10) test; urgency=low
+
+  * Test build: Update from git 19b28d43d
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 28 Jul 2014 22:08:17 +0200
+
 moulinette (2.0-rc~megusta9) test; urgency=low
 
   * Test build: Fix preinst script
