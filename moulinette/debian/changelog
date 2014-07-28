@@ -1,3 +1,9 @@
+moulinette (2.0-rc~megusta7) test; urgency=low
+
+  * Test build: Update from git 56c1cfec0
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 28 Jul 2014 18:03:43 +0200
+
 moulinette (2.0-rc~megusta6) megusta; urgency=low
 
   * Production build: Update from git 8c3203a106
