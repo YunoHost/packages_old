@@ -1,3 +1,9 @@
+moulinette (2.0-rc~megusta8) test; urgency=low
+
+  * Test build: Add preinst script
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 28 Jul 2014 19:02:17 +0200
+
 moulinette (2.0-rc~megusta7) test; urgency=low
 
   * Test build: Update from git 56c1cfec0
