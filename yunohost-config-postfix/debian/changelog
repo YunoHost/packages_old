@@ -1,3 +1,9 @@
+yunohost-config-postfix (2.0-rc1~megusta4) test; urgency=low
+
+  * Test build: Fix warning due to header_checks format
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 31 Jul 2014 11:46:03 +0200
+
 yunohost-config-postfix (2.0-rc1~megusta3) test; urgency=low
 
   * Test build: Ignore some headers in postfix configuration
