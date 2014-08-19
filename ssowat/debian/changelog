@@ -1,3 +1,9 @@
+ssowat (2.0-rc~megusta3) megusta; urgency=low
+
+  * Production build: [enh] Limit domains per user
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 19 Aug 2014 16:04:40 +0200
+
 ssowat (2.0-rc~megusta2) megusta; urgency=low
 
   * Production build: Bump version
