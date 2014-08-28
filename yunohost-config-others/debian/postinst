@@ -156,14 +156,14 @@ then
 fi
 
 # RADVD
-cp $TMP/others/radvd.conf /etc/
-if [ -f /etc/yunohost/ula ];
-then
-    sed -i "s@IFACE@$(cat /etc/yunohost/interface)@g" /etc/radvd.conf
-    sed -i "s@PFIX@$(cat /etc/yunohost/ula)/64@g" /etc/radvd.conf
-    service radvd restart
-    update-rc.d radvd defaults
-fi
+#cp $TMP/others/radvd.conf /etc/
+#if [ -f /etc/yunohost/ula ];
+#then
+#    sed -i "s@IFACE@$(cat /etc/yunohost/interface)@g" /etc/radvd.conf
+#    sed -i "s@PFIX@$(cat /etc/yunohost/ula)/64@g" /etc/radvd.conf
+#    service radvd restart
+#    update-rc.d radvd defaults
+#fi
 
 # Fail2ban
 if [ ! -f /etc/fail2ban/filter.d/yunohost.conf ];

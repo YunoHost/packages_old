@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-rc1~megusta3) megusta; urgency=low
+
+  * Production build: Remove radvd
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Thu, 28 Aug 2014 13:10:35 +0200
+
 yunohost-config-others (2.0-rc1~megusta2) megusta; urgency=low
 
   * Production build: Bump version
