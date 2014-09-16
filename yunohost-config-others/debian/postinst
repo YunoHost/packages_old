@@ -128,19 +128,19 @@ cp $TMP/others/issue.net /etc/issue.net
 #fi
 
 # IPv6
-if [ ! -f /etc/yunohost/ula ];
-then
-     array=( 1 2 3 4 5 6 7 8 9 0 a b c d e f )
-     a=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
-     b=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
-     echo "fd42:$a:$b::" > /etc/yunohost/ula
-fi
-
-if [ ! -f /etc/sysctl.d/ipv6_forwarding.conf ];
-then
-    echo "net.ipv6.conf.all.forwarding = 1" > /etc/sysctl.d/ipv6_forwarding.conf
-    sysctl -p /etc/sysctl.d/ipv6_forwarding.conf
-fi
+#if [ ! -f /etc/yunohost/ula ];
+#then
+#     array=( 1 2 3 4 5 6 7 8 9 0 a b c d e f )
+#     a=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+#     b=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+#     echo "fd42:$a:$b::" > /etc/yunohost/ula
+#fi
+#
+#if [ ! -f /etc/sysctl.d/ipv6_forwarding.conf ];
+#then
+#    echo "net.ipv6.conf.all.forwarding = 1" > /etc/sysctl.d/ipv6_forwarding.conf
+#    sysctl -p /etc/sysctl.d/ipv6_forwarding.conf
+#fi
 
 # Interface
 if [ ! -f /etc/yunohost/interface ];
@@ -164,6 +164,14 @@ fi
 #    service radvd restart
 #    update-rc.d radvd defaults
 #fi
+
+# Avahi Daemon
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep avahi /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+then
+    cp $TMP/others/avahi-daemon.conf /etc/avahi/avahi-daemon.conf
+    update-rc.d avahi-daemon defaults
+    service avahi-daemon restart
+fi
 
 # Fail2ban
 if [ ! -f /etc/fail2ban/filter.d/yunohost.conf ];

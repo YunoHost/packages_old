@@ -1,5 +1,7 @@
 nginx:
    status: service
+avahi-daemon:
+   status: service
 bind9:
    status: service
 dovecot:

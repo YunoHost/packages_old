@@ -37,6 +37,8 @@ then
                 fi
             fi
         done
+        # yunohost.local server_name
+        cp $TMP/yunohost_local.conf "/etc/nginx/conf.d/$(cat /etc/yunohost/current_host).d/"
     fi
 fi
     

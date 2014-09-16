@@ -8,7 +8,7 @@ Standards-Version: 3.9.1
 Package: yunohost-config-others
 Architecture: all
 Homepage: http://www.yunohost.org
-Depends:  openssl, yunohost-config-slapd, unattended-upgrades
+Depends:  openssl, yunohost-config-slapd, unattended-upgrades, avahi-daemon
 conflicts: iptables-persistent
 Description: meta package to install environement for yunohost
  meta package to install environement for yunohost
