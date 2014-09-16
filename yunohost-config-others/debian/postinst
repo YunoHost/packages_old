@@ -68,7 +68,7 @@ echo -e "sudoers:\tldap files" >> /etc/nsswitch.conf
 fi
 
 #SSH
-if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep ssh /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ "$(grep ssh /etc/yunohost/yunohost.conf | cut -d= -f2)" = "no" ];
 then
 	cp $TMP/others/sshd_config* /etc/ssh/
         if [ ! -f /proc/net/if_inet6 ];
@@ -166,7 +166,7 @@ fi
 #fi
 
 # Avahi Daemon
-if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep avahi /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ "$(grep avahi /etc/yunohost/yunohost.conf | cut -d= -f2)" = "no" ];
 then
     cp $TMP/others/avahi-daemon.conf /etc/avahi/avahi-daemon.conf
     update-rc.d avahi-daemon defaults

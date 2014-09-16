@@ -21,20 +21,13 @@ case "$1" in
   start)
     logger "YunoHost API: Starting"
     log_daemon_msg "Starting API: YunoHost"
-    start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
-        --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
-    result=$?
-    sleep 6
-    curl http://127.0.0.1:6787/installed -m 5 > /dev/null 2>&1
-    if [[ $? -gt 0 ]];
+    if [[ -f /etc/nginx/conf.d/openresty.conf ]];
     then
         DAEMON_OPTS="--no-websocket"
-        start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
-            --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
-        log_end_msg $?
-    else
-        log_end_msg $result
     fi
+    start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
+        --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
+    log_end_msg $?
     ;;
   stop)
     logger "YunoHost API: Stopping"
@@ -57,20 +50,13 @@ case "$1" in
     kill `ps aux | grep 'python /usr/bin/yunohost-api' | grep -v grep | awk '{print $2}'` > /dev/null 2>&1
     kill `ps aux | grep 'yunohost-api' | grep -v grep | grep -v restart | awk '{print $2}'` > /dev/null 2>&1
     kill `ps aux | grep 'yunohost.tac' | grep -v grep | awk '{print $2}'` > /dev/null 2>&1
-    start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
-        --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
-    result=$?
-    sleep 6
-    curl http://127.0.0.1:6787/installed -m 5 > /dev/null 2>&1
-    if [[ $? -gt 0 ]];
+    if [[ -f /etc/nginx/conf.d/openresty.conf ]];
     then
         DAEMON_OPTS="--no-websocket"
-        start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
-            --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
-        log_end_msg $?
-    else
-        log_end_msg $result
     fi
+    start-stop-daemon --start --background --pidfile /var/run/yunohost-api.pid --make-pidfile \
+        --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> /var/log/yunohost.log 2>&1"
+    log_end_msg $?
     ;;
   status)
     logger "YunoHost API: Running"

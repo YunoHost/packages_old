@@ -11,7 +11,7 @@ function randpass() {
     echo
 }
 
-if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep amavis /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ "$(grep amavis /etc/yunohost/yunohost.conf | cut -d= -f2)" = "no" ];
 then
 	cp $TMP/conf.d/* /etc/amavis/conf.d/
 	cp $SRC/spamassassin/spamassassin /etc/default/
