@@ -1,3 +1,9 @@
+yunohost (2.0-rc1~megusta2) test; urgency=low
+
+  * Test build: [enh] Add avahi daemon
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 16 Sep 2014 09:25:02 +0200
+
 yunohost (2.0-rc1~megusta1) megusta; urgency=low
 
   * Production build: Bump version
