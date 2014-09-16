@@ -1,3 +1,9 @@
+ssowat (2.0-rc~megusta5) test; urgency=low
+
+  * Test build: [enh] Add avahi daemon
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Tue, 16 Sep 2014 09:34:00 +0200
+
 ssowat (2.0-rc~megusta4) test; urgency=low
 
   * Test build: [enh] Add avahi daemon
