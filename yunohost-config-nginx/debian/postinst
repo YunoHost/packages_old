@@ -50,6 +50,7 @@ fi
 
 # Check IPv6 support
 if [ ! -f /proc/net/if_inet6 ] || [ -z "$(nginx -V 2>&1 >/dev/null | grep "\-\-with\-ipv6")" ];
+then
     # Comment IPv6 related conf lines
     sed -i '/^[ \t]*listen \[::\]:/s/^/#/' /etc/nginx/conf.d/*.conf
 fi
