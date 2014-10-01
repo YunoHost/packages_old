@@ -1,3 +1,9 @@
+yunohost-config-nginx (2.0-rc1~megusta4) test; urgency=low
+
+  * Test build: [fix] Comment IPv6 related conf if it's not supported
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 01 Oct 2014 16:41:52 +0200
+
 yunohost-config-nginx (2.0-rc1~megusta3) test; urgency=low
 
   * Test build: [enh] Add avahi daemon
