@@ -1,3 +1,9 @@
+yunohost-admin (2.0-rc1~megusta17) megusta; urgency=low
+
+  * Production build: App install fixes and improvments. Other fixes.
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Mon, 06 Oct 2014 14:53:29 +0200
+
 yunohost-admin (2.0-rc1~megusta16) test; urgency=low
 
   * Test build: App install fixes and improvments. Other fixes.
