@@ -1,4 +1,4 @@
-metronome (3.6-1) megusta; urgency=low
+metronome (3.6-1) UNRELEASED; urgency=low
 
   * New upstream release
   * Attempt to provide a better Debian friendly package:

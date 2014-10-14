@@ -1,0 +1,12 @@
+metronome
+=========
+
+Metronome is a light-weight XMPP server written in Lua based on Prosody. It's
+aimed to provide advanced features and an extensive PubSub and Microblogging
+over XMPP support while maintaining a low resource usage footprint.
+More information: http://www.lightwitch.org/metronome/
+
+It is used by YunoHost to serve instant messaging. This repository only contains
+files and rules to build the proper Debian package. The upstream sources can be
+fetched with the following command:
+  $ uscan --download-current-version
