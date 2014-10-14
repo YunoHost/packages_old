@@ -1,10 +1,11 @@
 Source: moulinette
-Maintainer: Adrien Beudin <beudbeud@yunohost.org>
 Section: python
 Priority: optional
+Maintainer: Adrien Beudin <beudbeud@yunohost.org>
 Build-Depends: debhelper (>= 7.0.50), python (>= 2.7)
-Standards-Version: 3.8.4
-XS-Python-Version: current
+Standards-Version: 3.9.2
+X-Python-Version: >= 2.7
+Homepage: https://github.com/YunoHost/moulinette
 
 Package: moulinette
 Architecture: all
@@ -16,8 +17,6 @@ Depends: ${misc:Depends}, ${python:Depends},
     python-gevent-websocket
 Replaces: yunohost-cli
 Breaks: yunohost-cli
-XB-Python-Version: ${python:Versions}
-Provides: ${python:Provides}
 Description: prototype interfaces with ease in Python
  The moulinette is a Python package that allows to quickly and
  easily prototype interfaces for your application.
