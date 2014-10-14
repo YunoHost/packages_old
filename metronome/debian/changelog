@@ -1,3 +1,13 @@
+metronome (3.6-1) megusta; urgency=low
+
+  * New upstream release
+  * Attempt to provide a better Debian friendly package:
+      - use prosody-0.9.4-1~bpo70+1 as basis to review debian/control,
+        debian/rules and other files
+      - do not build and install sources from the client side
+
+ -- Jérôme Lebleu <jerome.lebleu@mailoo.org>  Mon, 13 Oct 2014 12:21:58 +0200
+
 metronome (3.5~megusta4) megusta; urgency=low
 
   * Production build: Bump version

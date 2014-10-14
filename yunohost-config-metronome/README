@@ -1,0 +1,9 @@
+yunohost-config-metronome
+=========================
+
+This is a meta-package, part of the YunoHost project, which is reponsible of 
+installing and configuring the Instant Messaging Server - Metronome.
+
+The configuration for Metronome is located under the 'config' folder. It
+contains needed parameters to make Metronome works with YunoHost system.
+Additional modules needed by this configuration are in the 'lib/modules' folder.

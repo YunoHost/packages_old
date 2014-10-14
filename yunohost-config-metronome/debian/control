@@ -1,0 +1,14 @@
+Source: yunohost-config-metronome
+Section: utils
+Priority: extra
+Maintainer: Adrien Beudin <beudbeud@yunohost.org>
+Build-Depends: debhelper (>=8.0.0)
+Standards-Version: 3.9.4
+Homepage: http://www.yunohost.org
+
+Package: yunohost-config-metronome
+Architecture: all
+Depends: metronome (>= 3.6), yunohost-config-others
+Description: IM Server for YunoHost (meta-package)
+ This is a meta-package, part of the YunoHost project, which is reponsible of 
+ installing and configuring the Instant Messaging Server - Metronome.
