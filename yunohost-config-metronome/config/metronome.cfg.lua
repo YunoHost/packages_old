@@ -82,7 +82,10 @@ modules_enabled = {
         --"watchregistrations"; -- Alert admins of registrations
         --"motd"; -- Send a message to users when they log in
         "mam"; -- Nice archive management
-        "legacyauth"; -- Legacy authentication. Only used by some old clients and bots.
+        --"legacyauth"; -- Legacy authentication. Only used by some old clients and bots.
+        "offline"; -- Store offline messages
+        "c2s"; -- Handle client connections
+        "s2s"; -- Handle server-to-server connections
 
     -- Debian: do not remove this module, or you lose syslog
     -- support
@@ -104,10 +107,20 @@ cross_domain_bosh = true
 -- Disable account creation by default, for security
 allow_registration = false
 
+-- SSL/TLS configuration
+ssl = {
+    options = {
+        "no_sslv2",
+        "no_sslv3",
+        "no_ticket",
+        "no_compression",
+        "cipher_server_preference"
+    };
+}
+
 -- Force clients to use encrypted connections? This option will
 -- prevent clients from authenticating unless they are using encryption.
 c2s_require_encryption = true
---c2s_require_encryption = false
 
 -- Force servers to use encrypted connections? This option will
 -- prevent servers from connecting unless they are using encryption.
@@ -116,7 +129,11 @@ s2s_require_encryption = true
 -- Allow servers to use an unauthenticated encryption channel
 s2s_allow_encryption = true
 
---s2s_secure = true
+allow_unencrypted_plain_auth = false;
+
+s2s_secure = true
+s2s_secure_auth = false
+
 --anonymous_login = false
 
 -- Use LDAP storage backend for all stores
