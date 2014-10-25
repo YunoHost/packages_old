@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0-rc~megusta30) test; urgency=low
+
+  * Test build: Fixes
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 26 Oct 2014 00:16:21 +0200
+
 moulinette-yunohost (2.0-rc~megusta29) test; urgency=low
 
   * Test build: Restore function WIP
