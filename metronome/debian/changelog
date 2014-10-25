@@ -1,3 +1,10 @@
+metronome (3.6-1.1) test; urgency=low
+
+  * Non-maintainer upload.
+  * Test build: [metronome] 3.6 upgrade
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 25 Oct 2014 19:11:42 +0200
+
 metronome (3.6-1) UNRELEASED; urgency=low
 
   * New upstream release
