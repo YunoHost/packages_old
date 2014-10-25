@@ -1,0 +1,2 @@
+config/* /usr/share/yunohost/yunohost-config/metronome
+lib/modules/* /usr/lib/metronome/modules

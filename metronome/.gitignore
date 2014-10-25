@@ -1,6 +1,6 @@
-debian/yunohost-config
+debian/metronome
 debian/files
-debian/yunohost-config.debhelper.log
-debian/yunohost-config.substvars
+debian/metronome.debhelper.log
+debian/metronome.substvars
 debian/debhelper.log
 debian/substvars
