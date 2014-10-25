@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0-rc~megusta31) test; urgency=low
+
+  * Test build: [enh] Working backup and restore
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 26 Oct 2014 00:50:34 +0200
+
 moulinette-yunohost (2.0-rc~megusta30) test; urgency=low
 
   * Test build: Fixes
