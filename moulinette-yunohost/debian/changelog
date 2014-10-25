@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0-rc~megusta26) test; urgency=low
+
+  * Test build: typo
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sat, 25 Oct 2014 19:38:54 +0200
+
 moulinette-yunohost (2.0-rc~megusta25) test; urgency=low
 
   * Test build: Backup / restore WIP
