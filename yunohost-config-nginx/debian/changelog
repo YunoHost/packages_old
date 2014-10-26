@@ -1,3 +1,10 @@
+yunohost-config-nginx (2.0-rc1~megusta7) megusta; urgency=low
+
+  * Production build: Fit conf onto IPv6 support and update SSL
+    directive
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Sun, 26 Oct 2014 10:27:23 +0100
+
 yunohost-config-nginx (2.0-rc1~megusta6) test; urgency=low
 
   * Test build: Do not include subdomain in SSL directive
