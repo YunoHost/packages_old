@@ -41,9 +41,12 @@ setup(name='Moulinette',
       author_email='yunohost@yunohost.org',
       url='http://yunohost.org',
       license='AGPL',
-      packages=['moulinette',
-                'moulinette.authenticators',
-                'moulinette.interfaces'],
+      packages=[
+          'moulinette',
+          'moulinette.authenticators',
+          'moulinette.interfaces',
+          'moulinette.utils',
+      ],
       package_dir={'': 'src'},
       data_files=[(localedir, locale_files)]
       )
