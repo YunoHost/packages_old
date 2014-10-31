@@ -191,6 +191,7 @@ then
     if [[ "$(ps faux | grep udiskie | wc -l)" -gt 1 ]];
     then
         service udiskie stop > /dev/null 2>&1
+        killall udiskie > /dev/null 2>&1
         update-rc.d udiskie remove > /dev/null 2>&1
         umount /media/* > /dev/null 2>&1
     fi
