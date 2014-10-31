@@ -183,3 +183,18 @@ then
 	    service iptables restart
         fi
 fi
+
+# udisks-glue
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ ! "$(grep udisks-glue /etc/yunohost/yunohost.conf | cut -d= -f2)" = "yes" ];
+then
+    # If python-udiskie exists
+    if [[ "$(ps faux | grep udiskie | wc -l)" -gt 1 ]];
+    then
+        service udiskie stop > /dev/null 2>&1
+        update-rc.d udiskie remove > /dev/null 2>&1
+        umount /media/* > /dev/null 2>&1
+    fi
+    cp $TMP/udisks-glue.conf /etc/udisks-glue.conf
+    service udisks-glue restart
+    update-rc.d udisks-glue defaults
+fi

@@ -7,20 +7,6 @@ then
 	mkdir -p /etc/yunohost
 fi
 
-# Udiskie
-ps aux | grep udiskie | grep -qv grep
-if [[ ! $? -eq 0 ]];
-then
-    pip install udiskie==0.8.0
-    update-rc.d udiskie defaults
-    service dbus restart > /dev/null 2>&1
-    if [[ $? -eq 1 ]]; then
-        rm -f /var/run/dbus/system_bus_socket
-        service dbus restart
-    fi
-    service udiskie restart
-fi
-
 # Allow users to access /media directory
 if [ ! -d /etc/skel/media ];
 then
