@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-rc1~megusta7) test; urgency=low
+
+  * Test build: [enh] Replace udiskie by udisks-glue
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 31 Oct 2014 20:31:58 +0100
+
 yunohost-config-others (2.0-rc1~megusta6) test; urgency=low
 
   * Test build: [enh] Replace udiskie by udisks-glue

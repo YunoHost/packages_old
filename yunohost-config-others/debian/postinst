@@ -194,7 +194,7 @@ then
         update-rc.d udiskie remove > /dev/null 2>&1
         umount /media/* > /dev/null 2>&1
     fi
-    cp $TMP/udisks-glue.conf /etc/udisks-glue.conf
+    cp $TMP/others/udisks-glue.conf /etc/udisks-glue.conf
     service udisks-glue restart
     update-rc.d udisks-glue defaults
 fi
