@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0-rc~megusta32) test; urgency=low
+
+  * Test build: [enh] Replace udiskie by udisks-glue
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 31 Oct 2014 19:36:18 +0100
+
 moulinette-yunohost (2.0-rc~megusta31) test; urgency=low
 
   * Test build: [enh] Working backup and restore
