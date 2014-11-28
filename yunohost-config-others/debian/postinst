@@ -68,7 +68,7 @@ echo -e "sudoers:\tldap files" >> /etc/nsswitch.conf
 fi
 
 #SSH
-if [ ! -f /etc/yunohost/yunohost.conf ] || [ "$(grep ssh /etc/yunohost/yunohost.conf | cut -d= -f2)" = "no" ];
+if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep ssh /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then
 	cp $TMP/others/sshd_config* /etc/ssh/
         if [ ! -f /proc/net/if_inet6 ];
@@ -128,19 +128,19 @@ cp $TMP/others/issue.net /etc/issue.net
 #fi
 
 # IPv6
-#if [ ! -f /etc/yunohost/ula ];
-#then
-#     array=( 1 2 3 4 5 6 7 8 9 0 a b c d e f )
-#     a=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
-#     b=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
-#     echo "fd42:$a:$b::" > /etc/yunohost/ula
-#fi
-#
-#if [ ! -f /etc/sysctl.d/ipv6_forwarding.conf ];
-#then
-#    echo "net.ipv6.conf.all.forwarding = 1" > /etc/sysctl.d/ipv6_forwarding.conf
-#    sysctl -p /etc/sysctl.d/ipv6_forwarding.conf
-#fi
+if [ ! -f /etc/yunohost/ula ];
+then
+     array=( 1 2 3 4 5 6 7 8 9 0 a b c d e f )
+     a=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+     b=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+     echo "fd42:$a:$b::" > /etc/yunohost/ula
+fi
+
+if [ ! -f /etc/sysctl.d/ipv6_forwarding.conf ];
+then
+    echo "net.ipv6.conf.all.forwarding = 1" > /etc/sysctl.d/ipv6_forwarding.conf
+    sysctl -p /etc/sysctl.d/ipv6_forwarding.conf
+fi
 
 # Interface
 if [ ! -f /etc/yunohost/interface ];
@@ -165,37 +165,14 @@ fi
 #    update-rc.d radvd defaults
 #fi
 
-# Avahi Daemon
-if [ ! -f /etc/yunohost/yunohost.conf ] || [ "$(grep avahi /etc/yunohost/yunohost.conf | cut -d= -f2)" = "no" ];
-then
-    cp $TMP/others/avahi-daemon.conf /etc/avahi/avahi-daemon.conf
-    update-rc.d avahi-daemon defaults
-    service avahi-daemon restart
-fi
-
 # Fail2ban
-if [ ! -f /etc/fail2ban/filter.d/yunohost.conf ];
+if [ ! -f /etc/fail2ban/jail.local ];
 then
-	cp -r $TMP/fail2ban/* /etc/fail2ban/
-        grep -q uPnP /etc/yunohost/firewall.yml
-        if [[ $? -eq 0 ]];
-        then
-	    service iptables restart
-        fi
+	touch /etc/fail2ban/jail.local
 fi
-
-# udisks-glue
-if [ ! -f /etc/yunohost/yunohost.conf ] || [ ! "$(grep udisks-glue /etc/yunohost/yunohost.conf | cut -d= -f2)" = "yes" ];
+cp -r $TMP/fail2ban/* /etc/fail2ban/
+grep -q uPnP /etc/yunohost/firewall.yml
+if [[ $? -eq 0 ]];
 then
-    # If python-udiskie exists
-    if [[ "$(ps faux | grep udiskie | wc -l)" -gt 1 ]];
-    then
-        service udiskie stop > /dev/null 2>&1
-        killall udiskie > /dev/null 2>&1
-        update-rc.d udiskie remove > /dev/null 2>&1
-        umount /media/* > /dev/null 2>&1
-    fi
-    cp $TMP/others/udisks-glue.conf /etc/udisks-glue.conf
-    service udisks-glue restart
-    update-rc.d udisks-glue defaults
+    service iptables restart
 fi

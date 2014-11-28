@@ -1,3 +1,9 @@
+yunohost-config-others (2.0-rc1~megusta9) test; urgency=low
+
+  * Test build: [fix] Configuration Fail2ban
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Fri, 28 Nov 2014 15:38:35 +0100
+
 yunohost-config-others (2.0-rc1~megusta8) test; urgency=low
 
   * Test build: [enh] Replace udiskie by udisks-glue
