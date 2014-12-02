@@ -57,9 +57,8 @@ then
 fi
 
 #Iptables
-cp $TMP/others/iptables /etc/init.d/
-chmod +x /etc/init.d/iptables
-update-rc.d iptables defaults
+update-rc.d iptables remove
+update-rc.d yunohost-firewall defaults
 
 #nssswitch
 if ! grep -Fq "sudoers" /etc/nsswitch.conf ; then
@@ -178,7 +177,7 @@ if [ ! -f /etc/fail2ban/jail.local ];
 then
 	touch /etc/fail2ban/jail.local
 fi
-service iptables restart
+service yunohost-firewall restart
 
 # udisks-glue
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ ! "$(grep udisks-glue /etc/yunohost/yunohost.conf | cut -d= -f2)" = "yes" ];
