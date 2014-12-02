@@ -59,7 +59,7 @@ fi
 #Iptables
 cp $TMP/others/iptables /etc/init.d/
 chmod +x /etc/init.d/iptables
-#update-rc.d iptables defaults
+update-rc.d iptables defaults
 service iptables stop
 
 #nssswitch
@@ -174,15 +174,12 @@ then
 fi
 
 # Fail2ban
-if [ ! -f /etc/fail2ban/filter.d/yunohost.conf ];
+cp -r $TMP/fail2ban/* /etc/fail2ban/
+if [ ! -f /etc/fail2ban/jail.local ];
 then
-	cp -r $TMP/fail2ban/* /etc/fail2ban/
-        grep -q uPnP /etc/yunohost/firewall.yml
-        if [[ $? -eq 0 ]];
-        then
-	    service iptables restart
-        fi
+	touch /etc/fail2ban/jail.local
 fi
+service iptables restart
 
 # udisks-glue
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ ! "$(grep udisks-glue /etc/yunohost/yunohost.conf | cut -d= -f2)" = "yes" ];
