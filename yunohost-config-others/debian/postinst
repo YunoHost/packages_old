@@ -60,7 +60,6 @@ fi
 cp $TMP/others/iptables /etc/init.d/
 chmod +x /etc/init.d/iptables
 update-rc.d iptables defaults
-service iptables stop
 
 #nssswitch
 if ! grep -Fq "sudoers" /etc/nsswitch.conf ; then
