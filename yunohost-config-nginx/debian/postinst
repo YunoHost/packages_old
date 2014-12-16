@@ -6,13 +6,9 @@ cp $TMP/ssowat.conf /etc/nginx/conf.d/
 cp $TMP/yunohost_panel.conf.inc /etc/nginx/conf.d/
 cp $TMP/yunohost_admin.conf.inc /etc/nginx/conf.d/
 cp $TMP/yunohost_api.conf.inc /etc/nginx/conf.d/
+cp $TMP/yunohost_admin.conf /etc/nginx/conf.d/
 
 rm -f /etc/nginx/conf.d/ynhadmin.conf
-
-if [ ! -f /etc/yunohost/installed ];
-then
-        cp $TMP/yunohost_admin.conf /etc/nginx/conf.d/
-fi
 
 if [ -f /etc/nginx/sites-enabled/default ];
 then
