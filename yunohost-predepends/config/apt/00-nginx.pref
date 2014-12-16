@@ -1,0 +1,3 @@
+Package: nginx-extras nginx-common libluajit-5.1-2 libluajit-5.1-common init-system-helpers
+Pin: release a=wheezy-backports
+Pin-Priority: 990

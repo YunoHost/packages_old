@@ -1,0 +1,54 @@
+#!/bin/sh
+# postinst script for yunohost-predepends
+
+set -e
+
+# summary of how this script can be called:
+#        * <postinst> `configure' <most-recently-configured-version>
+#        * <old-postinst> `abort-upgrade' <new version>
+#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
+#          <new-version>
+#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
+#          <failed-install-package> <version> `removing'
+#          <conflicting-package> <version>
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+
+case "$1" in
+  configure)
+    # Add wheezy-backports repository if needed
+    if [ -z "$(apt-cache policy |grep -e " wheezy-backports/main ")" ];
+    then
+        # Retrieve current mirror for wheezy
+        mirror=$(cat /etc/apt/sources.list |grep -m1 -e "^deb .* wheezy main"| awk '{ print $2 }')
+ 
+        # Check if wheezy-backports is not available
+        if wget -q0- "${mirror}/dists/wheezy-backports/Release" >/dev/null;
+        then
+            mirror="http://cdn.debian.net/debian"
+        fi
+
+        # Define the sources list's file
+        if [ ! -d "/etc/apt/sources.list.d" ];
+        then
+            sources=/etc/apt/sources.list
+        else
+            sources=/etc/apt/sources.list.d/wheezy-backports.list
+        fi
+
+        # Add the new entries
+        echo "deb ${mirror} wheezy-backports main" >> $sources
+        echo "deb-src ${mirror} wheezy-backports main" >> $sources
+
+        echo "You will have to resynchronize the package index files by running 'apt-get update'" >&2
+    fi
+  ;;
+  abort-upgrade|abort-remove|abort-deconfigure)
+  ;;
+  *)
+    echo "postinst called with unknown argument \`$1'" >&2
+    exit 1
+  ;;
+esac
+
+#DEBHELPER#
