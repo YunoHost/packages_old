@@ -1,3 +1,9 @@
+moulinette-yunohost (2.0-rc~megusta33) test; urgency=low
+
+  * Test build: [enh] Use dnsmasq
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 24 Dec 2014 17:04:29 +0100
+
 moulinette-yunohost (2.0-rc~megusta32) test; urgency=low
 
   * Test build: [enh] Replace udiskie by udisks-glue
