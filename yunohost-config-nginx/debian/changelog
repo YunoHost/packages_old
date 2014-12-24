@@ -1,3 +1,10 @@
+yunohost-config-nginx (2.0-rc1~megusta8) test; urgency=low
+
+  * Test build: [fix] Indicate client CA to avoid unfortunate errors on
+    Firefox >30
+
+ -- Adrien Beudin <beudbeud@yunohost.org>  Wed, 24 Dec 2014 16:50:54 +0100
+
 yunohost-config-nginx (2.0-rc1~megusta7) megusta; urgency=low
 
   * Production build: Fit conf onto IPv6 support and update SSL
