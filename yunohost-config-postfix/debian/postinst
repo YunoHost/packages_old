@@ -22,7 +22,7 @@ IPADD=`/sbin/ifconfig | sed '/Bcast/!d' | awk '{print $2}'| awk '{print $2}' FS=
 #sed -i '/IPADD/'$IPADD'/g' $TMP/postfix/main.cf
 if [ ! -f /etc/yunohost/yunohost.conf ] || [ $(grep postfix /etc/yunohost/yunohost.conf | cut -d= -f2) = "no" ];
 then 
-	cp $TMP/{main.cf,master.cf,main.cf-ipv4} /etc/postfix/
+	cp $TMP/{main.cf,master.cf,main.cf-ipv4,smtp_reply_filter} /etc/postfix/
 	if [ ! -f /proc/net/if_inet6 ];
         then
                	mv /etc/postfix/main.cf-ipv4 /etc/postfix/main.cf
