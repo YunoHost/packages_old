@@ -1,2 +1,1 @@
-config/apt/*.pref /etc/apt/preferences.d/
 config/dovecot/* /etc/dovecot/
