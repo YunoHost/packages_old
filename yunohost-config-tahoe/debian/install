@@ -1,2 +1,0 @@
-config/backup/* /usr/share/yunohost/yunohost-config/backup/
-init/* /etc/init.d/
