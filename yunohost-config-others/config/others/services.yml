@@ -12,8 +12,6 @@ mysql:
    status: service
 glances:
    status: service
-tahoe-lafs:
-   status: ps aux | grep tahoe |grep -v grep
 ssh:
    status: service
 metronome:
