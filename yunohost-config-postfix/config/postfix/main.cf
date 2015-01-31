@@ -17,14 +17,20 @@ append_dot_mydomain = no
 
 readme_directory = no
 
-# TLS parameters
+# TLS for incoming connections
+smtpd_tls_security_level=may
+smtpd_tls_auth_only=yes
 smtpd_tls_cert_file=/etc/ssl/certs/yunohost_crt.pem
 smtpd_tls_key_file=/etc/ssl/private/yunohost_key.pem
 smtpd_tls_CAfile = /etc/ssl/certs/ca-yunohost_crt.pem
-smtpd_use_tls=yes
 smtpd_tls_exclude_ciphers = aNULL, MD5, DES, ADH
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtpd_tls_loglevel=1
+
+# TLS for outgoing connections
+smtp_tls_security_level=may
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtp_tls_loglevel=1
 
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
